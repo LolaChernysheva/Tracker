@@ -6,7 +6,7 @@
 //  
 //
 
-import Foundation
+import UIKit
 
 struct TrackersScreenModel {
     enum Section {
@@ -21,11 +21,13 @@ struct TrackersScreenModel {
     let sections: [Section]
     let filtersButtonTitle: String
     let date: Date?
+    let backgroundImage: UIImage?
     
     static let empty: TrackersScreenModel = .init(
         title: "",
         sections: [],
         filtersButtonTitle: "",
-        date: nil
+        date: nil,
+        backgroundImage: nil
     )
 }

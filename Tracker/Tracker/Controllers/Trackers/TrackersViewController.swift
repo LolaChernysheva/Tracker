@@ -14,6 +14,12 @@ protocol TrackersViewProtocol: AnyObject {
 
 final class TrackersViewController: UIViewController {
     
+    var presenter: TrackersPresenterProtocol!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
 }
 
 //MARK: - TrackersViewProtocol

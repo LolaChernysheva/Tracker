@@ -8,11 +8,17 @@
 
 import Foundation
 
-protocol TrackersPresenterProtocol {
+protocol TrackersPresenterProtocol: AnyObject {
     
 }
 
 final class TrackersPresenter {
+    
+    weak var view: TrackersViewProtocol?
+    
+    init(view: TrackersViewProtocol) {
+        self.view = view
+    }
     
 }
 
