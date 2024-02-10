@@ -17,6 +17,8 @@ protocol TrackersPresenterProtocol: AnyObject {
 final class TrackersPresenter {
     
     weak var view: TrackersViewProtocol?
+    private var categories: [TrackerCategory]
+    private var completedTrackers: [TrackerRecord]
     
     init(view: TrackersViewProtocol) {
         self.view = view
