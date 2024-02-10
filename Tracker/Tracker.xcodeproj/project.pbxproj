@@ -18,6 +18,9 @@
 		F3C347912B7677D500AF9272 /* Assembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C347902B7677D500AF9272 /* Assembler.swift */; };
 		F3C347942B7679E200AF9272 /* StatisticViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C347932B7679E200AF9272 /* StatisticViewController.swift */; };
 		F3C347962B767A2300AF9272 /* StatisticPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C347952B767A2300AF9272 /* StatisticPresenter.swift */; };
+		F3C347992B77A6F300AF9272 /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C347982B77A6F300AF9272 /* BackgroundView.swift */; };
+		F3C3479D2B77BC2900AF9272 /* YS-Display-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3C3479B2B77BC2900AF9272 /* YS-Display-Medium.ttf */; };
+		F3C3479E2B77BC2900AF9272 /* YS-Display-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3C3479C2B77BC2900AF9272 /* YS-Display-Bold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +37,9 @@
 		F3C347902B7677D500AF9272 /* Assembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembler.swift; sourceTree = "<group>"; };
 		F3C347932B7679E200AF9272 /* StatisticViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticViewController.swift; sourceTree = "<group>"; };
 		F3C347952B767A2300AF9272 /* StatisticPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticPresenter.swift; sourceTree = "<group>"; };
+		F3C347982B77A6F300AF9272 /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
+		F3C3479B2B77BC2900AF9272 /* YS-Display-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "YS-Display-Medium.ttf"; path = "../../../../../../Downloads/il/error/YS-Display-Medium.ttf"; sourceTree = "<group>"; };
+		F3C3479C2B77BC2900AF9272 /* YS-Display-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "YS-Display-Bold.ttf"; path = "../../../../../../Downloads/il/error/YS-Display-Bold.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +72,8 @@
 		F3C3476D2B766F1700AF9272 /* Tracker */ = {
 			isa = PBXGroup;
 			children = (
+				F3C3479A2B77BB9D00AF9272 /* Resources */,
+				F3C347972B77A6E100AF9272 /* View */,
 				F3C3478F2B7677CA00AF9272 /* Helpers */,
 				F3C3478E2B7677BE00AF9272 /* Services */,
 				F3C347842B76754200AF9272 /* Controllers */,
@@ -120,6 +128,23 @@
 				F3C347952B767A2300AF9272 /* StatisticPresenter.swift */,
 			);
 			path = Statistic;
+			sourceTree = "<group>";
+		};
+		F3C347972B77A6E100AF9272 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F3C347982B77A6F300AF9272 /* BackgroundView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		F3C3479A2B77BB9D00AF9272 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F3C3479C2B77BC2900AF9272 /* YS-Display-Bold.ttf */,
+				F3C3479B2B77BC2900AF9272 /* YS-Display-Medium.ttf */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -181,7 +206,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				F3C3477B2B766F1800AF9272 /* LaunchScreen.storyboard in Resources */,
+				F3C3479D2B77BC2900AF9272 /* YS-Display-Medium.ttf in Resources */,
 				F3C347782B766F1800AF9272 /* Assets.xcassets in Resources */,
+				F3C3479E2B77BC2900AF9272 /* YS-Display-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,6 +219,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3C347992B77A6F300AF9272 /* BackgroundView.swift in Sources */,
 				F3C3476F2B766F1700AF9272 /* AppDelegate.swift in Sources */,
 				F3C347872B76758300AF9272 /* TrackersViewController.swift in Sources */,
 				F3C347832B7673C300AF9272 /* Assets.swift in Sources */,

@@ -21,13 +21,13 @@ struct TrackersScreenModel {
     let sections: [Section]
     let filtersButtonTitle: String
     let date: Date?
-    let backgroundImage: UIImage?
+    let addBarButtonColor: UIColor
     
     static let empty: TrackersScreenModel = .init(
         title: "",
         sections: [],
         filtersButtonTitle: "",
         date: nil,
-        backgroundImage: nil
+        addBarButtonColor: .clear
     )
 }

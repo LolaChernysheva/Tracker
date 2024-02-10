@@ -18,6 +18,11 @@ final class StatisticViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureView()
+    }
+    
+    private func configureView() {
+        view.backgroundColor = Assets.Colors.background
     }
 }
 
