@@ -14,6 +14,9 @@ protocol TrackersViewProtocol: AnyObject {
 
 final class TrackersViewController: UIViewController {
     
+    typealias Cell = TrackersScreenModel.CollectionData.Cell
+    typealias Section = TrackersScreenModel.CollectionData.Section
+    
     private var backgroundView = BackgroundView()
     
     private lazy var datePicker: UIDatePicker = {
@@ -84,7 +87,16 @@ final class TrackersViewController: UIViewController {
     private func configureCollectionView() {
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(TrackerCollectionViewCell.self, forCellWithReuseIdentifier: TrackerCollectionViewCell.reuseIdentifier)
+        collectionView.register(
+            TrackerCollectionViewCell.self,
+            forCellWithReuseIdentifier: TrackerCollectionViewCell.reuseIdentifier
+        )
+        
+        collectionView.register(
+            SupplementaryView.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: SupplementaryView.reuseIdentifier
+        )
 
         setupCollectionViewConstraints()
     }
@@ -102,6 +114,14 @@ final class TrackersViewController: UIViewController {
     
     private func setup() {
         title = model.title
+    }
+    
+    private func collectionDataCell(indexPath: IndexPath) -> Cell {
+        let section = model.collectionData.sections[indexPath.section]
+        switch section {
+        case .headeredSection(_, cells: let cells):
+            return cells[indexPath.row]
+        }
     }
     
     //MARK: - objc methods
@@ -123,21 +143,46 @@ extension TrackersViewController: TrackersViewProtocol {
 
 extension TrackersViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cellType = collectionDataCell(indexPath: indexPath)
+        let cell: UICollectionViewCell
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackerCollectionViewCell.reuseIdentifier, for: indexPath) as? TrackerCollectionViewCell
-        else { return UICollectionViewCell() }
+        switch cellType {
+        case let .trackerCell(model):
+            guard let trackerCell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackerCollectionViewCell.reuseIdentifier, for: indexPath) as? TrackerCollectionViewCell
+            else { return UICollectionViewCell() }
+            trackerCell.viewModel = model
+            cell = trackerCell
+        }
         return cell
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        model.sections.count
+        model.collectionData.sections.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        0
+        switch model.collectionData.sections[section] {
+        case .headeredSection(_, cells: let cells):
+            return cells.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
     }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
+        if kind == UICollectionView.elementKindSectionHeader {
+            guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SupplementaryView.reuseIdentifier, for: indexPath) as? SupplementaryView else { return UICollectionReusableView() }
+            
+            switch model.collectionData.sections[indexPath.section] {
+            case .headeredSection(header: let header, _):
+                headerView.titleLabel.text = header
+                return headerView
+            }
+        }
+        return UICollectionReusableView()
+    }
+
 }

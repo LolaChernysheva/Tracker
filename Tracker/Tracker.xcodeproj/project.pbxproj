@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F33895FB2B7A5C9D008A8773 /* SupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33895FA2B7A5C9D008A8773 /* SupplementaryView.swift */; };
 		F3C3476F2B766F1700AF9272 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C3476E2B766F1700AF9272 /* AppDelegate.swift */; };
 		F3C347712B766F1700AF9272 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C347702B766F1700AF9272 /* SceneDelegate.swift */; };
 		F3C347782B766F1800AF9272 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3C347772B766F1800AF9272 /* Assets.xcassets */; };
@@ -29,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F33895FA2B7A5C9D008A8773 /* SupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupplementaryView.swift; sourceTree = "<group>"; };
 		F3C3476B2B766F1700AF9272 /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3C3476E2B766F1700AF9272 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F3C347702B766F1700AF9272 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 			children = (
 				F3C347AA2B7901FF00AF9272 /* Cells */,
 				F3C347982B77A6F300AF9272 /* BackgroundView.swift */,
+				F33895FA2B7A5C9D008A8773 /* SupplementaryView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -263,6 +266,7 @@
 				F3C347A12B77C91400AF9272 /* Tracker.swift in Sources */,
 				F3C347942B7679E200AF9272 /* StatisticViewController.swift in Sources */,
 				F3C347892B76759200AF9272 /* TrackersPresenter.swift in Sources */,
+				F33895FB2B7A5C9D008A8773 /* SupplementaryView.swift in Sources */,
 				F3C347912B7677D500AF9272 /* Assembler.swift in Sources */,
 				F3C347962B767A2300AF9272 /* StatisticPresenter.swift in Sources */,
 			);

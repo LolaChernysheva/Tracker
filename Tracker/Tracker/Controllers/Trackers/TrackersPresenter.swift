@@ -26,9 +26,23 @@ final class TrackersPresenter {
     }
     
     private func buildScreenModel() -> TrackersScreenModel {
-        TrackersScreenModel (
+        let sections: [TrackersScreenModel.CollectionData.Section] = categories.map { category in
+            let cells: [TrackersScreenModel.CollectionData.Cell] = category.trackers.map { tracker in
+                return .trackerCell(TrackerCollectionViewCellViewModel.init(
+                    emoji: tracker.emigi,
+                    title: tracker.title,
+                    isPinned: false, //MARK: - TODO
+                    daysCount: 5, //MARK: -TODO
+                    doneButtonHandler: {
+                        //MARK: - TODO
+                    }))
+            }
+            return .headeredSection(header: category.title, cells: cells)
+        }
+        
+        return TrackersScreenModel (
             title: "Трекеры",
-            sections: [],
+            collectionData: .init(sections: sections),
             filtersButtonTitle: "Фильтры",
             date: Date(), //MARK: - TODO
             addBarButtonColor: Assets.Colors.navBarItem ?? .black
