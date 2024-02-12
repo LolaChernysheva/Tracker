@@ -19,6 +19,7 @@ final class TrackersViewController: UIViewController {
     private lazy var datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
+        datePicker.preferredDatePickerStyle = .compact
         datePicker.date = model.date ?? Date() //MARK: - TODO
         return datePicker
     }()
@@ -83,6 +84,8 @@ final class TrackersViewController: UIViewController {
     private func configureCollectionView() {
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.register(TrackerCollectionViewCell.self, forCellWithReuseIdentifier: TrackerCollectionViewCell.reuseIdentifier)
+
         setupCollectionViewConstraints()
     }
     
@@ -120,7 +123,10 @@ extension TrackersViewController: TrackersViewProtocol {
 
 extension TrackersViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return UICollectionViewCell()
+        
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackerCollectionViewCell.reuseIdentifier, for: indexPath) as? TrackerCollectionViewCell
+        else { return UICollectionViewCell() }
+        return cell
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {

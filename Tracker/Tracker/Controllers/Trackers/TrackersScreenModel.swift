@@ -14,7 +14,7 @@ struct TrackersScreenModel {
     }
     
     enum Cell {
-        
+        case trackerCell(viewModel: TrackerCollectionViewCellViewModel)
     }
     
     let title: String
