@@ -12,7 +12,7 @@ struct Tracker {
     let id: UUID
     let title: String
     let color: UIColor
-    let emigi: String
+    let emogi: String
     let schedule: Schedule
 }
 

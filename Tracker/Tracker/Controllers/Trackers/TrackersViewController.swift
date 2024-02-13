@@ -87,10 +87,12 @@ final class TrackersViewController: UIViewController {
     private func configureCollectionView() {
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(
-            TrackerCollectionViewCell.self,
-            forCellWithReuseIdentifier: TrackerCollectionViewCell.reuseIdentifier
-        )
+//        collectionView.register(
+//            TrackerCollectionViewCell.self,
+//            forCellWithReuseIdentifier: TrackerCollectionViewCell.reuseIdentifier
+//        )
+        collectionView.register(UINib(nibName: "TrackerCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: TrackerCollectionViewCell.reuseIdentifier)
+
         
         collectionView.register(
             SupplementaryView.self,

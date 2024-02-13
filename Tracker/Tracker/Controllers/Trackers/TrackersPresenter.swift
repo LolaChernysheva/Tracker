@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol TrackersPresenterProtocol: AnyObject {
     func setup()
@@ -18,7 +19,9 @@ final class TrackersPresenter {
     
     weak var view: TrackersViewProtocol?
     
-    private var categories: [TrackerCategory] = []
+    private var categories: [TrackerCategory] = [.init(title: "123", trackers: [
+        .init(id: UUID(), title: "123", color: .blue, emogi: "1", schedule: .init())
+    ])]
     private var completedTrackers: [TrackerRecord] = []
     
     init(view: TrackersViewProtocol) {
@@ -28,8 +31,8 @@ final class TrackersPresenter {
     private func buildScreenModel() -> TrackersScreenModel {
         let sections: [TrackersScreenModel.CollectionData.Section] = categories.map { category in
             let cells: [TrackersScreenModel.CollectionData.Cell] = category.trackers.map { tracker in
-                return .trackerCell(TrackerCollectionViewCellViewModel.init(
-                    emoji: tracker.emigi,
+                return .trackerCell(TrackerCollectionViewCellViewModel(
+                    emoji: tracker.emogi,
                     title: tracker.title,
                     isPinned: false, //MARK: - TODO
                     daysCount: 5, //MARK: -TODO

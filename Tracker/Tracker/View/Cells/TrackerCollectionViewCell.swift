@@ -9,19 +9,13 @@
 import UIKit
 
 struct TrackerCollectionViewCellViewModel {
-    let emoji: String
-    let title: String
-    let isPinned: Bool
-    let daysCount: Int
-    let doneButtonHandler: () -> Void
+    var emoji: String?
+    var title: String?
+    var isPinned: Bool?
+    var daysCount: Int?
+    var doneButtonHandler: TrackerCollectionViewCell.ActionClousure?
     
-    init(
-        emoji: String,
-        title: String,
-        isPinned: Bool,
-        daysCount: Int,
-        doneButtonHandler: @escaping () -> Void
-    ) {
+    init(emoji: String?, title: String?, isPinned: Bool?, daysCount: Int?, doneButtonHandler: TrackerCollectionViewCell.ActionClousure?) {
         self.emoji = emoji
         self.title = title
         self.isPinned = isPinned
@@ -47,16 +41,24 @@ class TrackerCollectionViewCell: UICollectionViewCell {
     
     var viewModel: TrackerCollectionViewCellViewModel? {
         didSet {
-            emojiLabel.text = viewModel?.emoji
-            titleLabel.text = viewModel?.title
-            pinImageView.isHidden = !(viewModel?.isPinned ?? false)
-            daysCountLabel.text = "\(viewModel?.daysCount) дней" //MARK: - TODO
-            doneAction = viewModel?.doneButtonHandler
+            setup()
         }
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        setup()
     }
 
+    private func setup() {
+        guard let viewModel else { return }
+        if viewModel.isPinned == false {
+            pinImageView.removeFromSuperview()
+        }
+        emojiLabel?.text = viewModel.emoji
+        titleLabel?.text = viewModel.title
+        pinImageView.isHidden = !(viewModel.isPinned ?? false)
+        daysCountLabel.text = "\(viewModel.daysCount) дней" //MARK: - TODO
+        doneAction = viewModel.doneButtonHandler
+    }
 }
