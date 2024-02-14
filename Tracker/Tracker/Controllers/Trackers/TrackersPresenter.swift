@@ -64,7 +64,8 @@ extension TrackersPresenter: TrackersPresenterProtocol {
     }
     
     func addTracker() {
-        
+        let createTrackerController = Assembler.buildCreateTrackerModule()
+        view?.showCreateController(viewController: createTrackerController)
     }
     
     func shouldShowBackground() -> Bool {

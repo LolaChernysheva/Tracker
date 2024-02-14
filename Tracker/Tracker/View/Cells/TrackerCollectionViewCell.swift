@@ -48,6 +48,7 @@ class TrackerCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         setup()
+        containerView.backgroundColor = .orange
     }
 
     private func setup() {
@@ -58,7 +59,8 @@ class TrackerCollectionViewCell: UICollectionViewCell {
         emojiLabel?.text = viewModel.emoji
         titleLabel?.text = viewModel.title
         pinImageView.isHidden = !(viewModel.isPinned ?? false)
-        daysCountLabel.text = "\(viewModel.daysCount) дней" //MARK: - TODO
+        daysCountLabel.text = "\(viewModel.daysCount ?? 0) дней" //MARK: - TODO
         doneAction = viewModel.doneButtonHandler
+        doneButton.setTitle("", for: .normal)
     }
 }

@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		F33895FB2B7A5C9D008A8773 /* SupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33895FA2B7A5C9D008A8773 /* SupplementaryView.swift */; };
+		F34EDF1A2B7CF4CB002563C9 /* CreateTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34EDF192B7CF4CB002563C9 /* CreateTrackerViewController.swift */; };
+		F34EDF1D2B7CF503002563C9 /* CreateTrackerScreenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34EDF1C2B7CF503002563C9 /* CreateTrackerScreenModel.swift */; };
+		F34EDF1F2B7CF51E002563C9 /* CreateTrackerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34EDF1E2B7CF51E002563C9 /* CreateTrackerPresenter.swift */; };
 		F3C3476F2B766F1700AF9272 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C3476E2B766F1700AF9272 /* AppDelegate.swift */; };
 		F3C347712B766F1700AF9272 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C347702B766F1700AF9272 /* SceneDelegate.swift */; };
 		F3C347782B766F1800AF9272 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3C347772B766F1800AF9272 /* Assets.xcassets */; };
@@ -31,6 +34,9 @@
 
 /* Begin PBXFileReference section */
 		F33895FA2B7A5C9D008A8773 /* SupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupplementaryView.swift; sourceTree = "<group>"; };
+		F34EDF192B7CF4CB002563C9 /* CreateTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTrackerViewController.swift; sourceTree = "<group>"; };
+		F34EDF1C2B7CF503002563C9 /* CreateTrackerScreenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTrackerScreenModel.swift; sourceTree = "<group>"; };
+		F34EDF1E2B7CF51E002563C9 /* CreateTrackerPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTrackerPresenter.swift; sourceTree = "<group>"; };
 		F3C3476B2B766F1700AF9272 /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3C3476E2B766F1700AF9272 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F3C347702B766F1700AF9272 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -65,6 +71,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F34EDF1B2B7CF4D1002563C9 /* CreateTracker */ = {
+			isa = PBXGroup;
+			children = (
+				F34EDF192B7CF4CB002563C9 /* CreateTrackerViewController.swift */,
+				F34EDF1C2B7CF503002563C9 /* CreateTrackerScreenModel.swift */,
+				F34EDF1E2B7CF51E002563C9 /* CreateTrackerPresenter.swift */,
+			);
+			path = CreateTracker;
+			sourceTree = "<group>";
+		};
 		F3C347622B766F1700AF9272 = {
 			isa = PBXGroup;
 			children = (
@@ -103,6 +119,7 @@
 		F3C347842B76754200AF9272 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				F34EDF1B2B7CF4D1002563C9 /* CreateTracker */,
 				F3C347922B7679D100AF9272 /* Statistic */,
 				F3C347852B76755F00AF9272 /* Trackers */,
 			);
@@ -255,10 +272,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				F3C347A52B77C93400AF9272 /* TrackerRecord.swift in Sources */,
+				F34EDF1F2B7CF51E002563C9 /* CreateTrackerPresenter.swift in Sources */,
+				F34EDF1A2B7CF4CB002563C9 /* CreateTrackerViewController.swift in Sources */,
 				F3C347992B77A6F300AF9272 /* BackgroundView.swift in Sources */,
 				F3C3476F2B766F1700AF9272 /* AppDelegate.swift in Sources */,
 				F3C347872B76758300AF9272 /* TrackersViewController.swift in Sources */,
 				F3C347832B7673C300AF9272 /* Assets.swift in Sources */,
+				F34EDF1D2B7CF503002563C9 /* CreateTrackerScreenModel.swift in Sources */,
 				F3C347A82B7901FB00AF9272 /* TrackerCollectionViewCell.swift in Sources */,
 				F3C3478D2B7675B700AF9272 /* TrackersScreenModel.swift in Sources */,
 				F3C347712B766F1700AF9272 /* SceneDelegate.swift in Sources */,

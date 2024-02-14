@@ -10,6 +10,7 @@ import UIKit
 
 protocol TrackersViewProtocol: AnyObject {
     func displayData(model: TrackersScreenModel, reloadData: Bool)
+    func showCreateController(viewController: UIViewController)
 }
 
 final class TrackersViewController: UIViewController {
@@ -87,10 +88,6 @@ final class TrackersViewController: UIViewController {
     private func configureCollectionView() {
         collectionView.dataSource = self
         collectionView.delegate = self
-//        collectionView.register(
-//            TrackerCollectionViewCell.self,
-//            forCellWithReuseIdentifier: TrackerCollectionViewCell.reuseIdentifier
-//        )
         collectionView.register(UINib(nibName: "TrackerCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: TrackerCollectionViewCell.reuseIdentifier)
 
         
@@ -139,6 +136,11 @@ extension TrackersViewController: TrackersViewProtocol {
     func displayData(model: TrackersScreenModel, reloadData: Bool) {
         self.model = model
     }
+    
+    func showCreateController(viewController: UIViewController) {
+        let nc = UINavigationController(rootViewController: viewController)
+        navigationController?.present(nc, animated: true)
+    }
 }
 
 //MARK: - UICollectionViewDataSource
@@ -186,5 +188,11 @@ extension TrackersViewController: UICollectionViewDataSource, UICollectionViewDe
         }
         return UICollectionReusableView()
     }
+}
 
+extension TrackersViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return .init(width: 200, height: 200)
+    }
+    
 }

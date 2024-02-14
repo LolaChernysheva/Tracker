@@ -10,6 +10,7 @@ import UIKit
 
 protocol AssemblerProtocol: AnyObject {
     static func mainScreenBuilder() -> UIViewController
+    static func buildCreateTrackerModule() -> UIViewController
 }
 
 final class Assembler: AssemblerProtocol {
@@ -27,6 +28,13 @@ final class Assembler: AssemblerProtocol {
         tabbarController.tabBar.tintColor = Assets.Colors.launchBlue
         tabbarController.viewControllers = [trackersNavigationController, statisticController]
         return tabbarController
+    }
+    
+    static func buildCreateTrackerModule() -> UIViewController {
+        let createTrackerViewController = CreateTrackerViewController()
+        let createTrackerPresenter = CreateTrackerPresenter(view: createTrackerViewController)
+        createTrackerViewController.presenter = createTrackerPresenter
+        return createTrackerViewController
     }
     
     static private func trackersModuleBuilder() -> UIViewController {
