@@ -13,13 +13,21 @@ struct TrackerCollectionViewCellViewModel {
     var title: String?
     var isPinned: Bool?
     var daysCount: Int?
+    var color: UIColor?
     var doneButtonHandler: TrackerCollectionViewCell.ActionClousure?
     
-    init(emoji: String?, title: String?, isPinned: Bool?, daysCount: Int?, doneButtonHandler: TrackerCollectionViewCell.ActionClousure?) {
+    init(
+        emoji: String?,
+        title: String?,
+        isPinned: Bool?,
+        daysCount: Int?,
+        color: UIColor?,
+        doneButtonHandler: TrackerCollectionViewCell.ActionClousure?) {
         self.emoji = emoji
         self.title = title
         self.isPinned = isPinned
         self.daysCount = daysCount
+        self.color = color
         self.doneButtonHandler = doneButtonHandler
     }
 }
@@ -60,7 +68,9 @@ class TrackerCollectionViewCell: UICollectionViewCell {
         titleLabel?.text = viewModel.title
         pinImageView.isHidden = !(viewModel.isPinned ?? false)
         daysCountLabel.text = "\(viewModel.daysCount ?? 0) дней" //MARK: - TODO
+        containerView.backgroundColor = viewModel.color
         doneAction = viewModel.doneButtonHandler
         doneButton.setTitle("", for: .normal)
+        doneButton.tintColor = viewModel.color
     }
 }

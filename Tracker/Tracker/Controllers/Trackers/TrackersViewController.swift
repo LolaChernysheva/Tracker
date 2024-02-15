@@ -29,11 +29,9 @@ final class TrackersViewController: UIViewController {
     }()
 
     
-    private let collectionView: UICollectionView = {
-        let collectionView = UICollectionView(
-            frame: .zero,
-            collectionViewLayout: UICollectionViewFlowLayout()
-        )
+    private lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         return collectionView
     }()
     
@@ -89,7 +87,6 @@ final class TrackersViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(UINib(nibName: "TrackerCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: TrackerCollectionViewCell.reuseIdentifier)
-
         
         collectionView.register(
             SupplementaryView.self,
@@ -105,8 +102,8 @@ final class TrackersViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
@@ -191,8 +188,28 @@ extension TrackersViewController: UICollectionViewDataSource, UICollectionViewDe
 }
 
 extension TrackersViewController: UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return .init(width: 200, height: 200)
+        let cellsPerRow = 2
+        let insets = 16
+        let cellSpacing = 9
+        let ratio = CGFloat(167/90)
+        let paddingWidth: CGFloat = CGFloat( 2 * insets + (cellsPerRow - 1) * cellSpacing)
+        let availableWidth = collectionView.frame.width - paddingWidth
+        let cellWidth =  availableWidth / CGFloat(cellsPerRow)
+        return CGSize(width: cellWidth, height: (cellWidth * ratio))
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+          return CGSize(width: collectionView.bounds.width, height: 50)
+      }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 9
     }
     
 }
