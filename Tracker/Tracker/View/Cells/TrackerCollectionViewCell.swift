@@ -73,4 +73,9 @@ class TrackerCollectionViewCell: UICollectionViewCell {
         doneButton.setTitle("", for: .normal)
         doneButton.tintColor = viewModel.color
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        setup()
+    }
 }

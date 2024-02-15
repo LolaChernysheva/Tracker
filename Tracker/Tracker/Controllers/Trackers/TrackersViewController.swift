@@ -19,6 +19,7 @@ final class TrackersViewController: UIViewController {
     typealias Section = TrackersScreenModel.CollectionData.Section
     
     private var backgroundView = BackgroundView()
+    private var filtersButton = UIButton()
     
     private lazy var datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
@@ -60,6 +61,7 @@ final class TrackersViewController: UIViewController {
         }
         configureNavBar()
         configureCollectionView()
+        setupFiltersButton()
     }
     
     private func configureNavBar() {
@@ -108,8 +110,30 @@ final class TrackersViewController: UIViewController {
         ])
     }
     
+    private func setupFiltersButtonConstraints() {
+        collectionView.addSubview(filtersButton)
+        
+        filtersButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            filtersButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            filtersButton.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor),
+            filtersButton.widthAnchor.constraint(equalToConstant: 114),
+            filtersButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
+    }
+    
+    private func setupFiltersButton() {
+        setupFiltersButtonConstraints()
+        
+        filtersButton.addTarget(self, action: #selector(filtersButtonTapped), for: .touchUpInside)
+        filtersButton.layer.cornerRadius = 16
+        filtersButton.clipsToBounds = true
+    }
+    
     private func setup() {
         title = model.title
+        filtersButton.setTitle(model.filtersButtonTitle, for: .normal)
+        filtersButton.backgroundColor = Assets.Colors.launchBlue
     }
     
     private func collectionDataCell(indexPath: IndexPath) -> Cell {
@@ -124,6 +148,10 @@ final class TrackersViewController: UIViewController {
     
     @objc private func addAction() {
         presenter.addTracker()
+    }
+    
+    @objc private func filtersButtonTapped() {
+        
     }
 }
 

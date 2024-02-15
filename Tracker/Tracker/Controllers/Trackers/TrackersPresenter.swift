@@ -27,7 +27,13 @@ final class TrackersPresenter {
         ]),
         .init(title: "ios", trackers: [
             .init(id: UUID(), title: "Пройти урок", color: .blueViolet, emogi: "🌶️", schedule: .init()),
-            .init(id: UUID(), title: "Решить 1 задачу на CW", color: .cosmicCobalt, emogi: "", schedule: .init())
+            .init(id: UUID(), title: "Решить 1 задачу на CW", color: .eucalyptus, emogi: "🍇", schedule: .init()),
+            .init(id: UUID(), title: "Решить 1 задачу на CW", color: .mediumOrchid, emogi: "🥭", schedule: .init())
+        ]),
+        .init(title: "Прочее", trackers: [
+            .init(id: UUID(), title: "10 минут чтения", color: .violette, emogi: "🌶️", schedule: .init()),
+            .init(id: UUID(), title: "Созвон", color: .ufoGreen, emogi: "🍇", schedule: .init()),
+            .init(id: UUID(), title: "Зал", color: .carrot, emogi: "🥭", schedule: .init())
         ])
     ]
     private var completedTrackers: [TrackerRecord] = []
