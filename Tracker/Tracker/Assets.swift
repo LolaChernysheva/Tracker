@@ -38,8 +38,14 @@ struct Assets {
     }
     
     struct Images {
+        struct Background {
+            static let emptyTrackers = UIImage(named: "EmptyTrackers")
+            static let emptyStatistic = UIImage(named: "EmptyStatistic")
+            static let emptySearchResults = UIImage(named: "EmptySearchResult")
+            
+            
+        }
         static let logo = UIImage(named: "Logo")
-        static let backgroundError = UIImage(named: "Background")
     }
     
     struct Fonts {

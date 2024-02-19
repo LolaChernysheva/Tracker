@@ -10,21 +10,29 @@ import UIKit
 
 final class BackgroundView: UIView {
     
+    enum BackgroundState {
+        case emptyStatistic
+        case emptySearchResult
+        case trackersDoNotExist
+        case empty
+    }
+    
     private let imageView:  UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.image = Assets.Images.backgroundError
         return imageView
     }()
     
     private let textLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "YS-Display-Medium", size: 12)
-        label.text = "Что будем отслеживать?"
         return label
     }()
     
-    override init(frame: CGRect) {
+    private var state: BackgroundState = .empty
+    
+    init(frame: CGRect, state: BackgroundState) {
+        self.state = state
         super.init(frame: frame)
         configure()
     }
@@ -39,6 +47,7 @@ final class BackgroundView: UIView {
         
         setupImageViewConstraints()
         setupTextLabelConstraints()
+        setupUI()
     }
     
     private func setupImageViewConstraints() {
@@ -62,6 +71,38 @@ final class BackgroundView: UIView {
         ])
     }
     
+    private func setupUI() {
+        switch state {
+        case .emptyStatistic:
+            configureEmptyStatisticState()
+        case .emptySearchResult:
+            configureEmptySearchResultsState()
+        case .trackersDoNotExist:
+            configureTrackersDoNotExistState()
+        case .empty:
+            configureEmptyState()
+        }
+    }
+    
+    private func configureTrackersDoNotExistState() {
+        imageView.image = Assets.Images.Background.emptyTrackers
+        textLabel.text = "Что будем отслеживать?"
+    }
+    
+    private func configureEmptyStatisticState() {
+        imageView.image = Assets.Images.Background.emptyStatistic
+        textLabel.text = "Анализировать пока нечего"
+    }
+    
+    private func configureEmptySearchResultsState() {
+        imageView.image = Assets.Images.Background.emptySearchResults
+        textLabel.text = "Ничего не найдено"
+    }
+    
+    private func configureEmptyState() {
+        imageView.image = nil
+        textLabel.text = nil
+    }
 }
 
 private extension CGFloat {

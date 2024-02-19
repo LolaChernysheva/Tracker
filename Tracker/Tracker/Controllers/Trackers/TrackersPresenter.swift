@@ -10,39 +10,44 @@ import Foundation
 import UIKit
 
 protocol TrackersPresenterProtocol: AnyObject {
+    var presentBackground: Bool { get }
     func setup()
     func addTracker()
-    func shouldShowBackground() -> Bool
+    func showSearchResults(with inputText: String)
 }
 
 final class TrackersPresenter {
     
     weak var view: TrackersViewProtocol?
     
-    private var categories: [TrackerCategory] = [
-        .init(title: "Утро", trackers: [
-            .init(id: UUID(), title: "Стакан воды", color: .azure, emogi: "🍇", schedule: .init()),
-            .init(id: UUID(), title: "Контрастный душ", color: .brilliantAzure, emogi: "🍈", schedule: .init()),
-            .init(id: UUID(), title: "Завтрак", color: .eucalyptus, emogi: "🥭", schedule: .init())
+    var categories: [TrackerCategory] = [
+        .init(title: "Домашний уют", trackers: [
+            .init(id: UUID(), title: "Поливать растения", color: .herbalGreen, emogi: "❤️", schedule: .init())
         ]),
-        .init(title: "ios", trackers: [
-            .init(id: UUID(), title: "Пройти урок", color: .blueViolet, emogi: "🌶️", schedule: .init()),
-            .init(id: UUID(), title: "Решить 1 задачу на CW", color: .eucalyptus, emogi: "🍇", schedule: .init()),
-            .init(id: UUID(), title: "Решить 1 задачу на CW", color: .mediumOrchid, emogi: "🥭", schedule: .init())
-        ]),
-        .init(title: "Прочее", trackers: [
-            .init(id: UUID(), title: "10 минут чтения", color: .violette, emogi: "🌶️", schedule: .init()),
-            .init(id: UUID(), title: "Созвон", color: .ufoGreen, emogi: "🍇", schedule: .init()),
-            .init(id: UUID(), title: "Зал", color: .carrot, emogi: "🥭", schedule: .init())
+        .init(title: "Радостные мелочи", trackers: [
+            .init(id: UUID(), title: "Кошка заслонила камеру на созвоне", color: .tartOrange, emogi: "😻", schedule: .init()),
+            .init(id: UUID(), title: "Бабушка прислала открытку в вотсапе", color: .carrot, emogi: "🌺", schedule: .init()),
+            .init(id: UUID(), title: "Свидания в апреле", color: .cornflowerBlue, emogi: "❤️", schedule: .init())
         ])
     ]
+    
+    var presentBackground: Bool = false
+    
     private var completedTrackers: [TrackerRecord] = []
+    private var filteredCategories = [TrackerCategory]()
     
     init(view: TrackersViewProtocol) {
         self.view = view
     }
     
     private func buildScreenModel() -> TrackersScreenModel {
+        var categories = [TrackerCategory]()
+        if let view,
+           view.isFiltering {
+            categories = filteredCategories
+        } else {
+            categories = self.categories
+        }
         let sections: [TrackersScreenModel.CollectionData.Section] = categories.map { category in
             let cells: [TrackersScreenModel.CollectionData.Cell] = category.trackers.map { tracker in
                 return .trackerCell(TrackerCollectionViewCellViewModel(
@@ -83,8 +88,11 @@ extension TrackersPresenter: TrackersPresenterProtocol {
         view?.showCreateController(viewController: createTrackerController)
     }
     
-    func shouldShowBackground() -> Bool {
-        //MARK: - TODO
-        return true
+    func showSearchResults(with inputText: String) {
+        self.filteredCategories = categories.map { category in
+            let filtredTrackers = category.trackers.filter { $0.title.localizedCaseInsensitiveContains(inputText) }
+            return TrackerCategory(title: category.title, trackers: filtredTrackers)
+        }
+        render(reloadData: true)
     }
 }

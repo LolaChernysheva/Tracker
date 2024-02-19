@@ -62,7 +62,7 @@ class TrackerCollectionViewCell: UICollectionViewCell {
     private func setup() {
         guard let viewModel else { return }
         if viewModel.isPinned == false {
-            pinImageView.removeFromSuperview()
+            pinImageView.isHidden = true
         }
         emojiLabel?.text = viewModel.emoji
         titleLabel?.text = viewModel.title
@@ -72,6 +72,15 @@ class TrackerCollectionViewCell: UICollectionViewCell {
         doneAction = viewModel.doneButtonHandler
         doneButton.setTitle("", for: .normal)
         doneButton.tintColor = viewModel.color
+        pinImageView.isHidden = false
+        
+        setupEmogiLabel()
+    }
+    
+    private func setupEmogiLabel() {
+        emojiLabel.layer.cornerRadius = emojiLabel.frame.width / 2
+        emojiLabel.clipsToBounds = true
+        emojiLabel.backgroundColor = .background.withAlphaComponent(0.3)
     }
     
     override func prepareForReuse() {

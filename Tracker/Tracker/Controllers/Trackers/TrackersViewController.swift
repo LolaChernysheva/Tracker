@@ -9,6 +9,7 @@
 import UIKit
 
 protocol TrackersViewProtocol: AnyObject {
+    var isFiltering: Bool { get }
     func displayData(model: TrackersScreenModel, reloadData: Bool)
     func showCreateController(viewController: UIViewController)
 }
@@ -18,8 +19,9 @@ final class TrackersViewController: UIViewController {
     typealias Cell = TrackersScreenModel.CollectionData.Cell
     typealias Section = TrackersScreenModel.CollectionData.Section
     
-    private var backgroundView = BackgroundView()
-    private var filtersButton = UIButton()
+    private var backgroundView: BackgroundView?
+    private let filtersButton = UIButton()
+    private let searchController = UISearchController(searchResultsController: nil)
     
     private lazy var datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
@@ -29,7 +31,6 @@ final class TrackersViewController: UIViewController {
         return datePicker
     }()
 
-    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -40,6 +41,15 @@ final class TrackersViewController: UIViewController {
         didSet {
             setup()
         }
+    }
+    
+    private var searchBarIsEmpty: Bool {
+        guard let text = searchController.searchBar.text else { return false }
+            return text.isEmpty
+    }
+    
+    var isFiltering: Bool {
+        searchController.isActive && !searchBarIsEmpty
     }
     
     var presenter: TrackersPresenterProtocol!
@@ -54,27 +64,34 @@ final class TrackersViewController: UIViewController {
     
     //MARK: - private methods
     
+    private func setup() {
+        title = model.title
+        filtersButton.setTitle(model.filtersButtonTitle, for: .normal)
+        filtersButton.backgroundColor = Assets.Colors.launchBlue
+    }
+    
     private func configureView() {
         view.backgroundColor = Assets.Colors.background
-        if presenter.shouldShowBackground() {
+        if presenter.presentBackground {
             configureBackgroundView()
         }
         configureNavBar()
         configureCollectionView()
         setupFiltersButton()
+        setupSearchBar()
     }
     
     private func configureNavBar() {
-        navigationController?.navigationBar.prefersLargeTitles = true
-        
         let addBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addAction))
         addBarButtonItem.tintColor = model.addBarButtonColor
-        navigationItem.leftBarButtonItem = addBarButtonItem
         
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.leftBarButtonItem = addBarButtonItem
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: datePicker)
     }
     
     private func configureBackgroundView() {
+        guard let backgroundView = backgroundView else { return }
         view.addSubview(backgroundView)
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -88,7 +105,9 @@ final class TrackersViewController: UIViewController {
     private func configureCollectionView() {
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(UINib(nibName: "TrackerCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: TrackerCollectionViewCell.reuseIdentifier)
+        collectionView.register(
+            UINib(nibName: "TrackerCollectionViewCell", bundle: nil),
+            forCellWithReuseIdentifier: TrackerCollectionViewCell.reuseIdentifier)
         
         collectionView.register(
             SupplementaryView.self,
@@ -130,18 +149,19 @@ final class TrackersViewController: UIViewController {
         filtersButton.clipsToBounds = true
     }
     
-    private func setup() {
-        title = model.title
-        filtersButton.setTitle(model.filtersButtonTitle, for: .normal)
-        filtersButton.backgroundColor = Assets.Colors.launchBlue
-    }
-    
     private func collectionDataCell(indexPath: IndexPath) -> Cell {
         let section = model.collectionData.sections[indexPath.section]
         switch section {
         case .headeredSection(_, cells: let cells):
             return cells[indexPath.row]
         }
+    }
+    
+    private func setupSearchBar() {
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Поиск"
+        navigationItem.searchController = searchController
     }
     
     //MARK: - objc methods
@@ -160,6 +180,9 @@ final class TrackersViewController: UIViewController {
 extension TrackersViewController: TrackersViewProtocol {
     func displayData(model: TrackersScreenModel, reloadData: Bool) {
         self.model = model
+        if reloadData {
+            collectionView.reloadData()
+        }
     }
     
     func showCreateController(viewController: UIViewController) {
@@ -215,6 +238,8 @@ extension TrackersViewController: UICollectionViewDataSource, UICollectionViewDe
     }
 }
 
+//MARK: - UICollectionViewDelegateFlowLayout
+
 extension TrackersViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -240,4 +265,15 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
         return 9
     }
     
+}
+
+//MARK: - UISearchResultsUpdating
+
+extension TrackersViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchText = searchController.searchBar.text else { return }
+        if isFiltering {
+            presenter.showSearchResults(with: searchText)
+        }
+    }
 }
