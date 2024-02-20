@@ -17,6 +17,14 @@ final class CreateActivityViewController: UIViewController {
     typealias TableData = CreateActivityScreenModel.TableData
     typealias CollectionData = CreateActivityScreenModel.CollectionData
     
+    private let stackView = UIStackView()
+    private let cancelButton = UIButton()
+    private let createButton = UIButton()
+    
+    private var tableView = UITableView(frame: .zero, style: .insetGrouped)
+    private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+
+    
     var presenter: CreateActivityPresenterProtocol!
     
     private var screenModel: CreateActivityScreenModel = .empty {
@@ -24,14 +32,7 @@ final class CreateActivityViewController: UIViewController {
             setup()
         }
     }
-    
-    private let stackView = UIStackView()
-    private let cancelButton = UIButton()
-    private let createButton = UIButton()
-    
-    private var tableView = UITableView(frame: .zero, style: .insetGrouped)
-    private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-    
+        
     override func viewDidLoad() {
         presenter.setup()
         configureView()
@@ -171,9 +172,10 @@ extension CreateActivityViewController: CreateActivityViewProtocol {
     }
 }
 
-//MARK: - UITableViewDelegate, UITableViewDataSource
+//MARK: - UITableViewDelegate
 
-extension CreateActivityViewController: UITableViewDelegate, UITableViewDataSource {
+extension CreateActivityViewController: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellType = tableDataCell(indexPath: indexPath)
         let cell: UITableViewCell
@@ -192,6 +194,11 @@ extension CreateActivityViewController: UITableViewDelegate, UITableViewDataSour
         
         return cell
     }
+}
+
+//MARK: - UITableViewDataSource
+
+extension CreateActivityViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         screenModel.tableData.sections.count
@@ -203,25 +210,10 @@ extension CreateActivityViewController: UITableViewDelegate, UITableViewDataSour
             cells.count
         }
     }
-    
 }
 
-//MARK: - UICollectionViewDataSource
-
-extension CreateActivityViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        screenModel.collectionData.sections.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch screenModel.collectionData.sections[section] {
-            
-        case .headeredSection(_, cells: let cells):
-            cells.count
-        }
-    }
-    
+//MARK: UICollectionViewDelegate
+extension CreateActivityViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cellType = collectionDataCell(indexPath: indexPath)
         let cell: UICollectionViewCell
@@ -238,6 +230,23 @@ extension CreateActivityViewController: UICollectionViewDataSource, UICollection
         }
         return cell
     }
+}
+
+//MARK: - UICollectionViewDataSource
+
+extension CreateActivityViewController: UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        screenModel.collectionData.sections.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        switch screenModel.collectionData.sections[section] {
+            
+        case .headeredSection(_, cells: let cells):
+            cells.count
+        }
+    }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionHeader {
@@ -251,14 +260,11 @@ extension CreateActivityViewController: UICollectionViewDataSource, UICollection
         }
         return UICollectionReusableView()
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: 50)
-    }
 }
 
 //MARK: - UICollectionViewDelegateFlowLayout
 extension CreateActivityViewController: UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         CGSize(width: 52, height: 52)
     }
@@ -269,5 +275,9 @@ extension CreateActivityViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.bounds.width, height: 50)
     }
 }

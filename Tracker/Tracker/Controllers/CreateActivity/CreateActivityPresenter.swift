@@ -19,6 +19,11 @@ protocol CreateActivityPresenterProtocol: AnyObject {
 
 final class CreateActivityPresenter {
     
+    typealias TableData = CreateActivityScreenModel.TableData
+    typealias CollectionData = CreateActivityScreenModel.CollectionData
+    
+    weak var view: CreateActivityViewProtocol?
+    
     private let colors: [UIColor] = [
         .tartOrange, .carrot, .azure, .violette,
         .ufoGreen, .orchid, .palePink, .brilliantAzure,
@@ -36,10 +41,6 @@ final class CreateActivityPresenter {
         "🎸", "🏝", "😪"
     ]
     
-    typealias TableData = CreateActivityScreenModel.TableData
-    typealias CollectionData = CreateActivityScreenModel.CollectionData
-    
-    weak var view: CreateActivityViewProtocol?
     private var state: CreateActivityState?
     private var enteredActivityName: String = "" //MARK: - TODO
     

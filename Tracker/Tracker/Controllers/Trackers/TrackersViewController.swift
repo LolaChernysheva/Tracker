@@ -37,6 +37,12 @@ final class TrackersViewController: UIViewController {
         return collectionView
     }()
     
+    var isFiltering: Bool {
+        searchController.isActive && !searchBarIsEmpty
+    }
+    
+    var presenter: TrackersPresenterProtocol!
+    
     private var model: TrackersScreenModel = .empty {
         didSet {
             setup()
@@ -47,12 +53,6 @@ final class TrackersViewController: UIViewController {
         guard let text = searchController.searchBar.text else { return false }
             return text.isEmpty
     }
-    
-    var isFiltering: Bool {
-        searchController.isActive && !searchBarIsEmpty
-    }
-    
-    var presenter: TrackersPresenterProtocol!
     
     //MARK: - life cycle methods
     
@@ -191,9 +191,8 @@ extension TrackersViewController: TrackersViewProtocol {
     }
 }
 
-//MARK: - UICollectionViewDataSource
-
-extension TrackersViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+//MARK: - UICollectionViewDelegate
+extension TrackersViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cellType = collectionDataCell(indexPath: indexPath)
         let cell: UICollectionViewCell
@@ -207,7 +206,13 @@ extension TrackersViewController: UICollectionViewDataSource, UICollectionViewDe
         }
         return cell
     }
-    
+}
+
+
+//MARK: - UICollectionViewDataSource
+
+extension TrackersViewController: UICollectionViewDataSource {
+
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         model.collectionData.sections.count
     }

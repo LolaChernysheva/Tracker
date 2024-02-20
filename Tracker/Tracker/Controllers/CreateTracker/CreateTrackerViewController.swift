@@ -19,13 +19,13 @@ final class CreateTrackerViewController: UIViewController {
     private let createHabitButton = UIButton()
     private let createEventButton = UIButton()
     
+    var presenter: CreateTrackerPresenterProtocol!
+    
     private var model: CreateTrackerScreenModel = .empty {
         didSet {
             setup()
         }
     }
-    
-    var presenter: CreateTrackerPresenterProtocol!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -105,6 +105,7 @@ extension CreateTrackerViewController: CreateTrackerViewProtocol {
         self.navigationController?.pushViewController(viewController, animated: true)
     }
 }
+
 private extension CGFloat {
     static let insets: CGFloat = 20
     static let cornerRadius: CGFloat = 16
