@@ -18,28 +18,10 @@ protocol CreateActivityPresenterProtocol: AnyObject {
 }
 
 final class CreateActivityPresenter {
-    
+
     typealias TableData = CreateActivityScreenModel.TableData
-    typealias CollectionData = CreateActivityScreenModel.CollectionData
     
     weak var view: CreateActivityViewProtocol?
-    
-    private let colors: [UIColor] = [
-        .tartOrange, .carrot, .azure, .violette,
-        .ufoGreen, .orchid, .palePink, .brilliantAzure,
-        .eucalyptus, .cosmicCobalt, .tomato, .paleMagentaPink,
-        .macaroniAndCheese, .cornflowerBlue, .blueViolet,
-        .mediumOrchid, .mediumPurple, .herbalGreen
-    ]
-    
-    private let emogis: [String] = [
-        "🙂", "😻", "🌺",
-        "🐶", "❤️", "😱",
-        "😇", "😡", "🥶",
-        "🤔", "🙌", "🍔",
-        "🥦", "🏓", "🥇",
-        "🎸", "🏝", "😪"
-    ]
     
     private var state: CreateActivityState?
     private var enteredActivityName: String = "" //MARK: - TODO
@@ -60,51 +42,67 @@ final class CreateActivityPresenter {
                 ""
             }
         }()
+
+        let sections: [TableData.Section] = [
+            createActivityNameSection(),
+            createActivitySettingsSection(),
+            createEmojiSection(),
+            createColorSection()
+        ]
         
-        let tableData = TableData(sections: [
-            .simple(cells: [
-                .textFieldCell(.init(
-                    placeholderText: "Введите название трекера",
-                    inputText: enteredActivityName,
-                    textDidChanged: { [ weak self ] inputText in
-                        guard let self else { return }
-                        self.enteredActivityName = inputText
-                    }))
-            ]),
-            .simple(cells: [
-                .detailCell(.init(
-                    title: "Категория",
-                    subtitle: "")), //MARK: - TODO
-                .detailCell(.init(
-                    title: "Расписание",
-                    subtitle: "")) //MARK: - TODO
-            ])
-        ])
-        
-        let colorCells: [CollectionData.Cell] = colors.map {
-            .color(.init(color: $0))
-        }
-        
-        let emogiCells: [CollectionData.Cell] = emogis.map {
-            .emogi(.init(emogi: $0))
-        }
-        
-        let collectionData = CollectionData.init(sections: [
-            .headeredSection(header: "Emoji", cells: emogiCells),
-            .headeredSection(header: "Цвет", cells: colorCells)
-        ])
         return CreateActivityScreenModel(
             title: title,
-            tableData: tableData,
-            collectionData: collectionData,
+            tableData: .init(sections: sections),
             cancelButtonTitle: "Отменить",
             createButtonTitle: "Создать")
     }
     
-    private func render() {
-        view?.displayData(screenModel: buildScreenModel(), reloadTableData: true, reloadCollectionData: true)
+    private func createEmojiSection() -> TableData.Section {
+        return .headered(
+            header: "Emoji",
+            cells: [.emogiCell])
     }
     
+    private func createColorSection() -> TableData.Section {
+        return .headered(
+            header: "Цвет",
+            cells: [.colorCell])
+    }
+    
+    private func createActivityNameSection() -> TableData.Section {
+        return .simple(cells: [
+            .textFieldCell(.init(
+                placeholderText: "Введите название трекера",
+                inputText: enteredActivityName,
+                textDidChanged: { [ weak self ] inputText in
+                    guard let self else { return }
+                    self.enteredActivityName = inputText
+                }))
+        ])
+    }
+    
+    private func createActivitySettingsSection() -> TableData.Section {
+        let categogyCell: TableData.Cell = .detailCell(.init(
+            title: "Категория",
+            subtitle: "")) //MARK: - TODO
+        
+        let scheduleCell: TableData.Cell = .detailCell(.init(
+            title: "Расписание",
+            subtitle: "")) //MARK: - TODO
+        
+        var activitySettingsCells: [TableData.Cell] = []
+        
+        activitySettingsCells.append(categogyCell)
+        if state == .createHabit {
+            activitySettingsCells.append(scheduleCell)
+        }
+        
+        return.simple(cells: activitySettingsCells)
+    }
+    
+    private func render() {
+        view?.displayData(screenModel: buildScreenModel(), reloadTableData: true)
+    }
 }
 
 extension CreateActivityPresenter: CreateActivityPresenterProtocol {

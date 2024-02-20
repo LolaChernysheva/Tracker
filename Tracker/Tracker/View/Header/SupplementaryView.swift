@@ -21,7 +21,14 @@ class SupplementaryView: UICollectionReusableView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        setupView()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupView() {
         addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
@@ -31,8 +38,8 @@ class SupplementaryView: UICollectionReusableView {
             titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
     }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+}
+
+private extension CGFloat {
+    static let insets = 16.0
 }

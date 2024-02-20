@@ -9,21 +9,18 @@
 import UIKit
 
 protocol CreateActivityViewProtocol: AnyObject {
-    func displayData(screenModel: CreateActivityScreenModel, reloadTableData: Bool, reloadCollectionData: Bool)
+    func displayData(screenModel: CreateActivityScreenModel, reloadTableData: Bool)
 }
 
 final class CreateActivityViewController: UIViewController {
     
     typealias TableData = CreateActivityScreenModel.TableData
-    typealias CollectionData = CreateActivityScreenModel.CollectionData
     
     private let stackView = UIStackView()
     private let cancelButton = UIButton()
     private let createButton = UIButton()
     
     private var tableView = UITableView(frame: .zero, style: .insetGrouped)
-    private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-
     
     var presenter: CreateActivityPresenterProtocol!
     
@@ -48,47 +45,28 @@ final class CreateActivityViewController: UIViewController {
     private func configureView() {
         configureStackView()
         setupTableView()
-        setupCollectionView()
     }
     
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.register(EmojiTableViewCell.self, forCellReuseIdentifier: EmojiTableViewCell.reuseIdentifier)
         tableView.register(SubtitledDetailTableViewCell.self, forCellReuseIdentifier: SubtitledDetailTableViewCell.reuseIdentifier)
+        tableView.register(ColorTableViewCell.self, forCellReuseIdentifier: ColorTableViewCell.reuseIdentifier)
         tableView.register(TextFieldCell.self, forCellReuseIdentifier: TextFieldCell.reuseIdentifier)
+        tableView.register(HeaderView.self, forHeaderFooterViewReuseIdentifier: HeaderView.reuseIdentifier)
         setupTableViewConstraints()
     }
     
     private func setupTableViewConstraints() {
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: .insets),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -.insets),
-            tableView.heightAnchor.constraint(equalToConstant: 250) //MARK: - TODO
-        ])
-    }
-    
-    private func setupCollectionView() {
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(EmogiCell.self, forCellWithReuseIdentifier: EmogiCell.reuseIdentifier)
-        collectionView.register(ColorCell.self,  forCellWithReuseIdentifier: ColorCell.reuseIdentifier)
-        collectionView.register(SupplementaryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SupplementaryView.reuseIdentifier
-        )
-        setupCollectionViewConstraints()
-    }
-    
-    private func setupCollectionViewConstraints() {
-        view.addSubview(collectionView)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: .insets),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -.insets),
-            collectionView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: .collectionViewTopSpacing),
-            collectionView.bottomAnchor.constraint(equalTo: stackView.topAnchor, constant: -.insets)
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: stackView.topAnchor)
         ])
     }
     
@@ -97,14 +75,7 @@ final class CreateActivityViewController: UIViewController {
         switch section {
         case let .simple(cells):
             return cells[indexPath.row]
-        }
-    }
-    
-    private func collectionDataCell(indexPath: IndexPath) -> CollectionData.Cell {
-        let section = screenModel.collectionData.sections[indexPath.section]
-        
-        switch section {
-        case .headeredSection(_, cells: let cells):
+        case .headered(_, cells: let cells):
             return cells[indexPath.row]
         }
     }
@@ -160,14 +131,10 @@ final class CreateActivityViewController: UIViewController {
 //MARK: - CreateActivityViewProtocol
 
 extension CreateActivityViewController: CreateActivityViewProtocol {
-    func displayData(screenModel: CreateActivityScreenModel, reloadTableData: Bool, reloadCollectionData: Bool) {
+    func displayData(screenModel: CreateActivityScreenModel, reloadTableData: Bool) {
         self.screenModel = screenModel
         if reloadTableData {
             tableView.reloadData()
-        }
-        
-        if reloadCollectionData {
-            collectionView.reloadData()
         }
     }
 }
@@ -179,7 +146,7 @@ extension CreateActivityViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellType = tableDataCell(indexPath: indexPath)
         let cell: UITableViewCell
-        
+       
         switch cellType {
             
         case let .textFieldCell(model):
@@ -190,9 +157,51 @@ extension CreateActivityViewController: UITableViewDelegate {
             guard let detailCell = tableView.dequeueReusableCell(withIdentifier: SubtitledDetailTableViewCell.reuseIdentifier, for: indexPath) as? SubtitledDetailTableViewCell else { return UITableViewCell() }
             detailCell.viewModel = model
             cell = detailCell
+        case .emogiCell:
+            guard let emogiCell = tableView.dequeueReusableCell(withIdentifier: EmojiTableViewCell.reuseIdentifier, for: indexPath) as? EmojiTableViewCell else { return UITableViewCell() }
+            cell = emogiCell
+        case .colorCell:
+            guard let colorCell = tableView.dequeueReusableCell(withIdentifier: ColorTableViewCell.reuseIdentifier, for: indexPath) as? ColorTableViewCell else { return UITableViewCell() }
+            cell = colorCell
         }
-        
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: HeaderView.reuseIdentifier) as? HeaderView else { return UIView() }
+        switch screenModel.tableData.sections[section] {
+            
+        case .simple(_):
+            return nil
+        case .headered(header: let header, _):
+            headerView.titleLabel.text = header
+            return headerView
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        switch screenModel.tableData.sections[section] {
+            
+        case .simple(_):
+            return 0
+        case .headered(_, _):
+            return 50
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let cellType = tableDataCell(indexPath: indexPath)
+        switch cellType {
+            
+        case .textFieldCell(_):
+            return 75
+        case .detailCell(_):
+            return 75
+        case .emogiCell:
+            return 150
+        case .colorCell:
+            return 150
+        }
     }
 }
 
@@ -207,78 +216,10 @@ extension CreateActivityViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch screenModel.tableData.sections[section] {
         case let .simple(cells):
-            cells.count
+            return cells.count
+        case .headered(_, cells: let cells):
+            return cells.count
         }
-    }
-}
-
-//MARK: UICollectionViewDelegate
-extension CreateActivityViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cellType = collectionDataCell(indexPath: indexPath)
-        let cell: UICollectionViewCell
-        
-        switch cellType {
-        case let .emogi(model):
-            guard let emogiCell = collectionView.dequeueReusableCell(withReuseIdentifier: EmogiCell.reuseIdentifier, for: indexPath) as? EmogiCell else { return UICollectionViewCell() }
-            emogiCell.viewModel = model
-            cell = emogiCell
-        case let .color(model):
-            guard let colorCell = collectionView.dequeueReusableCell(withReuseIdentifier: ColorCell.reuseIdentifier, for: indexPath) as? ColorCell else { return UICollectionViewCell() }
-            colorCell.viewModel = model
-            cell = colorCell
-        }
-        return cell
-    }
-}
-
-//MARK: - UICollectionViewDataSource
-
-extension CreateActivityViewController: UICollectionViewDataSource {
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        screenModel.collectionData.sections.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch screenModel.collectionData.sections[section] {
-            
-        case .headeredSection(_, cells: let cells):
-            cells.count
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        if kind == UICollectionView.elementKindSectionHeader {
-            guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SupplementaryView.reuseIdentifier, for: indexPath) as? SupplementaryView else { return UICollectionReusableView() }
-            
-            switch screenModel.collectionData.sections[indexPath.section] {
-            case .headeredSection(header: let header, _):
-                headerView.titleLabel.text = header
-                return headerView
-            }
-        }
-        return UICollectionReusableView()
-    }
-}
-
-//MARK: - UICollectionViewDelegateFlowLayout
-extension CreateActivityViewController: UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: .itemWidthHeight, height: .itemWidthHeight)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return .interItemSpacing
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: .headerHeight)
     }
 }
 

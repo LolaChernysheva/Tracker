@@ -28,12 +28,16 @@ final class TextFieldCell: UITableViewCell {
             setup()
         }
     }
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         textField.delegate = self
         configureTextField()
         setupTextFieldConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     private func setup() {
@@ -53,7 +57,7 @@ final class TextFieldCell: UITableViewCell {
         NSLayoutConstraint.activate([
             textField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: .topInset),
             textField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: .bottomInset),
-            textField.leadingAnchor.constraint(equalTo: contentView.leftAnchor, constant: .leadingInset),
+            textField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: .leadingInset),
             textField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: .trailingInset)
         ])
     }

@@ -42,7 +42,6 @@ class EmogiCell: UICollectionViewCell {
         emogiLabel.textAlignment = .center
         emogiLabel.font = UIFont.systemFont(ofSize: .fontSize)
         emogiLabel.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
             emogiLabel.widthAnchor.constraint(equalToConstant: .emogiWidth),
             emogiLabel.heightAnchor.constraint(equalToConstant: .emogiHeight),
