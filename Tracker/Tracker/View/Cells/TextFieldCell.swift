@@ -48,6 +48,7 @@ final class TextFieldCell: UITableViewCell {
         textField.placeholder = viewModel.placeholderText
         textField.text = viewModel.inputText
         textField.addTarget(self, action: #selector(onEditingChanged), for: .editingChanged)
+        textField.clearButtonMode = .whileEditing
     }
     
     private func setupTextFieldConstraints() {
@@ -58,7 +59,7 @@ final class TextFieldCell: UITableViewCell {
             textField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: .topInset),
             textField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: .bottomInset),
             textField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: .leadingInset),
-            textField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: .trailingInset)
+            textField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5)
         ])
     }
     

@@ -43,7 +43,7 @@ final class SubtitledDetailTableViewCell: UITableViewCell {
     private func setup() {
         accessoryType = .disclosureIndicator
         
-        if viewModel.subtitle == nil {
+        if viewModel.subtitle == nil || viewModel.subtitle == "" {
             subtitleLabel.removeFromSuperview()
         }
         titleLabel.text = viewModel.title
@@ -55,14 +55,14 @@ final class SubtitledDetailTableViewCell: UITableViewCell {
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: .stackViewTopInset),
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: .stackViewLeadingInset),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: .stackViewBottomInset),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: .stackViewTrailingInset)
         ])
         
         stackView.axis = .vertical
-        stackView.alignment = .fill
+        stackView.distribution = .fillEqually
         stackView.spacing = .stackSpacing
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(subtitleLabel)
