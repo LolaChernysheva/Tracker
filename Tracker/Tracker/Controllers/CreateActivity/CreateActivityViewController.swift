@@ -64,9 +64,9 @@ final class CreateActivityViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            tableView.heightAnchor.constraint(equalToConstant: 250)
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: .insets),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -.insets),
+            tableView.heightAnchor.constraint(equalToConstant: 250) //MARK: - TODO
         ])
     }
     
@@ -85,10 +85,10 @@ final class CreateActivityViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            collectionView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 32),
-            collectionView.bottomAnchor.constraint(equalTo: stackView.topAnchor, constant: -16)
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: .insets),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -.insets),
+            collectionView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: .collectionViewTopSpacing),
+            collectionView.bottomAnchor.constraint(equalTo: stackView.topAnchor, constant: -.insets)
         ])
     }
     
@@ -120,10 +120,10 @@ final class CreateActivityViewController: UIViewController {
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: .insets),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -.insets),
             stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            stackView.heightAnchor.constraint(equalToConstant: 60)
+            stackView.heightAnchor.constraint(equalToConstant: .buttonHeight)
         ])
         
         setupCreateButton()
@@ -134,10 +134,10 @@ final class CreateActivityViewController: UIViewController {
         createButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            createButton.heightAnchor.constraint(equalToConstant: 60)
+            createButton.heightAnchor.constraint(equalToConstant: .buttonHeight)
         ])
         createButton.backgroundColor = .buttons //MARK: - TODO set color and restrict UI
-        createButton.layer.cornerRadius = 16
+        createButton.layer.cornerRadius = .cornerRadius
         createButton.clipsToBounds = true
         
     }
@@ -146,12 +146,12 @@ final class CreateActivityViewController: UIViewController {
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            cancelButton.heightAnchor.constraint(equalToConstant: 60)
+            cancelButton.heightAnchor.constraint(equalToConstant: .buttonHeight)
         ])
-        cancelButton.layer.cornerRadius = 16
+        cancelButton.layer.cornerRadius = .cornerRadius
         cancelButton.clipsToBounds = true
         cancelButton.setTitleColor(.tomato, for: .normal)
-        cancelButton.layer.borderWidth = 1
+        cancelButton.layer.borderWidth = .borderWidth
         cancelButton.layer.borderColor = UIColor.tomato.cgColor
     }
 }
@@ -266,11 +266,11 @@ extension CreateActivityViewController: UICollectionViewDataSource {
 extension CreateActivityViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: 52, height: 52)
+        CGSize(width: .itemWidthHeight, height: .itemWidthHeight)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 5
+        return .interItemSpacing
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -278,6 +278,17 @@ extension CreateActivityViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: 50)
+        return CGSize(width: collectionView.bounds.width, height: .headerHeight)
     }
+}
+
+private extension CGFloat {
+    static let headerHeight = 50.0
+    static let interItemSpacing = 5.0
+    static let itemWidthHeight = 52.0
+    static let cornerRadius = 16.0
+    static let buttonHeight = 60.0
+    static let borderWidth = 1.0
+    static let insets = 16.0
+    static let collectionViewTopSpacing = 32.0
 }

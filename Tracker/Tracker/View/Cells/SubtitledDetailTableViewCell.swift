@@ -48,26 +48,35 @@ final class SubtitledDetailTableViewCell: UITableViewCell {
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
-            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 15),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -56)
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: .stackViewTopInset),
+            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: .stackViewLeadingInset),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: .stackViewBottomInset),
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: .stackViewTrailingInset)
         ])
         
         stackView.axis = .vertical
         stackView.alignment = .fill
-        stackView.spacing = 2
+        stackView.spacing = .stackSpacing
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(subtitleLabel)
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            titleLabel.heightAnchor.constraint(equalToConstant: 22)
+            titleLabel.heightAnchor.constraint(equalToConstant: .labelHeight)
         ])
         
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            subtitleLabel.heightAnchor.constraint(equalToConstant: 22)
+            subtitleLabel.heightAnchor.constraint(equalToConstant: .labelHeight)
         ])
     }
+}
+
+private extension CGFloat {
+    static let labelHeight = 22.0
+    static let stackSpacing = 2.0
+    static let stackViewTopInset = 15.0
+    static let stackViewLeadingInset = 16.0
+    static let stackViewBottomInset = 15.0
+    static let stackViewTrailingInset = -56.0
 }

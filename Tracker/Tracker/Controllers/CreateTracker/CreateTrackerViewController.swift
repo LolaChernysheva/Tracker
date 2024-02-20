@@ -50,7 +50,7 @@ final class CreateTrackerViewController: UIViewController {
         view.addSubview(stackView)
         stackView.axis = .vertical
         stackView.alignment = .fill
-        stackView.spacing = 16
+        stackView.spacing = .stackViewSpacing
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -110,4 +110,5 @@ private extension CGFloat {
     static let insets: CGFloat = 20
     static let cornerRadius: CGFloat = 16
     static let buttonHeight: CGFloat = 60
+    static let stackViewSpacing: CGFloat = 16
 }

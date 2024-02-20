@@ -40,15 +40,20 @@ class EmogiCell: UICollectionViewCell {
         
         addSubview(emogiLabel)
         emogiLabel.textAlignment = .center
-        emogiLabel.font = UIFont.systemFont(ofSize: 32)
+        emogiLabel.font = UIFont.systemFont(ofSize: .fontSize)
         emogiLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            emogiLabel.widthAnchor.constraint(equalToConstant: 32),
-            emogiLabel.heightAnchor.constraint(equalToConstant: 38),
+            emogiLabel.widthAnchor.constraint(equalToConstant: .emogiWidth),
+            emogiLabel.heightAnchor.constraint(equalToConstant: .emogiHeight),
             emogiLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             emogiLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
 }
 
+private extension CGFloat {
+    static let fontSize = 32.0
+    static let emogiWidth = 32.0
+    static let emogiHeight = 38.0
+}

@@ -123,8 +123,8 @@ final class TrackersViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: .insets),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -.insets),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
@@ -134,10 +134,10 @@ final class TrackersViewController: UIViewController {
         
         filtersButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            filtersButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            filtersButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -.insets),
             filtersButton.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor),
             filtersButton.widthAnchor.constraint(equalToConstant: 114),
-            filtersButton.heightAnchor.constraint(equalToConstant: 50)
+            filtersButton.heightAnchor.constraint(equalToConstant: .buttonHeight)
         ])
     }
     
@@ -145,7 +145,7 @@ final class TrackersViewController: UIViewController {
         setupFiltersButtonConstraints()
         
         filtersButton.addTarget(self, action: #selector(filtersButtonTapped), for: .touchUpInside)
-        filtersButton.layer.cornerRadius = 16
+        filtersButton.layer.cornerRadius = .cornerRadius
         filtersButton.clipsToBounds = true
     }
     
@@ -248,14 +248,10 @@ extension TrackersViewController: UICollectionViewDataSource {
 extension TrackersViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cellsPerRow = 2
-        let insets = 16
-        let cellSpacing = 9
-        let ratio = CGFloat(167/90)
-        let paddingWidth: CGFloat = CGFloat( 2 * insets + (cellsPerRow - 1) * cellSpacing)
+        let paddingWidth: CGFloat = CGFloat( 2 * Constants.insets + (Constants.cellsPerRow - 1) * Constants.cellSpacing)
         let availableWidth = collectionView.frame.width - paddingWidth
-        let cellWidth =  availableWidth / CGFloat(cellsPerRow)
-        return CGSize(width: cellWidth, height: (cellWidth * ratio))
+        let cellWidth =  availableWidth / CGFloat(Constants.cellsPerRow)
+        return CGSize(width: cellWidth, height: (cellWidth * Constants.ratio))
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -263,11 +259,11 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: 50)
+        return CGSize(width: collectionView.bounds.width, height: .headerHeight)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 9
+        return .lineSpacing
     }
     
 }
@@ -281,4 +277,19 @@ extension TrackersViewController: UISearchResultsUpdating {
             presenter.showSearchResults(with: searchText)
         }
     }
+}
+
+private extension CGFloat {
+    static let lineSpacing = 9.0
+    static let headerHeight = 50.0
+    static let cornerRadius = 16.0
+    static let insets = 16.0
+    static let buttonHeight = 50.0
+}
+
+fileprivate struct Constants {
+    static let cellsPerRow = 2
+    static let insets = 16
+    static let cellSpacing = 9
+    static let ratio = CGFloat(167/90)
 }

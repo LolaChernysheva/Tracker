@@ -38,15 +38,20 @@ class ColorCell: UICollectionViewCell {
     private func setupViews() {
         backgroundColor = .clear
         
-        colorView.layer.cornerRadius = 8
+        colorView.layer.cornerRadius = .cornerRadius
         colorView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(colorView)
         
         NSLayoutConstraint.activate([
-            colorView.widthAnchor.constraint(equalToConstant: 40),
-            colorView.heightAnchor.constraint(equalToConstant: 40),
+            colorView.widthAnchor.constraint(equalToConstant: .colorViewWidthHeight),
+            colorView.heightAnchor.constraint(equalToConstant: .colorViewWidthHeight),
             colorView.centerXAnchor.constraint(equalTo: centerXAnchor),
             colorView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
+}
+
+private extension CGFloat {
+    static let cornerRadius = 8.0
+    static let colorViewWidthHeight = 40.0
 }
