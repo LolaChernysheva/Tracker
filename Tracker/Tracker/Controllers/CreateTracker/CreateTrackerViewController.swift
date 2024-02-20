@@ -10,6 +10,7 @@ import UIKit
 
 protocol CreateTrackerViewProtocol: AnyObject {
     func displayData(model: CreateTrackerScreenModel)
+    func showCreateActivityController(viewController: UIViewController)
 }
 
 final class CreateTrackerViewController: UIViewController {
@@ -98,6 +99,10 @@ final class CreateTrackerViewController: UIViewController {
 extension CreateTrackerViewController: CreateTrackerViewProtocol {
     func displayData(model: CreateTrackerScreenModel) {
         self.model = model
+    }
+    
+    func showCreateActivityController(viewController: UIViewController) {
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
 }
 private extension CGFloat {

@@ -11,6 +11,7 @@ import UIKit
 protocol AssemblerProtocol: AnyObject {
     static func mainScreenBuilder() -> UIViewController
     static func buildCreateTrackerModule() -> UIViewController
+    static func buildCreateActivityModule(state: CreateActivityState) -> UIViewController 
 }
 
 final class Assembler: AssemblerProtocol {
@@ -35,6 +36,13 @@ final class Assembler: AssemblerProtocol {
         let createTrackerPresenter = CreateTrackerPresenter(view: createTrackerViewController)
         createTrackerViewController.presenter = createTrackerPresenter
         return createTrackerViewController
+    }
+    
+    static func buildCreateActivityModule(state: CreateActivityState) -> UIViewController {
+        let createActivityViewController = CreateActivityViewController()
+        let createActivityPresenter = CreateActivityPresenter(view: createActivityViewController, state: state)
+        createActivityViewController.presenter = createActivityPresenter
+        return createActivityViewController
     }
     
     static private func trackersModuleBuilder() -> UIViewController {

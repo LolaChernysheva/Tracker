@@ -38,9 +38,15 @@ final class CreateTrackerPresenter {
 }
 
 extension CreateTrackerPresenter: CreateTrackerPresenterProtocol {
-    func createHabit() {}
+    func createHabit() {
+        let createHabitController = Assembler.buildCreateActivityModule(state: .createHabit)
+        view?.showCreateActivityController(viewController: createHabitController)
+    }
     
-    func createEvent() {}
+    func createEvent() {
+        let createEventController = Assembler.buildCreateActivityModule(state: .createEvent)
+        view?.showCreateActivityController(viewController: createEventController)
+    }
     
     func setup() {
         render()

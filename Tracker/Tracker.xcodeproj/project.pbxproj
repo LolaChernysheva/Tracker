@@ -8,6 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		F33895FB2B7A5C9D008A8773 /* SupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33895FA2B7A5C9D008A8773 /* SupplementaryView.swift */; };
+		F33BDAFF2B837D41004AFF8D /* CreateActivityPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33BDAFE2B837D41004AFF8D /* CreateActivityPresenter.swift */; };
+		F33BDB012B837DC7004AFF8D /* CreateActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33BDB002B837DC7004AFF8D /* CreateActivityViewController.swift */; };
+		F33BDB032B837F0E004AFF8D /* CreateActivityScreenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33BDB022B837F0E004AFF8D /* CreateActivityScreenModel.swift */; };
+		F33BDB052B8384B5004AFF8D /* TextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33BDB042B8384B5004AFF8D /* TextFieldCell.swift */; };
+		F33BDB072B838A20004AFF8D /* SubtitledDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33BDB062B838A20004AFF8D /* SubtitledDetailTableViewCell.swift */; };
+		F33BDB0B2B84846B004AFF8D /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33BDB0A2B84846B004AFF8D /* ColorCell.swift */; };
+		F33BDB0D2B84848C004AFF8D /* EmojiCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33BDB0C2B84848C004AFF8D /* EmojiCell.swift */; };
 		F34EDF1A2B7CF4CB002563C9 /* CreateTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34EDF192B7CF4CB002563C9 /* CreateTrackerViewController.swift */; };
 		F34EDF1D2B7CF503002563C9 /* CreateTrackerScreenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34EDF1C2B7CF503002563C9 /* CreateTrackerScreenModel.swift */; };
 		F34EDF1F2B7CF51E002563C9 /* CreateTrackerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34EDF1E2B7CF51E002563C9 /* CreateTrackerPresenter.swift */; };
@@ -34,6 +41,13 @@
 
 /* Begin PBXFileReference section */
 		F33895FA2B7A5C9D008A8773 /* SupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupplementaryView.swift; sourceTree = "<group>"; };
+		F33BDAFE2B837D41004AFF8D /* CreateActivityPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateActivityPresenter.swift; sourceTree = "<group>"; };
+		F33BDB002B837DC7004AFF8D /* CreateActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateActivityViewController.swift; sourceTree = "<group>"; };
+		F33BDB022B837F0E004AFF8D /* CreateActivityScreenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateActivityScreenModel.swift; sourceTree = "<group>"; };
+		F33BDB042B8384B5004AFF8D /* TextFieldCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldCell.swift; sourceTree = "<group>"; };
+		F33BDB062B838A20004AFF8D /* SubtitledDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtitledDetailTableViewCell.swift; sourceTree = "<group>"; };
+		F33BDB0A2B84846B004AFF8D /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
+		F33BDB0C2B84848C004AFF8D /* EmojiCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCell.swift; sourceTree = "<group>"; };
 		F34EDF192B7CF4CB002563C9 /* CreateTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTrackerViewController.swift; sourceTree = "<group>"; };
 		F34EDF1C2B7CF503002563C9 /* CreateTrackerScreenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTrackerScreenModel.swift; sourceTree = "<group>"; };
 		F34EDF1E2B7CF51E002563C9 /* CreateTrackerPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTrackerPresenter.swift; sourceTree = "<group>"; };
@@ -71,6 +85,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F33BDAFD2B837D2A004AFF8D /* CreateActivity */ = {
+			isa = PBXGroup;
+			children = (
+				F33BDAFE2B837D41004AFF8D /* CreateActivityPresenter.swift */,
+				F33BDB002B837DC7004AFF8D /* CreateActivityViewController.swift */,
+				F33BDB022B837F0E004AFF8D /* CreateActivityScreenModel.swift */,
+			);
+			path = CreateActivity;
+			sourceTree = "<group>";
+		};
 		F34EDF1B2B7CF4D1002563C9 /* CreateTracker */ = {
 			isa = PBXGroup;
 			children = (
@@ -119,6 +143,7 @@
 		F3C347842B76754200AF9272 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				F33BDAFD2B837D2A004AFF8D /* CreateActivity */,
 				F34EDF1B2B7CF4D1002563C9 /* CreateTracker */,
 				F3C347922B7679D100AF9272 /* Statistic */,
 				F3C347852B76755F00AF9272 /* Trackers */,
@@ -194,6 +219,10 @@
 			children = (
 				F3C347A62B7901FB00AF9272 /* TrackerCollectionViewCell.swift */,
 				F3C347A72B7901FB00AF9272 /* TrackerCollectionViewCell.xib */,
+				F33BDB042B8384B5004AFF8D /* TextFieldCell.swift */,
+				F33BDB062B838A20004AFF8D /* SubtitledDetailTableViewCell.swift */,
+				F33BDB0A2B84846B004AFF8D /* ColorCell.swift */,
+				F33BDB0C2B84848C004AFF8D /* EmojiCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -272,15 +301,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				F3C347A52B77C93400AF9272 /* TrackerRecord.swift in Sources */,
+				F33BDB032B837F0E004AFF8D /* CreateActivityScreenModel.swift in Sources */,
 				F34EDF1F2B7CF51E002563C9 /* CreateTrackerPresenter.swift in Sources */,
 				F34EDF1A2B7CF4CB002563C9 /* CreateTrackerViewController.swift in Sources */,
 				F3C347992B77A6F300AF9272 /* BackgroundView.swift in Sources */,
 				F3C3476F2B766F1700AF9272 /* AppDelegate.swift in Sources */,
 				F3C347872B76758300AF9272 /* TrackersViewController.swift in Sources */,
+				F33BDAFF2B837D41004AFF8D /* CreateActivityPresenter.swift in Sources */,
 				F3C347832B7673C300AF9272 /* Assets.swift in Sources */,
 				F34EDF1D2B7CF503002563C9 /* CreateTrackerScreenModel.swift in Sources */,
+				F33BDB012B837DC7004AFF8D /* CreateActivityViewController.swift in Sources */,
 				F3C347A82B7901FB00AF9272 /* TrackerCollectionViewCell.swift in Sources */,
+				F33BDB072B838A20004AFF8D /* SubtitledDetailTableViewCell.swift in Sources */,
 				F3C3478D2B7675B700AF9272 /* TrackersScreenModel.swift in Sources */,
+				F33BDB052B8384B5004AFF8D /* TextFieldCell.swift in Sources */,
 				F3C347712B766F1700AF9272 /* SceneDelegate.swift in Sources */,
 				F3C347A32B77C92700AF9272 /* TrackerCategory.swift in Sources */,
 				F3C347A12B77C91400AF9272 /* Tracker.swift in Sources */,
@@ -288,6 +322,8 @@
 				F3C347892B76759200AF9272 /* TrackersPresenter.swift in Sources */,
 				F33895FB2B7A5C9D008A8773 /* SupplementaryView.swift in Sources */,
 				F3C347912B7677D500AF9272 /* Assembler.swift in Sources */,
+				F33BDB0B2B84846B004AFF8D /* ColorCell.swift in Sources */,
+				F33BDB0D2B84848C004AFF8D /* EmojiCell.swift in Sources */,
 				F3C347962B767A2300AF9272 /* StatisticPresenter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
