@@ -29,10 +29,13 @@ final class BackgroundView: UIView {
         return label
     }()
     
-    private var state: BackgroundState = .empty
+    var state: BackgroundState = .empty {
+        didSet {
+            configure()
+        }
+    }
     
-    init(frame: CGRect, state: BackgroundState) {
-        self.state = state
+    override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
     }

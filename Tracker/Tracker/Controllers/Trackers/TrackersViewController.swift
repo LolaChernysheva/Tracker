@@ -19,7 +19,7 @@ final class TrackersViewController: UIViewController {
     typealias Cell = TrackersScreenModel.CollectionData.Cell
     typealias Section = TrackersScreenModel.CollectionData.Section
     
-    private var backgroundView: BackgroundView?
+    private var backgroundView = BackgroundView()
     private let filtersButton = UIButton()
     private let searchController = UISearchController(searchResultsController: nil)
     
@@ -68,12 +68,15 @@ final class TrackersViewController: UIViewController {
         title = model.title
         filtersButton.setTitle(model.filtersButtonTitle, for: .normal)
         filtersButton.backgroundColor = Assets.Colors.launchBlue
+        backgroundView.state = model.emptyState
     }
     
     private func configureView() {
         view.backgroundColor = Assets.Colors.background
-        if presenter.presentBackground {
+        if model.emptyState == .trackersDoNotExist {
             configureBackgroundView()
+            filtersButton.isHidden = true
+            collectionView.isHidden = true
         }
         configureNavBar()
         configureCollectionView()
@@ -91,7 +94,6 @@ final class TrackersViewController: UIViewController {
     }
     
     private func configureBackgroundView() {
-        guard let backgroundView = backgroundView else { return }
         view.addSubview(backgroundView)
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

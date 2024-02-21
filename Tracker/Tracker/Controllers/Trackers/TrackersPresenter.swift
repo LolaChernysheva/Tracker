@@ -10,7 +10,6 @@ import Foundation
 import UIKit
 
 protocol TrackersPresenterProtocol: AnyObject {
-    var presentBackground: Bool { get }
     func setup()
     func addTracker()
     func showSearchResults(with inputText: String)
@@ -64,7 +63,8 @@ final class TrackersPresenter {
         }
         
         return TrackersScreenModel (
-            title: "Трекеры",
+            title: "Трекеры", 
+            emptyState: backgroundState(),
             collectionData: .init(sections: sections),
             filtersButtonTitle: "Фильтры",
             date: Date(), //MARK: - TODO
@@ -72,10 +72,16 @@ final class TrackersPresenter {
         )
     }
     
+    private func backgroundState() -> BackgroundView.BackgroundState {
+        if categories.isEmpty {
+            return .trackersDoNotExist
+        } else {
+            return .empty
+        }
+    }
     private func render(reloadData: Bool = true) {
         view?.displayData(model: buildScreenModel(), reloadData: reloadData)
     }
-    
 }
 
 extension TrackersPresenter: TrackersPresenterProtocol {
