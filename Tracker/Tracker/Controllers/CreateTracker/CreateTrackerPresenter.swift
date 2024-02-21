@@ -18,9 +18,11 @@ protocol CreateTrackerPresenterProtocol: AnyObject {
 final class CreateTrackerPresenter {
     
     weak var view: CreateTrackerViewProtocol?
+    var onSave: (Tracker) -> Void
     
-    init(view: CreateTrackerViewProtocol?) {
+    init(view: CreateTrackerViewProtocol?, onSave: @escaping (Tracker) -> Void) {
         self.view = view
+        self.onSave = onSave
     }
     
     private func buildScreenModel() -> CreateTrackerScreenModel {
@@ -39,12 +41,12 @@ final class CreateTrackerPresenter {
 
 extension CreateTrackerPresenter: CreateTrackerPresenterProtocol {
     func createHabit() {
-        let createHabitController = Assembler.buildCreateActivityModule(state: .createHabit)
+        let createHabitController = Assembler.buildCreateActivityModule(state: .createHabit, onSave: onSave)
         view?.showCreateActivityController(viewController: createHabitController)
     }
     
     func createEvent() {
-        let createEventController = Assembler.buildCreateActivityModule(state: .createEvent)
+        let createEventController = Assembler.buildCreateActivityModule(state: .createEvent, onSave: onSave)
         view?.showCreateActivityController(viewController: createEventController)
     }
     

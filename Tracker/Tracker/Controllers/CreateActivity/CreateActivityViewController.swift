@@ -112,7 +112,7 @@ final class CreateActivityViewController: UIViewController {
         createButton.backgroundColor = .buttons //MARK: - TODO set color and restrict UI
         createButton.layer.cornerRadius = .cornerRadius
         createButton.clipsToBounds = true
-        
+        createButton.addTarget(self, action: #selector(createButtonTapped), for: .touchUpInside)
     }
     
     private func setupCancelButton() {
@@ -126,6 +126,16 @@ final class CreateActivityViewController: UIViewController {
         cancelButton.setTitleColor(.tomato, for: .normal)
         cancelButton.layer.borderWidth = .borderWidth
         cancelButton.layer.borderColor = UIColor.tomato.cgColor
+        cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc private func cancelButtonTapped() {
+        dismiss(animated: true)
+    }
+    
+    @objc private func createButtonTapped() {
+        presenter.createActivity()
+        navigationController?.dismiss(animated: true)
     }
 }
 
@@ -133,6 +143,7 @@ final class CreateActivityViewController: UIViewController {
 //MARK: - CreateActivityViewProtocol
 
 extension CreateActivityViewController: CreateActivityViewProtocol {
+    
     func displayData(screenModel: CreateActivityScreenModel, reloadTableData: Bool) {
         self.screenModel = screenModel
         if reloadTableData {
@@ -163,11 +174,13 @@ extension CreateActivityViewController: UITableViewDelegate {
             guard let detailCell = tableView.dequeueReusableCell(withIdentifier: SubtitledDetailTableViewCell.reuseIdentifier, for: indexPath) as? SubtitledDetailTableViewCell else { return UITableViewCell() }
             detailCell.viewModel = model
             cell = detailCell
-        case .emogiCell:
+        case let .emogiCell(model):
             guard let emogiCell = tableView.dequeueReusableCell(withIdentifier: EmojiTableViewCell.reuseIdentifier, for: indexPath) as? EmojiTableViewCell else { return UITableViewCell() }
+            emogiCell.viewModel = model
             cell = emogiCell
-        case .colorCell:
+        case let .colorCell(model):
             guard let colorCell = tableView.dequeueReusableCell(withIdentifier: ColorTableViewCell.reuseIdentifier, for: indexPath) as? ColorTableViewCell else { return UITableViewCell() }
+            colorCell.viewModel = model
             cell = colorCell
         }
         return cell

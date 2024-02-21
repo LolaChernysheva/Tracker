@@ -10,12 +10,12 @@ import UIKit
 
 protocol AssemblerProtocol: AnyObject {
     static func mainScreenBuilder() -> UIViewController
-    static func buildCreateTrackerModule() -> UIViewController
-    static func buildCreateActivityModule(state: CreateActivityState) -> UIViewController 
+    static func buildCreateTrackerModule(onSave: @escaping (Tracker) -> Void) -> UIViewController
+    static func buildCreateActivityModule(state: CreateActivityState, onSave: @escaping (Tracker) -> Void) -> UIViewController 
 }
 
 final class Assembler: AssemblerProtocol {
-    
+
     static func mainScreenBuilder() -> UIViewController {
         let tabbarController = UITabBarController()
         
@@ -31,9 +31,9 @@ final class Assembler: AssemblerProtocol {
         return tabbarController
     }
     
-    static func buildCreateTrackerModule() -> UIViewController {
+    static func buildCreateTrackerModule(onSave: @escaping (Tracker) -> Void) -> UIViewController {
         let createTrackerViewController = CreateTrackerViewController()
-        let createTrackerPresenter = CreateTrackerPresenter(view: createTrackerViewController)
+        let createTrackerPresenter = CreateTrackerPresenter(view: createTrackerViewController, onSave: onSave)
         createTrackerViewController.presenter = createTrackerPresenter
         return createTrackerViewController
     }
@@ -45,9 +45,11 @@ final class Assembler: AssemblerProtocol {
         return vc
     }
     
-    static func buildCreateActivityModule(state: CreateActivityState) -> UIViewController {
+    static func buildCreateActivityModule(state: CreateActivityState, onSave: @escaping (Tracker) -> Void) -> UIViewController {
         let createActivityViewController = CreateActivityViewController()
-        let createActivityPresenter = CreateActivityPresenter(view: createActivityViewController, state: state)
+        let createActivityPresenter = CreateActivityPresenter(
+            view: createActivityViewController,
+            state: state, onSave: onSave)
         createActivityViewController.presenter = createActivityPresenter
         return createActivityViewController
     }

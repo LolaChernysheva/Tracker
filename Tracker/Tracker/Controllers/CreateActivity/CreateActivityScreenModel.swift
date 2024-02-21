@@ -28,8 +28,8 @@ struct CreateActivityScreenModel {
         enum Cell {
             case textFieldCell(TextFieldCellViewModel)
             case detailCell(SubtitledDetailTableViewCellViewModel)
-            case emogiCell
-            case colorCell
+            case emogiCell(EmojiTableViewCellViewModel)
+            case colorCell(ColorTableViewCellViewModel)
         }
         
         let sections: [Section]

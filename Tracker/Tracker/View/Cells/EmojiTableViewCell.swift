@@ -8,9 +8,23 @@
 
 import UIKit
 
+struct EmojiTableViewCellViewModel {
+    var action: ((String) ->Void)
+    
+    static let empty: EmojiTableViewCellViewModel = .init(action: { _ in })
+}
+
 final class EmojiTableViewCell: UITableViewCell {
     
     static let reuseIdentifier = "EmojiTableViewCell"
+    
+    var action: ((String) ->Void) = { _ in }
+    
+    var viewModel: EmojiTableViewCellViewModel = .empty {
+        didSet {
+            self.action = viewModel.action
+        }
+    }
     
     private let emogis: [String] = [
         "🙂", "😻", "🌺",
@@ -64,6 +78,11 @@ extension EmojiTableViewCell: UICollectionViewDelegate {
         let emogi = emogis[indexPath.item]
         emogiCell.viewModel = EmogiCellViewModel(emogi: emogi)
         return emogiCell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let emogi = emogis[indexPath.item]
+        viewModel.action(emogi)
     }
 }
 

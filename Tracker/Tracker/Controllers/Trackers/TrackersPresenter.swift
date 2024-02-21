@@ -5,6 +5,18 @@
 //  Created by Lolita Chernysheva on 09.02.2024.
 //  
 //
+/*
+ var categories: [TrackerCategory] = [
+        .init(title: "Домашний уют", trackers: [
+            .init(id: UUID(), title: "Поливать растения", color: .herbalGreen, emogi: "❤️", schedule: .init())
+        ]),
+        .init(title: "Радостные мелочи", trackers: [
+            .init(id: UUID(), title: "Кошка заслонила камеру на созвоне", color: .tartOrange, emogi: "😻", schedule: .init()),
+            .init(id: UUID(), title: "Бабушка прислала открытку в вотсапе", color: .carrot, emogi: "🌺", schedule: .init()),
+            .init(id: UUID(), title: "Свидания в апреле", color: .cornflowerBlue, emogi: "❤️", schedule: .init())
+        ])
+ ]
+ */
 
 import Foundation
 import UIKit
@@ -22,11 +34,6 @@ final class TrackersPresenter {
     var categories: [TrackerCategory] = [
         .init(title: "Домашний уют", trackers: [
             .init(id: UUID(), title: "Поливать растения", color: .herbalGreen, emogi: "❤️", schedule: .init())
-        ]),
-        .init(title: "Радостные мелочи", trackers: [
-            .init(id: UUID(), title: "Кошка заслонила камеру на созвоне", color: .tartOrange, emogi: "😻", schedule: .init()),
-            .init(id: UUID(), title: "Бабушка прислала открытку в вотсапе", color: .carrot, emogi: "🌺", schedule: .init()),
-            .init(id: UUID(), title: "Свидания в апреле", color: .cornflowerBlue, emogi: "❤️", schedule: .init())
         ])
     ]
     
@@ -90,7 +97,11 @@ extension TrackersPresenter: TrackersPresenterProtocol {
     }
     
     func addTracker() {
-        let createTrackerController = Assembler.buildCreateTrackerModule()
+        let createTrackerController = Assembler.buildCreateTrackerModule() { [ weak self ] tracker in
+            guard let self else { return }
+            categories.append(.init(title: "777", trackers: [tracker]))
+            render(reloadData: true)
+        }
         view?.showCreateController(viewController: createTrackerController)
     }
     

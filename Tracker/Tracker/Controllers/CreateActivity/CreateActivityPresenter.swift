@@ -15,6 +15,7 @@ enum CreateActivityState {
 
 protocol CreateActivityPresenterProtocol: AnyObject {
     func setup()
+    func createActivity()
 }
 
 final class CreateActivityPresenter {
@@ -24,13 +25,22 @@ final class CreateActivityPresenter {
     weak var view: CreateActivityViewProtocol?
     
     private var state: CreateActivityState?
-    private var enteredActivityName: String = "" //MARK: - TODO
+    private var enteredActivityName: String = ""
+    private var enteredEmogi: String = ""
+    private var enteredColor: UIColor = .clear
     
-    init(view: CreateActivityViewProtocol, state: CreateActivityState) {
+    var onSave: (Tracker) -> Void
+   
+    init(
+        view: CreateActivityViewProtocol,
+        state: CreateActivityState,
+        onSave: @escaping (Tracker) -> Void
+    ) {
         self.view = view
         self.state = state
+        self.onSave = onSave
     }
-    
+
     private func buildScreenModel() -> CreateActivityScreenModel {
         let title: String = {
             switch self.state {
@@ -60,13 +70,26 @@ final class CreateActivityPresenter {
     private func createEmojiSection() -> TableData.Section {
         return .headered(
             header: "Emoji",
-            cells: [.emogiCell])
+            cells: [
+                .emogiCell(
+                    .init(
+                        action: { [ weak self ] emogi in
+                            guard let self else { return }
+                            self.enteredEmogi = emogi
+                        }
+                    )
+                )
+            ]
+        )
     }
     
     private func createColorSection() -> TableData.Section {
         return .headered(
             header: "Цвет",
-            cells: [.colorCell])
+            cells: [.colorCell(.init(action: { [ weak self ] color in
+                guard let self else { return }
+                self.enteredColor = color
+            }))])
     }
     
     private func createActivityNameSection() -> TableData.Section {
@@ -118,5 +141,18 @@ final class CreateActivityPresenter {
 extension CreateActivityPresenter: CreateActivityPresenterProtocol {
     func setup() {
        render()
+    }
+    
+    //MARK: - TODO
+    func createActivity() {
+        let tracker = Tracker(
+            id: UUID(),
+            title: enteredActivityName,
+            color: enteredColor,
+            emogi: enteredEmogi,
+            schedule: .init()
+        )
+        
+       onSave(tracker)
     }
 }

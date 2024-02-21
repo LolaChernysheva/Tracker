@@ -8,7 +8,21 @@
 
 import UIKit
 
+struct ColorTableViewCellViewModel {
+    var action: (UIColor) -> Void
+    
+    static let empty: ColorTableViewCellViewModel = .init(action: { _ in})
+}
+
 final class ColorTableViewCell: UITableViewCell {
+    
+    var viewModel: ColorTableViewCellViewModel = .empty {
+        didSet {
+            action = viewModel.action
+        }
+    }
+    
+    private var action: (UIColor) -> Void = {  _ in }
     
     private let colors: [UIColor] = [
         .tartOrange, .carrot, .azure, .violette,
@@ -60,6 +74,11 @@ extension ColorTableViewCell: UICollectionViewDelegate {
         let color = colors[indexPath.item]
         colorCell.viewModel = ColorCellViewModel(color: color)
         return colorCell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let color = colors[indexPath.item]
+        viewModel.action(color)
     }
 }
 
