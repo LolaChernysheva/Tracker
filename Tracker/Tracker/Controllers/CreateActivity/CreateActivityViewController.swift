@@ -10,6 +10,7 @@ import UIKit
 
 protocol CreateActivityViewProtocol: AnyObject {
     func displayData(screenModel: CreateActivityScreenModel, reloadTableData: Bool)
+    func showController(vc: UIViewController)
 }
 
 final class CreateActivityViewController: UIViewController {
@@ -50,6 +51,7 @@ final class CreateActivityViewController: UIViewController {
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.backgroundColor = .clear
         tableView.register(EmojiTableViewCell.self, forCellReuseIdentifier: EmojiTableViewCell.reuseIdentifier)
         tableView.register(SubtitledDetailTableViewCell.self, forCellReuseIdentifier: SubtitledDetailTableViewCell.reuseIdentifier)
         tableView.register(ColorTableViewCell.self, forCellReuseIdentifier: ColorTableViewCell.reuseIdentifier)
@@ -137,6 +139,10 @@ extension CreateActivityViewController: CreateActivityViewProtocol {
             tableView.reloadData()
         }
     }
+    
+    func showController(vc: UIViewController) {
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 //MARK: - UITableViewDelegate
@@ -201,6 +207,18 @@ extension CreateActivityViewController: UITableViewDelegate {
             return 150
         case .colorCell:
             return 150
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cellType = tableDataCell(indexPath: indexPath)
+        
+        switch cellType {
+            
+        case let .detailCell(model):
+            model.action()
+        default:
+            return
         }
     }
 }

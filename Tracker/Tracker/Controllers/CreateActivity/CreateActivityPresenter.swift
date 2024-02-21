@@ -84,11 +84,16 @@ final class CreateActivityPresenter {
     private func createActivitySettingsSection() -> TableData.Section {
         let categogyCell: TableData.Cell = .detailCell(.init(
             title: "Категория",
-            subtitle: "")) //MARK: - TODO
+            subtitle: "", //MARK: - TODO
+        action: {}))
         
         let scheduleCell: TableData.Cell = .detailCell(.init(
             title: "Расписание",
-            subtitle: "")) //MARK: - TODO
+            subtitle: "", //MARK: - TODO
+        action: { [ weak self ] in
+            guard let self else { return }
+            self.showSchedule()
+        }))
         
         var activitySettingsCells: [TableData.Cell] = []
         
@@ -102,6 +107,11 @@ final class CreateActivityPresenter {
     
     private func render() {
         view?.displayData(screenModel: buildScreenModel(), reloadTableData: true)
+    }
+    
+    private func showSchedule() {
+        let vc = Assembler.buildScheduleModule()
+        view?.showController(vc: vc)
     }
 }
 

@@ -21,6 +21,11 @@
 		F34EDF1A2B7CF4CB002563C9 /* CreateTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34EDF192B7CF4CB002563C9 /* CreateTrackerViewController.swift */; };
 		F34EDF1D2B7CF503002563C9 /* CreateTrackerScreenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34EDF1C2B7CF503002563C9 /* CreateTrackerScreenModel.swift */; };
 		F34EDF1F2B7CF51E002563C9 /* CreateTrackerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34EDF1E2B7CF51E002563C9 /* CreateTrackerPresenter.swift */; };
+		F3B7BC7B2B85026200A20EBB /* SchedulePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B7BC7A2B85026200A20EBB /* SchedulePresenter.swift */; };
+		F3B7BC7D2B85028500A20EBB /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B7BC7C2B85028500A20EBB /* ScheduleViewController.swift */; };
+		F3B7BC7F2B85028F00A20EBB /* ScheduleScreenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B7BC7E2B85028F00A20EBB /* ScheduleScreenModel.swift */; };
+		F3B7BC812B8503A200A20EBB /* SwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B7BC802B8503A200A20EBB /* SwitchCell.swift */; };
+		F3B7BC832B85DAF400A20EBB /* LabledCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B7BC822B85DAF400A20EBB /* LabledCell.swift */; };
 		F3C3476F2B766F1700AF9272 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C3476E2B766F1700AF9272 /* AppDelegate.swift */; };
 		F3C347712B766F1700AF9272 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C347702B766F1700AF9272 /* SceneDelegate.swift */; };
 		F3C347782B766F1800AF9272 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3C347772B766F1800AF9272 /* Assets.xcassets */; };
@@ -57,6 +62,11 @@
 		F34EDF192B7CF4CB002563C9 /* CreateTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTrackerViewController.swift; sourceTree = "<group>"; };
 		F34EDF1C2B7CF503002563C9 /* CreateTrackerScreenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTrackerScreenModel.swift; sourceTree = "<group>"; };
 		F34EDF1E2B7CF51E002563C9 /* CreateTrackerPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTrackerPresenter.swift; sourceTree = "<group>"; };
+		F3B7BC7A2B85026200A20EBB /* SchedulePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulePresenter.swift; sourceTree = "<group>"; };
+		F3B7BC7C2B85028500A20EBB /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
+		F3B7BC7E2B85028F00A20EBB /* ScheduleScreenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleScreenModel.swift; sourceTree = "<group>"; };
+		F3B7BC802B8503A200A20EBB /* SwitchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchCell.swift; sourceTree = "<group>"; };
+		F3B7BC822B85DAF400A20EBB /* LabledCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabledCell.swift; sourceTree = "<group>"; };
 		F3C3476B2B766F1700AF9272 /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3C3476E2B766F1700AF9272 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F3C347702B766F1700AF9272 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -120,6 +130,16 @@
 			path = CreateTracker;
 			sourceTree = "<group>";
 		};
+		F3B7BC792B85024E00A20EBB /* Schedule */ = {
+			isa = PBXGroup;
+			children = (
+				F3B7BC7A2B85026200A20EBB /* SchedulePresenter.swift */,
+				F3B7BC7C2B85028500A20EBB /* ScheduleViewController.swift */,
+				F3B7BC7E2B85028F00A20EBB /* ScheduleScreenModel.swift */,
+			);
+			path = Schedule;
+			sourceTree = "<group>";
+		};
 		F3C347622B766F1700AF9272 = {
 			isa = PBXGroup;
 			children = (
@@ -158,6 +178,7 @@
 		F3C347842B76754200AF9272 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				F3B7BC792B85024E00A20EBB /* Schedule */,
 				F33BDAFD2B837D2A004AFF8D /* CreateActivity */,
 				F34EDF1B2B7CF4D1002563C9 /* CreateTracker */,
 				F3C347922B7679D100AF9272 /* Statistic */,
@@ -240,6 +261,8 @@
 				F33BDB0C2B84848C004AFF8D /* EmojiCell.swift */,
 				F33BDB0E2B8497EB004AFF8D /* EmojiTableViewCell.swift */,
 				F33BDB102B84CD5D004AFF8D /* ColorTableViewCell.swift */,
+				F3B7BC802B8503A200A20EBB /* SwitchCell.swift */,
+				F3B7BC822B85DAF400A20EBB /* LabledCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -322,6 +345,9 @@
 				F34EDF1F2B7CF51E002563C9 /* CreateTrackerPresenter.swift in Sources */,
 				F34EDF1A2B7CF4CB002563C9 /* CreateTrackerViewController.swift in Sources */,
 				F3C347992B77A6F300AF9272 /* BackgroundView.swift in Sources */,
+				F3B7BC7B2B85026200A20EBB /* SchedulePresenter.swift in Sources */,
+				F3B7BC832B85DAF400A20EBB /* LabledCell.swift in Sources */,
+				F3B7BC7F2B85028F00A20EBB /* ScheduleScreenModel.swift in Sources */,
 				F3C3476F2B766F1700AF9272 /* AppDelegate.swift in Sources */,
 				F33BDB0F2B8497EB004AFF8D /* EmojiTableViewCell.swift in Sources */,
 				F3C347872B76758300AF9272 /* TrackersViewController.swift in Sources */,
@@ -331,6 +357,7 @@
 				F33BDB012B837DC7004AFF8D /* CreateActivityViewController.swift in Sources */,
 				F3C347A82B7901FB00AF9272 /* TrackerCollectionViewCell.swift in Sources */,
 				F33BDB072B838A20004AFF8D /* SubtitledDetailTableViewCell.swift in Sources */,
+				F3B7BC7D2B85028500A20EBB /* ScheduleViewController.swift in Sources */,
 				F3C3478D2B7675B700AF9272 /* TrackersScreenModel.swift in Sources */,
 				F33BDB052B8384B5004AFF8D /* TextFieldCell.swift in Sources */,
 				F3C347712B766F1700AF9272 /* SceneDelegate.swift in Sources */,
@@ -343,6 +370,7 @@
 				F33BDB112B84CD5D004AFF8D /* ColorTableViewCell.swift in Sources */,
 				F33BDB0B2B84846B004AFF8D /* ColorCell.swift in Sources */,
 				F33BDB0D2B84848C004AFF8D /* EmojiCell.swift in Sources */,
+				F3B7BC812B8503A200A20EBB /* SwitchCell.swift in Sources */,
 				F3C347962B767A2300AF9272 /* StatisticPresenter.swift in Sources */,
 				F33BDB142B84D299004AFF8D /* HeaderView.swift in Sources */,
 			);

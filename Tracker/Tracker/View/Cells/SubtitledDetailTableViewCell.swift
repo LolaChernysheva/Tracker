@@ -12,7 +12,9 @@ struct SubtitledDetailTableViewCellViewModel {
     let title: String
     let subtitle: String?
     
-    static let empty: SubtitledDetailTableViewCellViewModel = .init(title: "", subtitle: "")
+    var action: () -> Void?
+    
+    static let empty: SubtitledDetailTableViewCellViewModel = .init(title: "", subtitle: "", action: {})
 }
 
 final class SubtitledDetailTableViewCell: UITableViewCell {
@@ -22,6 +24,8 @@ final class SubtitledDetailTableViewCell: UITableViewCell {
     let titleLabel = UILabel()
     let subtitleLabel = UILabel()
     let stackView = UIStackView()
+    
+    private var onTapAction: (() -> Void?)? = nil
     
     var viewModel: SubtitledDetailTableViewCellViewModel = .empty {
         didSet {
@@ -42,12 +46,13 @@ final class SubtitledDetailTableViewCell: UITableViewCell {
     
     private func setup() {
         accessoryType = .disclosureIndicator
-        
+        backgroundColor = .cellBackground
         if viewModel.subtitle == nil || viewModel.subtitle == "" {
             subtitleLabel.removeFromSuperview()
         }
         titleLabel.text = viewModel.title
         subtitleLabel.text = viewModel.subtitle
+        onTapAction = viewModel.action
     }
     
     private func configureView() {

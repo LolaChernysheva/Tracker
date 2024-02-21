@@ -38,6 +38,13 @@ final class Assembler: AssemblerProtocol {
         return createTrackerViewController
     }
     
+    static func buildScheduleModule() -> UIViewController {
+        let vc = ScheduleViewController()
+        let presenter = SchedulePresenter(view: vc)
+        vc.presenter = presenter
+        return vc
+    }
+    
     static func buildCreateActivityModule(state: CreateActivityState) -> UIViewController {
         let createActivityViewController = CreateActivityViewController()
         let createActivityPresenter = CreateActivityPresenter(view: createActivityViewController, state: state)

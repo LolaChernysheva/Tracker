@@ -42,6 +42,7 @@ final class TextFieldCell: UITableViewCell {
     
     private func setup() {
         configureTextField()
+        backgroundColor = .cellBackground
     }
     
     private func configureTextField() {
