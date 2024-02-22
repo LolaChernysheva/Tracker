@@ -63,7 +63,6 @@ final class TrackersPresenter {
             emptyState: backgroundState(),
             collectionData: .init(sections: sections),
             filtersButtonTitle: "Фильтры",
-            date: Date(), //MARK: - TODO
             addBarButtonColor: Assets.Colors.navBarItem ?? .black
         )
     }

@@ -32,7 +32,6 @@ struct TrackersScreenModel {
     let emptyState: BackgroundView.BackgroundState
     let collectionData: CollectionData
     let filtersButtonTitle: String
-    let date: Date?
     let addBarButtonColor: UIColor
     
     static let empty: TrackersScreenModel = .init(
@@ -40,7 +39,6 @@ struct TrackersScreenModel {
         emptyState: .empty,
         collectionData: .init(sections: []),
         filtersButtonTitle: "",
-        date: nil,
         addBarButtonColor: .clear
     )
 }

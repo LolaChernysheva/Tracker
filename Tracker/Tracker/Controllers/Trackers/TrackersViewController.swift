@@ -67,7 +67,7 @@ final class TrackersViewController: UIViewController {
         filtersButton.setTitle(model.filtersButtonTitle, for: .normal)
         filtersButton.backgroundColor = Assets.Colors.launchBlue
         backgroundView.state = model.emptyState
-        datePicker.date = model.date ?? Date() //MARK: - TODO
+        datePicker.date = selectedDate
     }
     
     private func configureView() {
