@@ -17,5 +17,25 @@ struct Tracker {
 }
 
 struct Schedule {
+    var weekdays: [Weekday]
     
+    mutating func addWeekday(_ weekday: Weekday) {
+        if !weekdays.contains(weekday) {
+            weekdays.append(weekday)
+        }
+    }
+
+    mutating func removeWeekday(_ weekday: Weekday) {
+        if let index = weekdays.firstIndex(of: weekday) {
+            weekdays.remove(at: index)
+        }
+    }
+    
+    func contains(_ weekday: Weekday) -> Bool {
+        return weekdays.contains(weekday)
+    }
+}
+
+enum Weekday: Int {
+    case sunday = 1, monday, tuesday, wednesday, thursday, friday, saturday
 }

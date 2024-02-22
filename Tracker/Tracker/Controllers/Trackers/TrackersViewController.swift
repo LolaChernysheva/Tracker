@@ -10,6 +10,7 @@ import UIKit
 
 protocol TrackersViewProtocol: AnyObject {
     var isFiltering: Bool { get }
+    var isSearching: Bool { get }
     func displayData(model: TrackersScreenModel, reloadData: Bool)
     func showCreateController(viewController: UIViewController)
 }
@@ -22,14 +23,7 @@ final class TrackersViewController: UIViewController {
     private var backgroundView = BackgroundView()
     private let filtersButton = UIButton()
     private let searchController = UISearchController(searchResultsController: nil)
-    
-    private lazy var datePicker: UIDatePicker = {
-        let datePicker = UIDatePicker()
-        datePicker.datePickerMode = .date
-        datePicker.preferredDatePickerStyle = .compact
-        datePicker.date = model.date ?? Date() //MARK: - TODO
-        return datePicker
-    }()
+    private var datePicker = UIDatePicker()
 
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -37,7 +31,9 @@ final class TrackersViewController: UIViewController {
         return collectionView
     }()
     
-    var isFiltering: Bool {
+    var isFiltering: Bool = false
+    
+    var isSearching: Bool {
         searchController.isActive && !searchBarIsEmpty
     }
     
@@ -54,6 +50,8 @@ final class TrackersViewController: UIViewController {
             return text.isEmpty
     }
     
+    private var selectedDate: Date = Date()
+    
     //MARK: - life cycle methods
     
     override func viewDidLoad() {
@@ -69,6 +67,7 @@ final class TrackersViewController: UIViewController {
         filtersButton.setTitle(model.filtersButtonTitle, for: .normal)
         filtersButton.backgroundColor = Assets.Colors.launchBlue
         backgroundView.state = model.emptyState
+        datePicker.date = model.date ?? Date() //MARK: - TODO
     }
     
     private func configureView() {
@@ -82,6 +81,13 @@ final class TrackersViewController: UIViewController {
         configureCollectionView()
         setupFiltersButton()
         setupSearchBar()
+        configureDatePicker()
+    }
+    
+    private func configureDatePicker() {
+        datePicker.datePickerMode = .date
+        datePicker.preferredDatePickerStyle = .compact
+        datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
     }
     
     private func configureNavBar() {
@@ -174,6 +180,12 @@ final class TrackersViewController: UIViewController {
     
     @objc private func filtersButtonTapped() {
         
+    }
+    
+    @objc private func datePickerValueChanged(_ sender: UIDatePicker) {
+        isFiltering = true
+        selectedDate = sender.date
+        presenter.filterTrackers(for: selectedDate)
     }
 }
 
@@ -275,7 +287,7 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 extension TrackersViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else { return }
-        if isFiltering {
+        if isSearching {
             presenter.showSearchResults(with: searchText)
         }
     }

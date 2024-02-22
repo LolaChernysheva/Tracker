@@ -143,14 +143,13 @@ extension CreateActivityPresenter: CreateActivityPresenterProtocol {
        render()
     }
     
-    //MARK: - TODO
     func createActivity() {
         let tracker = Tracker(
             id: UUID(),
             title: enteredActivityName,
             color: enteredColor,
             emogi: enteredEmogi,
-            schedule: .init()
+            schedule: .init(weekdays: [.friday]) //MARK: - todo
         )
         
        onSave(tracker)

@@ -5,18 +5,6 @@
 //  Created by Lolita Chernysheva on 09.02.2024.
 //  
 //
-/*
- var categories: [TrackerCategory] = [
-        .init(title: "Домашний уют", trackers: [
-            .init(id: UUID(), title: "Поливать растения", color: .herbalGreen, emogi: "❤️", schedule: .init())
-        ]),
-        .init(title: "Радостные мелочи", trackers: [
-            .init(id: UUID(), title: "Кошка заслонила камеру на созвоне", color: .tartOrange, emogi: "😻", schedule: .init()),
-            .init(id: UUID(), title: "Бабушка прислала открытку в вотсапе", color: .carrot, emogi: "🌺", schedule: .init()),
-            .init(id: UUID(), title: "Свидания в апреле", color: .cornflowerBlue, emogi: "❤️", schedule: .init())
-        ])
- ]
- */
 
 import Foundation
 import UIKit
@@ -25,6 +13,7 @@ protocol TrackersPresenterProtocol: AnyObject {
     func setup()
     func addTracker()
     func showSearchResults(with inputText: String)
+    func filterTrackers(for date: Date)
 }
 
 final class TrackersPresenter {
@@ -33,7 +22,7 @@ final class TrackersPresenter {
     
     var categories: [TrackerCategory] = [
         .init(title: "Домашний уют", trackers: [
-            .init(id: UUID(), title: "Поливать растения", color: .herbalGreen, emogi: "❤️", schedule: .init())
+            .init(id: UUID(), title: "Поливать растения", color: .herbalGreen, emogi: "❤️", schedule: .init(weekdays: [.friday]) )
         ])
     ]
     
@@ -111,5 +100,19 @@ extension TrackersPresenter: TrackersPresenterProtocol {
             return TrackerCategory(title: category.title, trackers: filtredTrackers)
         }
         render(reloadData: true)
+    }
+    
+    func filterTrackers(for date: Date) {
+        let weekday = Calendar.current.component(.weekday, from: date)
+        
+        guard let selectedWeekday = Weekday(rawValue: weekday) else { return }
+        
+        filteredCategories = categories.compactMap {
+            let filteredTrackers = $0.trackers.filter { $0.schedule.contains(selectedWeekday) }
+            return filteredTrackers.isEmpty ? nil : TrackerCategory(title: $0.title, trackers: filteredTrackers)
+        }
+        
+        render()
+        self.filteredCategories = []
     }
 }
