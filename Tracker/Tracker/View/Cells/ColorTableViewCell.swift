@@ -32,6 +32,12 @@ final class ColorTableViewCell: UITableViewCell {
         .mediumOrchid, .mediumPurple, .herbalGreen
     ]
     
+    private var selectedIndexPath: IndexPath? {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
+    
     static let reuseIdentifier = "ColorTableViewCell"
     
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -72,12 +78,13 @@ extension ColorTableViewCell: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let colorCell = collectionView.dequeueReusableCell(withReuseIdentifier: ColorCell.reuseIdentifier, for: indexPath) as? ColorCell else { return UICollectionViewCell() }
         let color = colors[indexPath.item]
-        colorCell.viewModel = ColorCellViewModel(color: color)
+        colorCell.viewModel = ColorCellViewModel(color: color, isSelectedColor: selectedIndexPath == indexPath)
         return colorCell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let color = colors[indexPath.item]
+        selectedIndexPath = indexPath
         viewModel.action(color)
     }
 }

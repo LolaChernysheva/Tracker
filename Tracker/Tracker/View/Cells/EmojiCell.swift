@@ -10,8 +10,9 @@ import UIKit
 
 struct EmogiCellViewModel {
     let emogi: String
+    let isSelectedEmoji: Bool
     
-    static let empty = EmogiCellViewModel(emogi: "")
+    static let empty = EmogiCellViewModel(emogi: "", isSelectedEmoji: false)
 }
 
 class EmogiCell: UICollectionViewCell {
@@ -20,7 +21,7 @@ class EmogiCell: UICollectionViewCell {
     
     var viewModel: EmogiCellViewModel = .empty {
         didSet {
-            emogiLabel.text = viewModel.emogi
+           setup()
         }
     }
     
@@ -49,10 +50,21 @@ class EmogiCell: UICollectionViewCell {
             emogiLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
+    
+    private func setup() {
+        emogiLabel.text = viewModel.emogi
+        if viewModel.isSelectedEmoji {
+            backgroundColor = .selected
+            layer.cornerRadius = 16
+            clipsToBounds = true
+        } else {
+            backgroundColor = .clear
+        }
+    }
 }
 
 private extension CGFloat {
     static let fontSize = 32.0
     static let emogiWidth = 32.0
-    static let emogiHeight = 38.0
+    static let emogiHeight = 32.0
 }

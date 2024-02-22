@@ -10,8 +10,9 @@ import UIKit
 
 struct ColorCellViewModel {
     let color: UIColor
+    var isSelectedColor: Bool
     
-    static let empty = ColorCellViewModel(color: .clear)
+    static let empty = ColorCellViewModel(color: .clear, isSelectedColor: false)
 }
 
 class ColorCell: UICollectionViewCell {
@@ -22,7 +23,7 @@ class ColorCell: UICollectionViewCell {
     
     var viewModel: ColorCellViewModel = .empty {
         didSet {
-            colorView.backgroundColor = viewModel.color
+            setup()
         }
     }
     
@@ -48,6 +49,18 @@ class ColorCell: UICollectionViewCell {
             colorView.centerXAnchor.constraint(equalTo: centerXAnchor),
             colorView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
+    }
+    
+    private func setup() {
+        colorView.backgroundColor = viewModel.color
+        if viewModel.isSelectedColor {
+            layer.borderWidth = 3
+            layer.borderColor = viewModel.color.withAlphaComponent(0.3).cgColor
+            layer.cornerRadius = 16
+            clipsToBounds = true
+        } else {
+            layer.borderWidth = 0
+        }
     }
 }
 

@@ -26,6 +26,12 @@ final class EmojiTableViewCell: UITableViewCell {
         }
     }
     
+    private var selectedIndexPath: IndexPath? {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
+    
     private let emogis: [String] = [
         "🙂", "😻", "🌺",
         "🐶", "❤️", "😱",
@@ -76,12 +82,14 @@ extension EmojiTableViewCell: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let emogiCell = collectionView.dequeueReusableCell(withReuseIdentifier: EmogiCell.reuseIdentifier, for: indexPath) as? EmogiCell else { return UICollectionViewCell() }
         let emogi = emogis[indexPath.item]
-        emogiCell.viewModel = EmogiCellViewModel(emogi: emogi)
+        
+        emogiCell.viewModel = EmogiCellViewModel(emogi: emogi, isSelectedEmoji: selectedIndexPath == indexPath)
         return emogiCell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let emogi = emogis[indexPath.item]
+        selectedIndexPath = indexPath
         viewModel.action(emogi)
     }
 }
