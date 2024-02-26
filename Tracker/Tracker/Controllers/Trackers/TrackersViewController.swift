@@ -72,16 +72,12 @@ final class TrackersViewController: UIViewController {
     
     private func configureView() {
         view.backgroundColor = Assets.Colors.background
-        if model.emptyState == .trackersDoNotExist {
-            configureBackgroundView()
-            filtersButton.isHidden = true
-            collectionView.isHidden = true
-        }
         configureNavBar()
         configureCollectionView()
         setupFiltersButton()
         setupSearchBar()
         configureDatePicker()
+        updateBackgroundViewVisiability()
     }
     
     private func configureDatePicker() {
@@ -172,6 +168,16 @@ final class TrackersViewController: UIViewController {
         navigationItem.searchController = searchController
     }
     
+    private func updateBackgroundViewVisiability() {
+        
+        backgroundView.isHidden = !presenter.shouldShowBackgroundView
+        collectionView.isHidden = presenter.shouldShowBackgroundView
+
+        if presenter.shouldShowBackgroundView {
+            configureBackgroundView()
+        }
+    }
+    
     //MARK: - objc methods
     
     @objc private func addAction() {
@@ -186,6 +192,7 @@ final class TrackersViewController: UIViewController {
         isFiltering = true
         selectedDate = sender.date
         presenter.filterTrackers(for: selectedDate)
+        updateBackgroundViewVisiability()
     }
 }
 
@@ -292,6 +299,7 @@ extension TrackersViewController: UISearchResultsUpdating {
         } else {
             presenter.showSearchResults(with: "")
         }
+        configureView()
     }
 }
 

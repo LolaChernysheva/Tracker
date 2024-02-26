@@ -26,6 +26,7 @@ final class BackgroundView: UIView {
     private let textLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "YS-Display-Medium", size: 12)
+        label.textAlignment = .center
         return label
     }()
     

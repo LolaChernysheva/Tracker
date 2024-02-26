@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 protocol TrackersPresenterProtocol: AnyObject {
+    var shouldShowBackgroundView: Bool { get }
     func setup()
     func addTracker()
     func showSearchResults(with inputText: String)
@@ -31,7 +32,10 @@ final class TrackersPresenter {
                ])
         ]
     
-    var presentBackground: Bool = false
+    var shouldShowBackgroundView: Bool {
+        guard let view = view else { return false }
+        return (view.isSearching || view.isFiltering) && filteredCategories.isEmpty
+    }
     
     private var completedTrackers: [TrackerRecord] = []
     private var filteredCategories = [TrackerCategory]()
@@ -75,6 +79,8 @@ final class TrackersPresenter {
     private func backgroundState() -> BackgroundView.BackgroundState {
         if categories.isEmpty {
             return .trackersDoNotExist
+        } else if filteredCategories.isEmpty {
+            return .emptySearchResult
         } else {
             return .empty
         }
@@ -101,11 +107,10 @@ extension TrackersPresenter: TrackersPresenterProtocol {
     func showSearchResults(with inputText: String) {
         self.filteredCategories = categories.map { category in
             let filtredTrackers = category.trackers.filter { $0.title.localizedCaseInsensitiveContains(inputText) }
-            return TrackerCategory(
-                title: filtredTrackers.isEmpty ? "" : category.title,
-                trackers: filtredTrackers
-            )
+            return  TrackerCategory(title: category.title, trackers: filtredTrackers)
         }
+        filteredCategories.removeAll { $0.trackers.isEmpty }
+
         render(reloadData: true)
     }
     
@@ -119,7 +124,6 @@ extension TrackersPresenter: TrackersPresenterProtocol {
             return filteredTrackers.isEmpty ? nil : TrackerCategory(title: $0.title, trackers: filteredTrackers)
         }
         
-        render()
-        self.filteredCategories = []
+        render(reloadData: true)
     }
 }
