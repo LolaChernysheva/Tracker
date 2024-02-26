@@ -56,21 +56,28 @@ final class TrackersPresenter {
         let sections: [TrackersScreenModel.CollectionData.Section] = categories.map { category in
             let cells: [TrackersScreenModel.CollectionData.Cell] = category.trackers.map { tracker in
                 let isCompleted = self.completedTrackers.contains { $0.id == tracker.id }
+                var daysCount = completedTrackers.filter({$0.id == tracker.id}).count
                 return .trackerCell(TrackerCollectionViewCellViewModel(
                     emoji: tracker.emogi,
                     title: tracker.title,
                     isPinned: false, //MARK: - TODO
-                    daysCount: 5, //MARK: -TODO
+                    daysCount: daysCount,
                     color: tracker.color,
                     doneButtonHandler: { [ weak self ] in
                         guard let self, let view = view
                         else { return }
+                        if view.currentDate > Date() {
+                            view.showCompleteTrackerErrorAlert()
+                            return
+                        }
                         let trackerId = tracker.id
-                        if let index = completedTrackers.firstIndex(where: { $0.id == trackerId }) {
+                        if let index = completedTrackers.firstIndex(where: { $0.id == trackerId && $0.date == view.currentDate }) {
                             completedTrackers.remove(at: index)
+                            daysCount -= 1
                         
                         } else {
                             completedTrackers.append(.init(id: trackerId, date: view.currentDate))
+                            daysCount += 1
                         }
                         DispatchQueue.main.async {
                             self.render(reloadData: true)

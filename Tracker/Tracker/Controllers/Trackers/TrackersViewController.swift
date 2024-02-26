@@ -14,6 +14,7 @@ protocol TrackersViewProtocol: AnyObject {
     var currentDate: Date { get }
     func displayData(model: TrackersScreenModel, reloadData: Bool)
     func showCreateController(viewController: UIViewController)
+    func showCompleteTrackerErrorAlert()
 }
 
 final class TrackersViewController: UIViewController {
@@ -210,6 +211,14 @@ extension TrackersViewController: TrackersViewProtocol {
     func showCreateController(viewController: UIViewController) {
         let nc = UINavigationController(rootViewController: viewController)
         navigationController?.present(nc, animated: true)
+    }
+    
+    func showCompleteTrackerErrorAlert() {
+        let alertController = UIAlertController(
+            title: "Ой", message: "Давай сфокусируемся на сегодняшнем дне", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        alertController.addAction(okAction)
+        present(alertController, animated: true)
     }
 }
 
