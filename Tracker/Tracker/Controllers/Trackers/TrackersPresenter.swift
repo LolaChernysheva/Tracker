@@ -43,7 +43,7 @@ final class TrackersPresenter {
     private func buildScreenModel() -> TrackersScreenModel {
         var categories = [TrackerCategory]()
         if let view,
-           view.isFiltering {
+           view.isFiltering  || view.isSearching {
             categories = filteredCategories
         } else {
             categories = self.categories
@@ -101,7 +101,10 @@ extension TrackersPresenter: TrackersPresenterProtocol {
     func showSearchResults(with inputText: String) {
         self.filteredCategories = categories.map { category in
             let filtredTrackers = category.trackers.filter { $0.title.localizedCaseInsensitiveContains(inputText) }
-            return TrackerCategory(title: category.title, trackers: filtredTrackers)
+            return TrackerCategory(
+                title: filtredTrackers.isEmpty ? "" : category.title,
+                trackers: filtredTrackers
+            )
         }
         render(reloadData: true)
     }

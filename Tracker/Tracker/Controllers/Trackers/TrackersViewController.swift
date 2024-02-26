@@ -289,6 +289,8 @@ extension TrackersViewController: UISearchResultsUpdating {
         guard let searchText = searchController.searchBar.text else { return }
         if isSearching {
             presenter.showSearchResults(with: searchText)
+        } else {
+            presenter.showSearchResults(with: "")
         }
     }
 }
