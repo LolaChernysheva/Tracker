@@ -11,6 +11,7 @@ import UIKit
 protocol TrackersViewProtocol: AnyObject {
     var isFiltering: Bool { get }
     var isSearching: Bool { get }
+    var currentDate: Date { get }
     func displayData(model: TrackersScreenModel, reloadData: Bool)
     func showCreateController(viewController: UIViewController)
 }
@@ -50,7 +51,7 @@ final class TrackersViewController: UIViewController {
             return text.isEmpty
     }
     
-    private var selectedDate: Date = Date()
+    var currentDate: Date = Date()
     
     //MARK: - life cycle methods
     
@@ -67,7 +68,7 @@ final class TrackersViewController: UIViewController {
         filtersButton.setTitle(model.filtersButtonTitle, for: .normal)
         filtersButton.backgroundColor = Assets.Colors.launchBlue
         backgroundView.state = model.emptyState
-        datePicker.date = selectedDate
+        datePicker.date = currentDate
     }
     
     private func configureView() {
@@ -190,8 +191,8 @@ final class TrackersViewController: UIViewController {
     
     @objc private func datePickerValueChanged(_ sender: UIDatePicker) {
         isFiltering = true
-        selectedDate = sender.date
-        presenter.filterTrackers(for: selectedDate)
+        currentDate = sender.date
+        presenter.filterTrackers(for: currentDate)
         updateBackgroundViewVisiability()
     }
 }

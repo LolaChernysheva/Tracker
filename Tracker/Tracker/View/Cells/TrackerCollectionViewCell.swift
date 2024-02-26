@@ -14,7 +14,8 @@ struct TrackerCollectionViewCellViewModel {
     var isPinned: Bool?
     var daysCount: Int?
     var color: UIColor?
-    var doneButtonHandler: TrackerCollectionViewCell.ActionClousure?
+    var doneButtonHandler: TrackerCollectionViewCell.ActionClousure
+    var isCompleted: Bool
     
     init(
         emoji: String?,
@@ -22,13 +23,16 @@ struct TrackerCollectionViewCellViewModel {
         isPinned: Bool?,
         daysCount: Int?,
         color: UIColor?,
-        doneButtonHandler: TrackerCollectionViewCell.ActionClousure?) {
+        doneButtonHandler: @escaping TrackerCollectionViewCell.ActionClousure,
+        isCompleted: Bool
+    ) {
         self.emoji = emoji
         self.title = title
         self.isPinned = isPinned
         self.daysCount = daysCount
         self.color = color
         self.doneButtonHandler = doneButtonHandler
+        self.isCompleted = isCompleted
     }
 }
 
@@ -45,7 +49,7 @@ class TrackerCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var daysCountLabel: UILabel!
     @IBOutlet weak var doneButton: UIButton!
     
-    private var doneAction: ActionClousure?
+    private var doneAction: ActionClousure = {}
     
     var viewModel: TrackerCollectionViewCellViewModel? {
         didSet {
@@ -73,6 +77,9 @@ class TrackerCollectionViewCell: UICollectionViewCell {
         doneButton.setTitle("", for: .normal)
         doneButton.tintColor = viewModel.color
         pinImageView.isHidden = false
+
+        let buttonImage = viewModel.isCompleted ? UIImage(systemName: "checkmark") : UIImage(systemName: "plus")
+        doneButton.setImage(buttonImage, for: .normal)
         
         setupEmogiLabel()
     }
@@ -86,5 +93,8 @@ class TrackerCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         setup()
+    }
+    @IBAction func doneButtonAction(_ sender: Any) {
+        doneAction()
     }
 }

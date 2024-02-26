@@ -52,23 +52,38 @@ final class TrackersPresenter {
         } else {
             categories = self.categories
         }
+        
         let sections: [TrackersScreenModel.CollectionData.Section] = categories.map { category in
             let cells: [TrackersScreenModel.CollectionData.Cell] = category.trackers.map { tracker in
+                let isCompleted = self.completedTrackers.contains { $0.id == tracker.id }
                 return .trackerCell(TrackerCollectionViewCellViewModel(
                     emoji: tracker.emogi,
                     title: tracker.title,
                     isPinned: false, //MARK: - TODO
                     daysCount: 5, //MARK: -TODO
                     color: tracker.color,
-                    doneButtonHandler: {
-                        //MARK: - TODO
-                    }))
+                    doneButtonHandler: { [ weak self ] in
+                        guard let self, let view = view
+                        else { return }
+                        let trackerId = tracker.id
+                        if let index = completedTrackers.firstIndex(where: { $0.id == trackerId }) {
+                            completedTrackers.remove(at: index)
+                        
+                        } else {
+                            completedTrackers.append(.init(id: trackerId, date: view.currentDate))
+                        }
+                        DispatchQueue.main.async {
+                            self.render(reloadData: true)
+                        }
+                    },
+                    isCompleted: isCompleted)
+                )
             }
             return .headeredSection(header: category.title, cells: cells)
         }
         
         return TrackersScreenModel (
-            title: "Трекеры", 
+            title: "Трекеры",
             emptyState: backgroundState(),
             collectionData: .init(sections: sections),
             filtersButtonTitle: "Фильтры",
