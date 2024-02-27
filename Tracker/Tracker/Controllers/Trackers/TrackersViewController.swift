@@ -171,7 +171,6 @@ final class TrackersViewController: UIViewController {
     }
     
     private func updateBackgroundViewVisiability() {
-        
         backgroundView.isHidden = !presenter.shouldShowBackgroundView
         collectionView.isHidden = presenter.shouldShowBackgroundView
 

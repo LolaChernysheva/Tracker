@@ -21,20 +21,11 @@ final class TrackersPresenter {
     
     weak var view: TrackersViewProtocol?
     
-    var categories: [TrackerCategory] = [
-               .init(title: "Домашний уют", trackers: [
-                .init(id: UUID(), title: "Поливать растения", color: .herbalGreen, emogi: "❤️", schedule: .init(weekdays: [.tuesday, .wednesday, .thursday, .friday, .saturday, .sunday]))
-               ]),
-               .init(title: "Радостные мелочи", trackers: [
-                .init(id: UUID(), title: "Кошка заслонила камеру на созвоне", color: .tartOrange, emogi: "😻", schedule: .init(weekdays: [.thursday])),
-                   .init(id: UUID(), title: "Бабушка прислала открытку в вотсапе", color: .carrot, emogi: "🌺", schedule:  .init(weekdays: [.tuesday])),
-                   .init(id: UUID(), title: "Свидания в апреле", color: .cornflowerBlue, emogi: "❤️", schedule: .init(weekdays: [.wednesday]))
-               ])
-        ]
+    var categories: [TrackerCategory] = []
     
     var shouldShowBackgroundView: Bool {
         guard let view = view else { return false }
-        return (view.isSearching || view.isFiltering) && filteredCategories.isEmpty
+        return ((view.isSearching || view.isFiltering) && filteredCategories.isEmpty) || categories.isEmpty
     }
     
     private var completedTrackers: [TrackerRecord] = []

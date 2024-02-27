@@ -46,7 +46,7 @@ final class SchedulePresenter {
                     let day = $0.toModelWeekday
                     return .switchCell(.init(
                         text: $0.rawValue,
-                        isOn: selectedDays.contains(day), //TODO: -
+                        isOn: selectedDays.contains(day),
                         onChange: { [ weak self ] isOn in
                             guard let self else { return }
                             if isOn {

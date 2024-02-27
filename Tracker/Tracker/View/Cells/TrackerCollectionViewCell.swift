@@ -71,7 +71,7 @@ class TrackerCollectionViewCell: UICollectionViewCell {
         emojiLabel?.text = viewModel.emoji
         titleLabel?.text = viewModel.title
         pinImageView.isHidden = !(viewModel.isPinned ?? false)
-        daysCountLabel.text = "\(viewModel.daysCount ?? 0) дней" //MARK: - TODO
+        daysCountLabel.text = "\(viewModel.daysCount ?? 0) дней"
         containerView.backgroundColor = viewModel.color
         doneAction = viewModel.doneButtonHandler
         doneButton.setTitle("", for: .normal)

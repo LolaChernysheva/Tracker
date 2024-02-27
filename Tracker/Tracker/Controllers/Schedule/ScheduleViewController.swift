@@ -49,7 +49,6 @@ final class ScheduleViewController: UIViewController {
         tableView.register(SwitchCell.self, forCellReuseIdentifier: SwitchCell.reuseIdentifier)
         tableView.register(LabledCell.self, forCellReuseIdentifier: LabledCell.reuseIdentifier)
         tableView.backgroundColor = .background
-        tableView.allowsSelection = false
     }
     
     private func setupTableViewConstraints() {
@@ -109,6 +108,7 @@ extension ScheduleViewController: UITableViewDataSource {
         case let .switchCell(model):
             guard let switchCell = tableView.dequeueReusableCell(withIdentifier: SwitchCell.reuseIdentifier, for: indexPath) as? SwitchCell else { return UITableViewCell() }
             switchCell.viewModel = model
+            switchCell.selectionStyle = .none
             cell = switchCell
         case let .labledCell(model):
             guard let labledCell = tableView.dequeueReusableCell(withIdentifier: LabledCell.reuseIdentifier, for: indexPath) as? LabledCell else { return UITableViewCell() }
