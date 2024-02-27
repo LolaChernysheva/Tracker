@@ -28,6 +28,7 @@ final class CreateActivityPresenter {
     private var enteredActivityName: String = ""
     private var enteredEmogi: String = ""
     private var enteredColor: UIColor = .clear
+    private var enteredSchedule: Schedule = .init(weekdays: [])
     
     var onSave: (Tracker) -> Void
    
@@ -133,7 +134,10 @@ final class CreateActivityPresenter {
     }
     
     private func showSchedule() {
-        let vc = Assembler.buildScheduleModule()
+        let vc = Assembler.buildScheduleModule() { [ weak self ] scedule in
+            guard let self else { return }
+            self.enteredSchedule = scedule
+        }
         view?.showController(vc: vc)
     }
 }
@@ -149,7 +153,7 @@ extension CreateActivityPresenter: CreateActivityPresenterProtocol {
             title: enteredActivityName,
             color: enteredColor,
             emogi: enteredEmogi,
-            schedule: .init(weekdays: [.friday]) //MARK: - todo
+            schedule: enteredSchedule
         )
         
        onSave(tracker)

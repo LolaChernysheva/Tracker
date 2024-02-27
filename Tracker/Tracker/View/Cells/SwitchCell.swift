@@ -11,7 +11,7 @@ import UIKit
 struct SwitchCellViewModel {
     let text: String?
     let isOn: Bool?
-    let onChange: SwitchCell.SwitchClousure?
+    let onChange: SwitchCell.SwitchClousure
 }
 
 final class SwitchCell: UITableViewCell {
@@ -69,6 +69,11 @@ final class SwitchCell: UITableViewCell {
     
     private func setupToggle() {
         uiSwitch.onTintColor = .control
+        uiSwitch.addTarget(self, action: #selector(onChange), for: .valueChanged)
     }
     
+    @objc private func onChange() {
+        guard let viewModel = viewModel else { return }
+        viewModel.onChange(uiSwitch.isOn)
+    }
 }

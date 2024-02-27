@@ -20,16 +20,21 @@ enum WeekDay: String {
 
 protocol SchedulePresenterProtocol: AnyObject {
     func setup()
+    func saveSchedule()
 }
 
 final class SchedulePresenter {
     
     weak var view: ScheduleViewProtocol?
     
-    private var days: [WeekDay] = [.monday, .thusday, .wednesday, .thursday, .friday, .saturday, .sunday]
+    var onSave: (Schedule) -> Void
     
-    init(view: ScheduleViewProtocol) {
+    private var days: [WeekDay] = [.monday, .thusday, .wednesday, .thursday, .friday, .saturday, .sunday]
+    private var selectedDays: [Weekday] = []
+    
+    init(view: ScheduleViewProtocol, onSave: @escaping (Schedule) -> Void) {
         self.view = view
+        self.onSave = onSave
     }
     
     private func buildScreenModel() -> ScheduleScreenModel {
@@ -37,10 +42,16 @@ final class SchedulePresenter {
             title: "Расписание",
             tableData: .init(sections: [
                 .simple(cells: days.map({
-                    .switchCell(.init(
+                    let day = $0.toModelWeekday
+                    return .switchCell(.init(
                         text: $0.rawValue,
                         isOn: false, //TODO: -
-                        onChange: {_ in}))  //TODO: -
+                        onChange: { [ weak self ] isOn in
+                            guard let self else { return }
+                            if isOn {
+                                self.selectedDays.append(day)
+                            } //MARK: - TODO - remove days when !isOn
+                        }))
                 })),
                 .simple(cells: [.labledCell(.init(title: "Готово"))])
             ])
@@ -55,5 +66,24 @@ final class SchedulePresenter {
 extension SchedulePresenter: SchedulePresenterProtocol {
     func setup() {
         render()
+    }
+    
+    func saveSchedule() {
+        let schedule = Schedule(weekdays: selectedDays)
+        onSave(schedule)
+    }
+}
+
+extension WeekDay {
+    var toModelWeekday: Weekday {
+        switch self {
+        case .monday: return .monday
+        case .thusday: return .tuesday
+        case .wednesday: return .wednesday
+        case .thursday: return .thursday
+        case .friday: return .friday
+        case .saturday: return .saturday
+        case .sunday: return .sunday
+        }
     }
 }
