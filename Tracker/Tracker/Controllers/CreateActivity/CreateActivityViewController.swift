@@ -51,6 +51,7 @@ final class CreateActivityViewController: UIViewController {
     private func configureView() {
         configureStackView()
         setupTableView()
+        navigationItem.hidesBackButton = true
     }
     
     private func setupTableView() {

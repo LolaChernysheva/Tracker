@@ -134,7 +134,7 @@ final class CreateActivityPresenter {
     }
     
     private func showSchedule() {
-        let vc = Assembler.buildScheduleModule() { [ weak self ] scedule in
+        let vc = Assembler.buildScheduleModule(selectedDays: enteredSchedule.weekdays) { [ weak self ] scedule in
             guard let self else { return }
             self.enteredSchedule = scedule
         }

@@ -38,9 +38,9 @@ final class Assembler: AssemblerProtocol {
         return createTrackerViewController
     }
     
-    static func buildScheduleModule(onSave: @escaping (Schedule) -> Void) -> UIViewController {
+    static func buildScheduleModule(selectedDays: Set<Weekday>, onSave: @escaping (Schedule) -> Void) -> UIViewController {
         let vc = ScheduleViewController()
-        let presenter = SchedulePresenter(view: vc, onSave: onSave)
+        let presenter = SchedulePresenter(view: vc, selectedDays: selectedDays, onSave: onSave)
         vc.presenter = presenter
         return vc
     }

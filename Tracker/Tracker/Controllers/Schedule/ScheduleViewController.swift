@@ -40,6 +40,7 @@ final class ScheduleViewController: UIViewController {
         setupTableView()
         setupTableViewConstraints()
         view.backgroundColor = .background
+        navigationItem.hidesBackButton = true
     }
     
     private func setupTableView() {
@@ -48,6 +49,7 @@ final class ScheduleViewController: UIViewController {
         tableView.register(SwitchCell.self, forCellReuseIdentifier: SwitchCell.reuseIdentifier)
         tableView.register(LabledCell.self, forCellReuseIdentifier: LabledCell.reuseIdentifier)
         tableView.backgroundColor = .background
+        tableView.allowsSelection = false
     }
     
     private func setupTableViewConstraints() {

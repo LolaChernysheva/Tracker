@@ -32,8 +32,9 @@ final class SchedulePresenter {
     private var days: [WeekDay] = [.monday, .thusday, .wednesday, .thursday, .friday, .saturday, .sunday]
     private var selectedDays: Set<Weekday> = []
     
-    init(view: ScheduleViewProtocol, onSave: @escaping (Schedule) -> Void) {
+    init(view: ScheduleViewProtocol, selectedDays: Set<Weekday>, onSave: @escaping (Schedule) -> Void) {
         self.view = view
+        self.selectedDays = selectedDays
         self.onSave = onSave
     }
     
@@ -45,12 +46,14 @@ final class SchedulePresenter {
                     let day = $0.toModelWeekday
                     return .switchCell(.init(
                         text: $0.rawValue,
-                        isOn: false, //TODO: -
+                        isOn: selectedDays.contains(day), //TODO: -
                         onChange: { [ weak self ] isOn in
                             guard let self else { return }
                             if isOn {
                                 self.selectedDays.insert(day)
-                            } //MARK: - TODO - remove days when !isOn
+                            } else {
+                                self.selectedDays.remove(day)
+                            }
                         }))
                 })),
                 .simple(cells: [.labledCell(.init(title: "Готово"))])
