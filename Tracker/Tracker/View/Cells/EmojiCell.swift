@@ -66,6 +66,6 @@ class EmogiCell: UICollectionViewCell {
 
 private extension CGFloat {
     static let fontSize = 32.0
-    static let emogiWidth = 32.0
+    static let emogiWidth = 34.0
     static let emogiHeight = 34.0
 }
