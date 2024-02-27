@@ -79,6 +79,7 @@ class TrackerCollectionViewCell: UICollectionViewCell {
         pinImageView.isHidden = false
 
         let buttonImage = viewModel.isCompleted ? UIImage(systemName: "checkmark") : UIImage(systemName: "plus")
+        doneButton.alpha = viewModel.isCompleted ? 0.3 : 1
         doneButton.setImage(buttonImage, for: .normal)
         
         setupEmogiLabel()

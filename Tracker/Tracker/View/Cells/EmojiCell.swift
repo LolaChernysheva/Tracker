@@ -53,6 +53,7 @@ class EmogiCell: UICollectionViewCell {
     
     private func setup() {
         emogiLabel.text = viewModel.emogi
+        emogiLabel.textAlignment = .center
         if viewModel.isSelectedEmoji {
             backgroundColor = .selected
             layer.cornerRadius = 16
@@ -66,5 +67,5 @@ class EmogiCell: UICollectionViewCell {
 private extension CGFloat {
     static let fontSize = 32.0
     static let emogiWidth = 32.0
-    static let emogiHeight = 32.0
+    static let emogiHeight = 34.0
 }
