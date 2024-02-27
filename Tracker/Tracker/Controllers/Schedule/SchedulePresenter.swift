@@ -30,7 +30,7 @@ final class SchedulePresenter {
     var onSave: (Schedule) -> Void
     
     private var days: [WeekDay] = [.monday, .thusday, .wednesday, .thursday, .friday, .saturday, .sunday]
-    private var selectedDays: [Weekday] = []
+    private var selectedDays: Set<Weekday> = []
     
     init(view: ScheduleViewProtocol, onSave: @escaping (Schedule) -> Void) {
         self.view = view
@@ -49,7 +49,7 @@ final class SchedulePresenter {
                         onChange: { [ weak self ] isOn in
                             guard let self else { return }
                             if isOn {
-                                self.selectedDays.append(day)
+                                self.selectedDays.insert(day)
                             } //MARK: - TODO - remove days when !isOn
                         }))
                 })),

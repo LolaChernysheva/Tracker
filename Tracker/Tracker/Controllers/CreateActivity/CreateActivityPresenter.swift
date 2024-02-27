@@ -111,9 +111,9 @@ final class CreateActivityPresenter {
             subtitle: "", //MARK: - TODO
         action: {}))
         
-        let scheduleCell: TableData.Cell = .detailCell(.init(
+        let scheduleCell: TableData.Cell = .detailCell(SubtitledDetailTableViewCellViewModel(
             title: "Расписание",
-            subtitle: "", //MARK: - TODO
+            subtitle: createScheduleDetailInfo(),
         action: { [ weak self ] in
             guard let self else { return }
             self.showSchedule()
@@ -139,6 +139,22 @@ final class CreateActivityPresenter {
             self.enteredSchedule = scedule
         }
         view?.showController(vc: vc)
+    }
+    
+    private func createScheduleDetailInfo() -> String {
+        let weekdays = enteredSchedule.weekdays
+        let sortedWeekdays = weekdays.sorted(by: { $0.rawValue < $1.rawValue })
+        
+        switch weekdays.count {
+        case 7:
+            return "Каждый день"
+        case 5 where !weekdays.contains(.saturday) && !weekdays.contains(.sunday):
+            return "Будние"
+        case 2 where weekdays.contains(.saturday) && weekdays.contains(.sunday):
+            return "Выходные"
+        default:
+            return sortedWeekdays.map { $0.shortName }.joined(separator: ", ")
+        }
     }
 }
 

@@ -36,6 +36,11 @@ final class CreateActivityViewController: UIViewController {
         configureView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        presenter.setup()
+    }
+    
     private func setup() {
         title = screenModel.title
         view.backgroundColor = .background

@@ -22,7 +22,11 @@ final class SubtitledDetailTableViewCell: UITableViewCell {
     static let reuseIdentifier = "SubtitledDetailTableViewCell"
     
     let titleLabel = UILabel()
-    let subtitleLabel = UILabel()
+    let subtitleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .subtitleText
+        return label
+    }()
     let stackView = UIStackView()
     
     private var onTapAction: (() -> Void?)? = nil
@@ -49,6 +53,8 @@ final class SubtitledDetailTableViewCell: UITableViewCell {
         backgroundColor = .cellBackground
         if viewModel.subtitle == nil || viewModel.subtitle == "" {
             subtitleLabel.removeFromSuperview()
+        } else if subtitleLabel.superview == nil {
+            stackView.addArrangedSubview(subtitleLabel)
         }
         titleLabel.text = viewModel.title
         subtitleLabel.text = viewModel.subtitle

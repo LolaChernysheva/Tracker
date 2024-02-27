@@ -35,6 +35,7 @@ struct Assets {
         static let background = UIColor(named: "Background")
         static let navBarItem = UIColor(named: "NavigationBarItem")
         static let buttons = UIColor(named: "Buttons")
+        static let subtitle = UIColor(named: "subtitleText")
     }
     
     struct Images {
