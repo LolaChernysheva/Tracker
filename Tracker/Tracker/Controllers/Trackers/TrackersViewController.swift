@@ -52,7 +52,11 @@ final class TrackersViewController: UIViewController {
             return text.isEmpty
     }
     
-    var currentDate: Date = Date()
+    var currentDate: Date = {
+        let calendar = Calendar.current
+        let date = calendar.startOfDay(for: Date())
+        return date
+    }()
     
     //MARK: - life cycle methods
 

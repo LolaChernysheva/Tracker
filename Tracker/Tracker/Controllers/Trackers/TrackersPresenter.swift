@@ -28,7 +28,7 @@ final class TrackersPresenter {
         return ((view.isSearching || view.isFiltering) && filteredCategories.isEmpty) || categories.isEmpty
     }
     
-    private var completedTrackers: [TrackerRecord] = []
+    private var completedTrackers: Set<TrackerRecord> = []
     private var filteredCategories = [TrackerCategory]()
     
     init(view: TrackersViewProtocol) {
@@ -45,8 +45,10 @@ final class TrackersPresenter {
         }
         
         let sections: [TrackersScreenModel.CollectionData.Section] = categories.map { category in
-            let cells: [TrackersScreenModel.CollectionData.Cell] = category.trackers.map { tracker in
-                let isCompleted = self.completedTrackers.contains { $0.id == tracker.id }
+            let cells: [TrackersScreenModel.CollectionData.Cell] = category.trackers.compactMap { tracker in
+                guard let view else { return nil }
+                let trackerRecord = TrackerRecord(id: tracker.id, date: view.currentDate)
+                let isCompleted = self.completedTrackers.contains(trackerRecord)
                 var daysCount = completedTrackers.filter({$0.id == tracker.id}).count
                 return .trackerCell(TrackerCollectionViewCellViewModel(
                     emoji: tracker.emogi,
@@ -55,20 +57,16 @@ final class TrackersPresenter {
                     daysCount: daysCount,
                     color: tracker.color,
                     doneButtonHandler: { [ weak self ] in
-                        guard let self, let view = view
-                        else { return }
+                        guard let self else { return }
                         if view.currentDate > Date() {
                             view.showCompleteTrackerErrorAlert()
                             return
-                        }
-                        let trackerId = tracker.id
-                        if let index = completedTrackers.firstIndex(where: { $0.id == trackerId && $0.date == view.currentDate }) {
-                            completedTrackers.remove(at: index)
-                            daysCount -= 1
-                        
                         } else {
-                            completedTrackers.append(.init(id: trackerId, date: view.currentDate))
-                            daysCount += 1
+                            if completedTrackers.contains(trackerRecord) {
+                                completedTrackers.remove(trackerRecord)
+                            } else {
+                                completedTrackers.insert(trackerRecord)
+                            }
                         }
                         DispatchQueue.main.async {
                             self.render(reloadData: true)
