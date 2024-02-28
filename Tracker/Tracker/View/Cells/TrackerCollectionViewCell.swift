@@ -85,6 +85,7 @@ class TrackerCollectionViewCell: UICollectionViewCell {
     private func setupTitleLabel() {
         guard let viewModel else { return }
         titleLabel?.text = viewModel.title
+        titleLabel.numberOfLines = 2
     }
     
     private func setupPinImageView() {
