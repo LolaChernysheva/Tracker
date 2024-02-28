@@ -21,8 +21,18 @@ final class TrackersPresenter {
     
     weak var view: TrackersViewProtocol?
     
-    var categories: [TrackerCategory] = []
-    
+    var categories: [TrackerCategory] = [
+        .init(title: "Ыщьыоы", trackers: [
+            .init(id: UUID(), title: "jhhjjhhjjhhjjhhjjhhjjhhjjhhjjhhjjhhj", color: .azure, emogi: "🥳", schedule: .init(weekdays: [.friday])),
+            .init(id: UUID(), title: "jhhj", color: .azure, emogi: "🥳", schedule: .init(weekdays: [.friday])),
+            .init(id: UUID(), title: "jhhj", color: .azure, emogi: "🥳", schedule: .init(weekdays: [.friday])),
+        ]),
+        .init(title: "Ыщьыоы", trackers: [
+            .init(id: UUID(), title: "jhhj", color: .azure, emogi: "🥳", schedule: .init(weekdays: [.friday])),
+            .init(id: UUID(), title: "jhhj", color: .azure, emogi: "🥳", schedule: .init(weekdays: [.friday])),
+            .init(id: UUID(), title: "jhhj", color: .azure, emogi: "🥳", schedule: .init(weekdays: [.friday])),
+        ])
+    ]
     var shouldShowBackgroundView: Bool {
         guard let view = view else { return false }
         return ((view.isSearching || view.isFiltering) && filteredCategories.isEmpty) || categories.isEmpty

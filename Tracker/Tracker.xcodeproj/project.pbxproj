@@ -43,8 +43,8 @@
 		F3C347A52B77C93400AF9272 /* TrackerRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C347A42B77C93400AF9272 /* TrackerRecord.swift */; };
 		F3C347A82B7901FB00AF9272 /* TrackerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C347A62B7901FB00AF9272 /* TrackerCollectionViewCell.swift */; };
 		F3C347A92B7901FB00AF9272 /* TrackerCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F3C347A72B7901FB00AF9272 /* TrackerCollectionViewCell.xib */; };
-		F3DA2A6F2B8F1D0300B8CCD1 /* YS-Display-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3DA2A6D2B8F1D0300B8CCD1 /* YS-Display-Medium.ttf */; };
-		F3DA2A702B8F1D0300B8CCD1 /* YS-Display-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3DA2A6E2B8F1D0300B8CCD1 /* YS-Display-Bold.ttf */; };
+		F3DA2A6F2B8F1D0300B8CCD1 /* YS-Display-Medium in Resources */ = {isa = PBXBuildFile; fileRef = F3DA2A6D2B8F1D0300B8CCD1 /* YS-Display-Medium */; };
+		F3DA2A702B8F1D0300B8CCD1 /* YS-Display-Bold in Resources */ = {isa = PBXBuildFile; fileRef = F3DA2A6E2B8F1D0300B8CCD1 /* YS-Display-Bold */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -86,8 +86,8 @@
 		F3C347A42B77C93400AF9272 /* TrackerRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecord.swift; sourceTree = "<group>"; };
 		F3C347A62B7901FB00AF9272 /* TrackerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCollectionViewCell.swift; sourceTree = "<group>"; };
 		F3C347A72B7901FB00AF9272 /* TrackerCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrackerCollectionViewCell.xib; sourceTree = "<group>"; };
-		F3DA2A6D2B8F1D0300B8CCD1 /* YS-Display-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS-Display-Medium.ttf"; sourceTree = "<group>"; };
-		F3DA2A6E2B8F1D0300B8CCD1 /* YS-Display-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS-Display-Bold.ttf"; sourceTree = "<group>"; };
+		F3DA2A6D2B8F1D0300B8CCD1 /* YS-Display-Medium */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS-Display-Medium"; sourceTree = "<group>"; };
+		F3DA2A6E2B8F1D0300B8CCD1 /* YS-Display-Bold */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS-Display-Bold"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -234,8 +234,8 @@
 		F3C3479A2B77BB9D00AF9272 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				F3DA2A6E2B8F1D0300B8CCD1 /* YS-Display-Bold.ttf */,
-				F3DA2A6D2B8F1D0300B8CCD1 /* YS-Display-Medium.ttf */,
+				F3DA2A6E2B8F1D0300B8CCD1 /* YS-Display-Bold */,
+				F3DA2A6D2B8F1D0300B8CCD1 /* YS-Display-Medium */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -327,8 +327,8 @@
 			files = (
 				F3C3477B2B766F1800AF9272 /* LaunchScreen.storyboard in Resources */,
 				F3C347782B766F1800AF9272 /* Assets.xcassets in Resources */,
-				F3DA2A702B8F1D0300B8CCD1 /* YS-Display-Bold.ttf in Resources */,
-				F3DA2A6F2B8F1D0300B8CCD1 /* YS-Display-Medium.ttf in Resources */,
+				F3DA2A702B8F1D0300B8CCD1 /* YS-Display-Bold in Resources */,
+				F3DA2A6F2B8F1D0300B8CCD1 /* YS-Display-Medium in Resources */,
 				F3C347A92B7901FB00AF9272 /* TrackerCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
