@@ -55,7 +55,7 @@ final class TrackersViewController: UIViewController {
     var currentDate: Date = Date()
     
     //MARK: - life cycle methods
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter.setup()
@@ -69,6 +69,7 @@ final class TrackersViewController: UIViewController {
         filtersButton.setTitle(model.filtersButtonTitle, for: .normal)
         filtersButton.backgroundColor = Assets.Colors.launchBlue
         backgroundView.state = model.emptyState
+        updateBackgroundViewVisiability()
         datePicker.date = currentDate
     }
     

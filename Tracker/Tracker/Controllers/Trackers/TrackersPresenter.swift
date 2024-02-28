@@ -90,9 +90,10 @@ final class TrackersPresenter {
     }
     
     private func backgroundState() -> BackgroundView.BackgroundState {
+        guard let view = view else { return .empty }
         if categories.isEmpty {
             return .trackersDoNotExist
-        } else if filteredCategories.isEmpty {
+        } else if ((view.isSearching || view.isFiltering) && filteredCategories.isEmpty){
             return .emptySearchResult
         } else {
             return .empty
