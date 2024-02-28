@@ -64,31 +64,57 @@ class TrackerCollectionViewCell: UICollectionViewCell {
     }
 
     private func setup() {
+        setupPinImageView()
+        setupTitleLabel()
+        setupDaysContLabel()
+        setupContainerView()
+        setupDoneButton()
+        setupEmogiLabel()
+    }
+    
+    private func setupContainerView() {
+        guard let viewModel else { return }
+        containerView.backgroundColor = viewModel.color
+    }
+    
+    private func setupDaysContLabel() {
+        guard let viewModel else { return }
+        daysCountLabel.text = "\(viewModel.daysCount ?? 0) дней"
+    }
+    
+    private func setupTitleLabel() {
+        guard let viewModel else { return }
+        titleLabel?.text = viewModel.title
+    }
+    
+    private func setupPinImageView() {
         guard let viewModel else { return }
         if viewModel.isPinned == false {
             pinImageView.isHidden = true
         }
-        emojiLabel?.text = viewModel.emoji
-        titleLabel?.text = viewModel.title
         pinImageView.isHidden = !(viewModel.isPinned ?? false)
-        daysCountLabel.text = "\(viewModel.daysCount ?? 0) дней"
-        containerView.backgroundColor = viewModel.color
-        doneAction = viewModel.doneButtonHandler
-        doneButton.setTitle("", for: .normal)
-        doneButton.tintColor = viewModel.color
-        pinImageView.isHidden = false
-
-        let buttonImage = viewModel.isCompleted ? UIImage(systemName: "checkmark") : UIImage(systemName: "plus")
-        doneButton.alpha = viewModel.isCompleted ? 0.3 : 1
-        doneButton.setImage(buttonImage, for: .normal)
-        
-        setupEmogiLabel()
+       
     }
-    
     private func setupEmogiLabel() {
+        guard let viewModel else { return }
+        emojiLabel?.text = viewModel.emoji
         emojiLabel.layer.cornerRadius = emojiLabel.frame.width / 2
         emojiLabel.clipsToBounds = true
         emojiLabel.backgroundColor = .background.withAlphaComponent(0.3)
+    }
+    
+    private func setupDoneButton() {
+        guard let viewModel else { return }
+        let buttonImage = viewModel.isCompleted ? Assets.Images.done: Assets.Images.plus
+        doneButton.setImage(buttonImage, for: .normal)
+        doneButton.setTitle("", for: .normal)
+        doneButton.tintColor = viewModel.color
+        doneButton.alpha = viewModel.isCompleted ? 0.3 : 1
+        
+        doneButton.layer.cornerRadius = doneButton.frame.width / 2
+        doneButton.clipsToBounds = true
+        
+        doneAction = viewModel.doneButtonHandler
     }
     
     override func prepareForReuse() {

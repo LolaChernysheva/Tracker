@@ -80,13 +80,7 @@
                             <constraint firstAttribute="width" constant="34" id="aV4-qg-Htq"/>
                         </constraints>
                         <state key="normal" title="Button"/>
-                        <buttonConfiguration key="configuration" style="filled" image="plus" catalog="system"/>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                <integer key="value" value="15"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
-                        </userDefinedRuntimeAttributes>
+                        <buttonConfiguration key="configuration" style="filled" image="TrackerPlus"/>
                         <connections>
                             <action selector="doneButtonAction:" destination="gTV-IL-0wX" eventType="touchUpInside" id="eTq-eV-7ay"/>
                         </connections>
@@ -116,7 +110,7 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="plus" catalog="system" width="128" height="113"/>
+        <image name="TrackerPlus" width="42" height="42"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

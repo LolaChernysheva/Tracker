@@ -46,6 +46,8 @@ enum Assets {
             
         }
         static let logo = UIImage(named: "Logo")
+        static let done = UIImage(named: "TrackerDone")
+        static let plus = UIImage(named: "TrackerPlus")
     }
     
     enum Fonts {
