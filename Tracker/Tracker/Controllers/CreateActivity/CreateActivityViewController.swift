@@ -11,6 +11,7 @@ import UIKit
 protocol CreateActivityViewProtocol: AnyObject {
     func displayData(screenModel: CreateActivityScreenModel, reloadTableData: Bool)
     func showController(vc: UIViewController)
+    func updateSaveButton(isEnabled: Bool)
 }
 
 final class CreateActivityViewController: UIViewController {
@@ -46,6 +47,7 @@ final class CreateActivityViewController: UIViewController {
         view.backgroundColor = .background
         createButton.setTitle(screenModel.createButtonTitle, for: .normal)
         cancelButton.setTitle(screenModel.cancelButtonTitle, for: .normal)
+        updateSaveButton(isEnabled: presenter.isSaveEnabled)
     }
     
     private func configureView() {
@@ -159,6 +161,11 @@ extension CreateActivityViewController: CreateActivityViewProtocol {
     
     func showController(vc: UIViewController) {
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func updateSaveButton(isEnabled: Bool) {
+        createButton.isEnabled = isEnabled
+        createButton.alpha = isEnabled ? 1.0 : 0.5
     }
 }
 

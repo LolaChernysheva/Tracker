@@ -14,24 +14,43 @@ enum CreateActivityState {
 }
 
 protocol CreateActivityPresenterProtocol: AnyObject {
+    var isSaveEnabled: Bool { get }
     func setup()
     func createActivity()
 }
 
 final class CreateActivityPresenter {
-
+    
     typealias TableData = CreateActivityScreenModel.TableData
     
     weak var view: CreateActivityViewProtocol?
     
-    private var state: CreateActivityState?
-    private var enteredActivityName: String = ""
-    private var enteredEmogi: String = ""
-    private var enteredColor: UIColor = .clear
-    private var enteredSchedule: Schedule = .init(weekdays: [])
-    
     var onSave: (Tracker) -> Void
-   
+    
+    var isSaveEnabled: Bool {
+        !enteredActivityName.isEmpty
+        && !enteredEmogi.isEmpty
+        && enteredColor != nil
+        && state == .createEvent || !enteredSchedule.weekdays.isEmpty
+    }
+    
+    private var state: CreateActivityState?
+    
+    private var enteredActivityName: String = "" {
+        didSet { updateSaveButtonState() }
+    }
+    private var enteredEmogi: String = "" {
+        didSet { updateSaveButtonState() }
+    }
+    private var enteredColor: UIColor? {
+        didSet { updateSaveButtonState() }
+    }
+    private var enteredSchedule: Schedule = .init(weekdays: []) {
+        didSet { updateSaveButtonState() }
+    }
+
+    //MARK: - init
+    
     init(
         view: CreateActivityViewProtocol,
         state: CreateActivityState,
@@ -156,9 +175,14 @@ final class CreateActivityPresenter {
             return sortedWeekdays.map { $0.shortName }.joined(separator: ", ")
         }
     }
+    
+    private func updateSaveButtonState() {
+        view?.updateSaveButton(isEnabled: isSaveEnabled)
+    }
 }
 
 extension CreateActivityPresenter: CreateActivityPresenterProtocol {
+    
     func setup() {
        render()
     }
@@ -167,7 +191,7 @@ extension CreateActivityPresenter: CreateActivityPresenterProtocol {
         let tracker = Tracker(
             id: UUID(),
             title: enteredActivityName,
-            color: enteredColor,
+            color: enteredColor ?? .clear,
             emogi: enteredEmogi,
             schedule: enteredSchedule
         )
