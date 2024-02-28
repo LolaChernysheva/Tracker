@@ -8,10 +8,9 @@
 
 import UIKit
 
-struct Assets {
-    
-    struct Colors {
-        struct Palette {
+enum Assets {
+    enum Colors {
+        enum Palette {
             static let azure = UIColor(named: "azure")
             static let blueViolet = UIColor(named: "blueViolet")
             static let brilliantAzure = UIColor(named: "brilliantAzure")
@@ -38,7 +37,7 @@ struct Assets {
         static let subtitle = UIColor(named: "subtitleText")
     }
     
-    struct Images {
+    enum Images {
         struct Background {
             static let emptyTrackers = UIImage(named: "EmptyTrackers")
             static let emptyStatistic = UIImage(named: "EmptyStatistic")
@@ -49,7 +48,7 @@ struct Assets {
         static let logo = UIImage(named: "Logo")
     }
     
-    struct Fonts {
+    enum Fonts {
         static let ypBold = UIFont(name: "YS-Display-Bold", size: 12)
         static let ypMedium = UIFont(name: "YS-Display-Medium", size: 12)
     }
