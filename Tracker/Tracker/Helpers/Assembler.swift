@@ -57,7 +57,8 @@ final class Assembler: AssemblerProtocol {
     
     static private func trackersModuleBuilder() -> UIViewController {
         let view = TrackersViewController()
-        let presenter = TrackersPresenter(view: view)
+        let router = TrackersRouter(view: view)
+        let presenter = TrackersPresenter(view: view, router: router)
         view.presenter = presenter
         return view
     }

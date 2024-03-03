@@ -45,6 +45,7 @@
 		F3C347A92B7901FB00AF9272 /* TrackerCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F3C347A72B7901FB00AF9272 /* TrackerCollectionViewCell.xib */; };
 		F3DA2A6F2B8F1D0300B8CCD1 /* YS-Display-Medium in Resources */ = {isa = PBXBuildFile; fileRef = F3DA2A6D2B8F1D0300B8CCD1 /* YS-Display-Medium */; };
 		F3DA2A702B8F1D0300B8CCD1 /* YS-Display-Bold in Resources */ = {isa = PBXBuildFile; fileRef = F3DA2A6E2B8F1D0300B8CCD1 /* YS-Display-Bold */; };
+		F3E71CB22B94C14600D91AA5 /* TrackersRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E71CB12B94C14600D91AA5 /* TrackersRouter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,6 +89,7 @@
 		F3C347A72B7901FB00AF9272 /* TrackerCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrackerCollectionViewCell.xib; sourceTree = "<group>"; };
 		F3DA2A6D2B8F1D0300B8CCD1 /* YS-Display-Medium */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS-Display-Medium"; sourceTree = "<group>"; };
 		F3DA2A6E2B8F1D0300B8CCD1 /* YS-Display-Bold */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS-Display-Bold"; sourceTree = "<group>"; };
+		F3E71CB12B94C14600D91AA5 /* TrackersRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersRouter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,6 +195,7 @@
 				F3C347862B76758300AF9272 /* TrackersViewController.swift */,
 				F3C347882B76759200AF9272 /* TrackersPresenter.swift */,
 				F3C3478C2B7675B700AF9272 /* TrackersScreenModel.swift */,
+				F3E71CB12B94C14600D91AA5 /* TrackersRouter.swift */,
 			);
 			path = Trackers;
 			sourceTree = "<group>";
@@ -353,6 +356,7 @@
 				F3C347872B76758300AF9272 /* TrackersViewController.swift in Sources */,
 				F33BDAFF2B837D41004AFF8D /* CreateActivityPresenter.swift in Sources */,
 				F3C347832B7673C300AF9272 /* Assets.swift in Sources */,
+				F3E71CB22B94C14600D91AA5 /* TrackersRouter.swift in Sources */,
 				F34EDF1D2B7CF503002563C9 /* CreateTrackerScreenModel.swift in Sources */,
 				F33BDB012B837DC7004AFF8D /* CreateActivityViewController.swift in Sources */,
 				F3C347A82B7901FB00AF9272 /* TrackerCollectionViewCell.swift in Sources */,

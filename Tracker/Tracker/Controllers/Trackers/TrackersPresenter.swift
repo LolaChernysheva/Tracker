@@ -28,11 +28,14 @@ final class TrackersPresenter {
         return ((view.isSearching || view.isFiltering) && filteredCategories.isEmpty) || categories.isEmpty
     }
     
+    private let router: TrackersRouterProtocol
+    
     private var completedTrackers: Set<TrackerRecord> = []
     private var filteredCategories = [TrackerCategory]()
     
-    init(view: TrackersViewProtocol) {
+    init(view: TrackersViewProtocol, router: TrackersRouterProtocol) {
         self.view = view
+        self.router = router
     }
     
     private func buildScreenModel() -> TrackersScreenModel {
@@ -109,12 +112,11 @@ extension TrackersPresenter: TrackersPresenterProtocol {
     
     func addTracker() {
         guard let view else { return }
-        let createTrackerController = Assembler.buildCreateTrackerModule(selectedDate: view.currentDate) { [ weak self ] tracker in
+        router.showCreateTrackerController(selectedDate: view.currentDate) { [ weak self ] tracker in
             guard let self else { return }
             categories.append(.init(title: "777", trackers: [tracker]))
             render(reloadData: true)
         }
-        view.showCreateController(viewController: createTrackerController)
     }
     
     func showSearchResults(with inputText: String) {

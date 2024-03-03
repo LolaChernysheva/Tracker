@@ -13,7 +13,6 @@ protocol TrackersViewProtocol: AnyObject {
     var isSearching: Bool { get }
     var currentDate: Date { get }
     func displayData(model: TrackersScreenModel, reloadData: Bool)
-    func showCreateController(viewController: UIViewController)
     func showCompleteTrackerErrorAlert()
 }
 
@@ -231,11 +230,6 @@ extension TrackersViewController: TrackersViewProtocol {
         if reloadData {
             collectionView.reloadData()
         }
-    }
-    
-    func showCreateController(viewController: UIViewController) {
-        let nc = UINavigationController(rootViewController: viewController)
-        navigationController?.present(nc, animated: true)
     }
     
     func showCompleteTrackerErrorAlert() {
