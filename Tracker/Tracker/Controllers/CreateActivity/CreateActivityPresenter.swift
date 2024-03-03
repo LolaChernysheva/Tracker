@@ -15,8 +15,9 @@ enum CreateActivityState {
 
 protocol CreateActivityPresenterProtocol: AnyObject {
     var isSaveEnabled: Bool { get }
+    var selectedDate: Date { get }
     func setup()
-    func createActivity()
+    func createActivity(for date: Date)
 }
 
 final class CreateActivityPresenter {
@@ -24,6 +25,8 @@ final class CreateActivityPresenter {
     typealias TableData = CreateActivityScreenModel.TableData
     
     weak var view: CreateActivityViewProtocol?
+    
+    var selectedDate: Date
     
     var onSave: (Tracker) -> Void
     
@@ -53,12 +56,14 @@ final class CreateActivityPresenter {
     
     init(
         view: CreateActivityViewProtocol,
+        selectedDate: Date,
         state: CreateActivityState,
         onSave: @escaping (Tracker) -> Void
     ) {
         self.view = view
         self.state = state
         self.onSave = onSave
+        self.selectedDate = selectedDate
     }
 
     private func buildScreenModel() -> CreateActivityScreenModel {
@@ -187,13 +192,20 @@ extension CreateActivityPresenter: CreateActivityPresenterProtocol {
        render()
     }
     
-    func createActivity() {
+    func createActivity(for date: Date) {
+        let schedule: Schedule
+        if state == .createEvent {
+            schedule = .init(weekdays: enteredSchedule.weekdays, date: Calendar.current.startOfDay(for: date))
+        } else {
+            schedule = .init(weekdays: enteredSchedule.weekdays)
+        }
+
         let tracker = Tracker(
             id: UUID(),
             title: enteredActivityName,
             color: enteredColor ?? .clear,
             emogi: enteredEmogi,
-            schedule: enteredSchedule
+            schedule: schedule
         )
         
        onSave(tracker)

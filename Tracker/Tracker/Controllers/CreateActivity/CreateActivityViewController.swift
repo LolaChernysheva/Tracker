@@ -31,7 +31,7 @@ final class CreateActivityViewController: UIViewController {
             setup()
         }
     }
-        
+    
     override func viewDidLoad() {
         presenter.setup()
         configureView()
@@ -142,7 +142,7 @@ final class CreateActivityViewController: UIViewController {
     }
     
     @objc private func createButtonTapped() {
-        presenter.createActivity()
+        presenter.createActivity(for: presenter.selectedDate)
         navigationController?.dismiss(animated: true)
     }
 }

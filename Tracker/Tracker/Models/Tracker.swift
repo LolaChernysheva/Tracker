@@ -18,6 +18,7 @@ struct Tracker {
 
 struct Schedule {
     var weekdays: Set<Weekday>
+    var date: Date?
     
     mutating func addWeekday(_ weekday: Weekday) {
         weekdays.insert(weekday)

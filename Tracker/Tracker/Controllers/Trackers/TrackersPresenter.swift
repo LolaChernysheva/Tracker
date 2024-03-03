@@ -108,12 +108,13 @@ extension TrackersPresenter: TrackersPresenterProtocol {
     }
     
     func addTracker() {
-        let createTrackerController = Assembler.buildCreateTrackerModule() { [ weak self ] tracker in
+        guard let view else { return }
+        let createTrackerController = Assembler.buildCreateTrackerModule(selectedDate: view.currentDate) { [ weak self ] tracker in
             guard let self else { return }
             categories.append(.init(title: "777", trackers: [tracker]))
             render(reloadData: true)
         }
-        view?.showCreateController(viewController: createTrackerController)
+        view.showCreateController(viewController: createTrackerController)
     }
     
     func showSearchResults(with inputText: String) {
@@ -132,7 +133,7 @@ extension TrackersPresenter: TrackersPresenterProtocol {
         guard let selectedWeekday = Weekday(rawValue: weekday) else { return }
         
         filteredCategories = categories.compactMap {
-            let filteredTrackers = $0.trackers.filter { $0.schedule.contains(selectedWeekday) }
+            let filteredTrackers = $0.trackers.filter { $0.schedule.contains(selectedWeekday) || $0.schedule.date == date}
             return filteredTrackers.isEmpty ? nil : TrackerCategory(title: $0.title, trackers: filteredTrackers)
         }
         
