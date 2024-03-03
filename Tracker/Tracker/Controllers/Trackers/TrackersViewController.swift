@@ -358,5 +358,5 @@ fileprivate struct Constants {
     static let cellsPerRow: CGFloat = 2
     static let insets = 16
     static let cellSpacing: CGFloat = 9
-    static let ratio = CGFloat(167/148)
+    static let ratio = CGFloat(148) / CGFloat(167)
 }
