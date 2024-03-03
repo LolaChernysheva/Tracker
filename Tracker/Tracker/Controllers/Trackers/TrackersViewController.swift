@@ -283,24 +283,27 @@ extension TrackersViewController: UICollectionViewDataSource {
 extension TrackersViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let paddingWidth: CGFloat = CGFloat( 2 * Constants.insets + (Constants.cellsPerRow - 1) * Constants.cellSpacing)
+        let paddingWidth: CGFloat = (Constants.cellsPerRow - 1) * Constants.cellSpacing
         let availableWidth = collectionView.frame.width - paddingWidth
-        let cellWidth =  availableWidth / CGFloat(Constants.cellsPerRow)
-        return CGSize(width: cellWidth, height: (cellWidth * Constants.ratio))
+        let cellWidth =  availableWidth / Constants.cellsPerRow
+        return CGSize(width: cellWidth, height: cellWidth * Constants.ratio)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: .headerHeight)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        Constants.cellSpacing
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return .lineSpacing
+        0
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.bounds.width, height: .headerHeight)
+    }
 }
 
 //MARK: - UISearchResultsUpdating
@@ -326,8 +329,8 @@ private extension CGFloat {
 }
 
 fileprivate struct Constants {
-    static let cellsPerRow = 2
+    static let cellsPerRow: CGFloat = 2
     static let insets = 16
-    static let cellSpacing = 9
-    static let ratio = CGFloat(167/90)
+    static let cellSpacing: CGFloat = 9
+    static let ratio = CGFloat(167/148)
 }

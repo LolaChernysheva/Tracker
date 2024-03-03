@@ -110,7 +110,7 @@ class TrackerCollectionViewCell: UICollectionViewCell {
         let buttonImage = viewModel.isCompleted ? Assets.Images.done: Assets.Images.plus
         doneButton.setImage(buttonImage, for: .normal)
         doneButton.setTitle("", for: .normal)
-        doneButton.tintColor = viewModel.color
+        doneButton.backgroundColor = viewModel.color
         doneButton.alpha = viewModel.isCompleted ? 0.3 : 1
         
         doneButton.layer.cornerRadius = doneButton.frame.width / 2

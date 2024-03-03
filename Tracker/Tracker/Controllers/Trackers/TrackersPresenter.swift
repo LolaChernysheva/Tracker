@@ -21,18 +21,8 @@ final class TrackersPresenter {
     
     weak var view: TrackersViewProtocol?
     
-    var categories: [TrackerCategory] = [
-        .init(title: "Ыщьыоы", trackers: [
-            .init(id: UUID(), title: "jhhjjhhjjhhjjhhjjhhjjhhjjhhjjhhjjhhj", color: .azure, emogi: "🥳", schedule: .init(weekdays: [.friday])),
-            .init(id: UUID(), title: "jhhj", color: .azure, emogi: "🥳", schedule: .init(weekdays: [.friday])),
-            .init(id: UUID(), title: "jhhj", color: .azure, emogi: "🥳", schedule: .init(weekdays: [.friday])),
-        ]),
-        .init(title: "Ыщьыоы", trackers: [
-            .init(id: UUID(), title: "jhhj", color: .azure, emogi: "🥳", schedule: .init(weekdays: [.friday])),
-            .init(id: UUID(), title: "jhhj", color: .azure, emogi: "🥳", schedule: .init(weekdays: [.friday])),
-            .init(id: UUID(), title: "jhhj", color: .azure, emogi: "🥳", schedule: .init(weekdays: [.friday])),
-        ])
-    ]
+    var categories: [TrackerCategory] = []
+    
     var shouldShowBackgroundView: Bool {
         guard let view = view else { return false }
         return ((view.isSearching || view.isFiltering) && filteredCategories.isEmpty) || categories.isEmpty
@@ -59,7 +49,7 @@ final class TrackersPresenter {
                 guard let view else { return nil }
                 let trackerRecord = TrackerRecord(id: tracker.id, date: view.currentDate)
                 let isCompleted = self.completedTrackers.contains(trackerRecord)
-                var daysCount = completedTrackers.filter({$0.id == tracker.id}).count
+                let daysCount = completedTrackers.filter({$0.id == tracker.id}).count
                 return .trackerCell(TrackerCollectionViewCellViewModel(
                     emoji: tracker.emogi,
                     title: tracker.title,
