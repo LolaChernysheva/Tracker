@@ -10,7 +10,6 @@ import UIKit
 
 protocol CreateActivityViewProtocol: AnyObject {
     func displayData(screenModel: CreateActivityScreenModel, reloadTableData: Bool)
-    func showController(vc: UIViewController)
     func updateSaveButton(isEnabled: Bool)
 }
 
@@ -157,10 +156,6 @@ extension CreateActivityViewController: CreateActivityViewProtocol {
         if reloadTableData {
             tableView.reloadData()
         }
-    }
-    
-    func showController(vc: UIViewController) {
-        navigationController?.pushViewController(vc, animated: true)
     }
     
     func updateSaveButton(isEnabled: Bool) {

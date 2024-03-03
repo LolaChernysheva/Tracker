@@ -19,8 +19,6 @@ protocol TrackersPresenterProtocol: AnyObject {
 
 final class TrackersPresenter {
     
-    weak var view: TrackersViewProtocol?
-    
     var categories: [TrackerCategory] = []
     
     var shouldShowBackgroundView: Bool {
@@ -28,6 +26,7 @@ final class TrackersPresenter {
         return ((view.isSearching || view.isFiltering) && filteredCategories.isEmpty) || categories.isEmpty
     }
     
+    private weak var view: TrackersViewProtocol?
     private let router: TrackersRouterProtocol
     
     private var completedTrackers: Set<TrackerRecord> = []

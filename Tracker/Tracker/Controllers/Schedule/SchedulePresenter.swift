@@ -25,10 +25,9 @@ protocol SchedulePresenterProtocol: AnyObject {
 
 final class SchedulePresenter {
     
-    weak var view: ScheduleViewProtocol?
-    
     var onSave: (Schedule) -> Void
     
+    private weak var view: ScheduleViewProtocol?
     private var days: [WeekDay] = [.monday, .thusday, .wednesday, .thursday, .friday, .saturday, .sunday]
     private var selectedDays: Set<Weekday> = []
     

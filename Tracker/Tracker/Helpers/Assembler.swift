@@ -48,10 +48,11 @@ final class Assembler: AssemblerProtocol {
     
     static func buildCreateActivityModule(state: CreateActivityState, selectedDate: Date, onSave: @escaping (Tracker) -> Void) -> UIViewController {
         let createActivityViewController = CreateActivityViewController()
+        let router = CreateActivityRouter(view: createActivityViewController)
         let createActivityPresenter = CreateActivityPresenter(
             view: createActivityViewController,
             selectedDate: selectedDate,
-            state: state, onSave: onSave)
+            state: state, router: router, onSave: onSave)
         createActivityViewController.presenter = createActivityPresenter
         return createActivityViewController
     }

@@ -14,7 +14,7 @@ protocol StatisticPresenterProtocol: AnyObject {
 
 final class StatisticPresenter {
     
-    weak var view: StatisticViewProtocol?
+    private weak var view: StatisticViewProtocol?
     
     init(view: StatisticViewProtocol) {
         self.view = view

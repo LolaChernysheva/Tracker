@@ -24,8 +24,6 @@ final class CreateActivityPresenter {
     
     typealias TableData = CreateActivityScreenModel.TableData
     
-    weak var view: CreateActivityViewProtocol?
-    
     var selectedDate: Date
     
     var onSave: (Tracker) -> Void
@@ -37,7 +35,9 @@ final class CreateActivityPresenter {
         && state == .createEvent || !enteredSchedule.weekdays.isEmpty
     }
     
+    private var router: CreateActivityRouterProtocol
     private var state: CreateActivityState?
+    private weak var view: CreateActivityViewProtocol?
     
     private var enteredActivityName: String = "" {
         didSet { updateSaveButtonState() }
@@ -58,11 +58,13 @@ final class CreateActivityPresenter {
         view: CreateActivityViewProtocol,
         selectedDate: Date,
         state: CreateActivityState,
+        router: CreateActivityRouterProtocol,
         onSave: @escaping (Tracker) -> Void
     ) {
         self.view = view
         self.state = state
         self.onSave = onSave
+        self.router = router
         self.selectedDate = selectedDate
     }
 
@@ -158,11 +160,10 @@ final class CreateActivityPresenter {
     }
     
     private func showSchedule() {
-        let vc = Assembler.buildScheduleModule(selectedDays: enteredSchedule.weekdays) { [ weak self ] scedule in
+        router.showSchedule(selectedDays: enteredSchedule.weekdays) { [ weak self ] schedule in
             guard let self else { return }
-            self.enteredSchedule = scedule
+            self.enteredSchedule = schedule
         }
-        view?.showController(vc: vc)
     }
     
     private func createScheduleDetailInfo() -> String {

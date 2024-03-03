@@ -47,6 +47,7 @@
 		F3DA2A702B8F1D0300B8CCD1 /* YS-Display-Bold in Resources */ = {isa = PBXBuildFile; fileRef = F3DA2A6E2B8F1D0300B8CCD1 /* YS-Display-Bold */; };
 		F3E71CB22B94C14600D91AA5 /* TrackersRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E71CB12B94C14600D91AA5 /* TrackersRouter.swift */; };
 		F3E71CB42B94C71600D91AA5 /* CreateTrackerRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E71CB32B94C71600D91AA5 /* CreateTrackerRouter.swift */; };
+		F3E71CB62B94CBAC00D91AA5 /* CreateActivityRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E71CB52B94CBAC00D91AA5 /* CreateActivityRouter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -92,6 +93,7 @@
 		F3DA2A6E2B8F1D0300B8CCD1 /* YS-Display-Bold */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS-Display-Bold"; sourceTree = "<group>"; };
 		F3E71CB12B94C14600D91AA5 /* TrackersRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersRouter.swift; sourceTree = "<group>"; };
 		F3E71CB32B94C71600D91AA5 /* CreateTrackerRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTrackerRouter.swift; sourceTree = "<group>"; };
+		F3E71CB52B94CBAC00D91AA5 /* CreateActivityRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateActivityRouter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 				F33BDAFE2B837D41004AFF8D /* CreateActivityPresenter.swift */,
 				F33BDB002B837DC7004AFF8D /* CreateActivityViewController.swift */,
 				F33BDB022B837F0E004AFF8D /* CreateActivityScreenModel.swift */,
+				F3E71CB52B94CBAC00D91AA5 /* CreateActivityRouter.swift */,
 			);
 			path = CreateActivity;
 			sourceTree = "<group>";
@@ -373,6 +376,7 @@
 				F3C347A12B77C91400AF9272 /* Tracker.swift in Sources */,
 				F3C347942B7679E200AF9272 /* StatisticViewController.swift in Sources */,
 				F3C347892B76759200AF9272 /* TrackersPresenter.swift in Sources */,
+				F3E71CB62B94CBAC00D91AA5 /* CreateActivityRouter.swift in Sources */,
 				F33895FB2B7A5C9D008A8773 /* SupplementaryView.swift in Sources */,
 				F3C347912B7677D500AF9272 /* Assembler.swift in Sources */,
 				F33BDB112B84CD5D004AFF8D /* ColorTableViewCell.swift in Sources */,

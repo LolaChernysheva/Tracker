@@ -14,7 +14,7 @@ protocol TrackersRouterProtocol: AnyObject {
 
 final class TrackersRouter: TrackersRouterProtocol {
     
-    weak var view: TrackersViewProtocol?
+    private weak var view: TrackersViewProtocol?
     
     init(view: TrackersViewProtocol) {
         self.view = view

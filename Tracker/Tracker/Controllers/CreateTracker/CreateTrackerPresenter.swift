@@ -14,11 +14,11 @@ protocol CreateTrackerPresenterProtocol: AnyObject {
 }
 
 final class CreateTrackerPresenter {
-    
-    weak var view: CreateTrackerViewProtocol?
+
     var onSave: (Tracker) -> Void
     var selectedDate: Date
     
+    private weak var view: CreateTrackerViewProtocol?
     private var router: CreateTrackerRouterProtocol
     
     init(view: CreateTrackerViewProtocol?, selectedDate: Date, router: CreateTrackerRouterProtocol, onSave: @escaping (Tracker) -> Void) {

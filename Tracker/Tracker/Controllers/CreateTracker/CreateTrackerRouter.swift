@@ -14,7 +14,7 @@ protocol CreateTrackerRouterProtocol: AnyObject {
 
 final class CreateTrackerRouter: CreateTrackerRouterProtocol {
     
-    weak var view: CreateTrackerViewProtocol?
+    private weak var view: CreateTrackerViewProtocol?
     
     init(view: CreateTrackerViewProtocol) {
         self.view = view
