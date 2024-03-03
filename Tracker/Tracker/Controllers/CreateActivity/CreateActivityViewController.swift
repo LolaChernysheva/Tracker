@@ -182,6 +182,7 @@ extension CreateActivityViewController: UITableViewDelegate {
         case let .textFieldCell(model):
             guard let textFieldCell = tableView.dequeueReusableCell(withIdentifier: TextFieldCell.reuseIdentifier, for: indexPath) as? TextFieldCell else { return UITableViewCell() }
             textFieldCell.viewModel = model
+            textFieldCell.textField.delegate = self
             cell = textFieldCell
         case let .detailCell(model):
             guard let detailCell = tableView.dequeueReusableCell(withIdentifier: SubtitledDetailTableViewCell.reuseIdentifier, for: indexPath) as? SubtitledDetailTableViewCell else { return UITableViewCell() }
@@ -264,6 +265,15 @@ extension CreateActivityViewController: UITableViewDataSource {
         case .headered(_, cells: let cells):
             return cells.count
         }
+    }
+}
+
+//MARK: - UITextFieldDelegate
+
+extension CreateActivityViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
 
