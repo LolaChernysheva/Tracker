@@ -18,9 +18,9 @@ final class CreateActivityViewController: UIViewController {
     
     typealias TableData = CreateActivityScreenModel.TableData
     
-    private let stackView = UIStackView()
-    private let cancelButton = UIButton()
-    private let createButton = UIButton()
+    private lazy var stackView = UIStackView()
+    private lazy var cancelButton = UIButton()
+    private lazy var createButton = UIButton()
     
     private var tableView = UITableView(frame: .zero, style: .insetGrouped)
     

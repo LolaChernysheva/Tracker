@@ -139,6 +139,9 @@ final class TrackersViewController: UIViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -.insets),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: .bottomInsets, right: 0)
+        collectionView.showsVerticalScrollIndicator = false
+        navigationItem.hidesSearchBarWhenScrolling = false
     }
     
     private func setupFiltersButtonConstraints() {
@@ -352,6 +355,7 @@ private extension CGFloat {
     static let cornerRadius = 16.0
     static let insets = 16.0
     static let buttonHeight = 50.0
+    static let bottomInsets = 100.0
 }
 
 fileprivate struct Constants {
