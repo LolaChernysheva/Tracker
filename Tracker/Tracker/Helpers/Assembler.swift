@@ -33,7 +33,8 @@ final class Assembler: AssemblerProtocol {
     
     static func buildCreateTrackerModule(selectedDate: Date, onSave: @escaping (Tracker) -> Void) -> UIViewController {
         let createTrackerViewController = CreateTrackerViewController()
-        let createTrackerPresenter = CreateTrackerPresenter(view: createTrackerViewController, selectedDate: selectedDate, onSave: onSave)
+        let router = CreateTrackerRouter(view: createTrackerViewController)
+        let createTrackerPresenter = CreateTrackerPresenter(view: createTrackerViewController, selectedDate: selectedDate, router: router, onSave: onSave)
         createTrackerViewController.presenter = createTrackerPresenter
         return createTrackerViewController
     }

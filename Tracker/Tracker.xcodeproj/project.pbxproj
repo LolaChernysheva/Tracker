@@ -46,6 +46,7 @@
 		F3DA2A6F2B8F1D0300B8CCD1 /* YS-Display-Medium in Resources */ = {isa = PBXBuildFile; fileRef = F3DA2A6D2B8F1D0300B8CCD1 /* YS-Display-Medium */; };
 		F3DA2A702B8F1D0300B8CCD1 /* YS-Display-Bold in Resources */ = {isa = PBXBuildFile; fileRef = F3DA2A6E2B8F1D0300B8CCD1 /* YS-Display-Bold */; };
 		F3E71CB22B94C14600D91AA5 /* TrackersRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E71CB12B94C14600D91AA5 /* TrackersRouter.swift */; };
+		F3E71CB42B94C71600D91AA5 /* CreateTrackerRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E71CB32B94C71600D91AA5 /* CreateTrackerRouter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -90,6 +91,7 @@
 		F3DA2A6D2B8F1D0300B8CCD1 /* YS-Display-Medium */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS-Display-Medium"; sourceTree = "<group>"; };
 		F3DA2A6E2B8F1D0300B8CCD1 /* YS-Display-Bold */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS-Display-Bold"; sourceTree = "<group>"; };
 		F3E71CB12B94C14600D91AA5 /* TrackersRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersRouter.swift; sourceTree = "<group>"; };
+		F3E71CB32B94C71600D91AA5 /* CreateTrackerRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTrackerRouter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +130,7 @@
 				F34EDF192B7CF4CB002563C9 /* CreateTrackerViewController.swift */,
 				F34EDF1C2B7CF503002563C9 /* CreateTrackerScreenModel.swift */,
 				F34EDF1E2B7CF51E002563C9 /* CreateTrackerPresenter.swift */,
+				F3E71CB32B94C71600D91AA5 /* CreateTrackerRouter.swift */,
 			);
 			path = CreateTracker;
 			sourceTree = "<group>";
@@ -364,6 +367,7 @@
 				F3B7BC7D2B85028500A20EBB /* ScheduleViewController.swift in Sources */,
 				F3C3478D2B7675B700AF9272 /* TrackersScreenModel.swift in Sources */,
 				F33BDB052B8384B5004AFF8D /* TextFieldCell.swift in Sources */,
+				F3E71CB42B94C71600D91AA5 /* CreateTrackerRouter.swift in Sources */,
 				F3C347712B766F1700AF9272 /* SceneDelegate.swift in Sources */,
 				F3C347A32B77C92700AF9272 /* TrackerCategory.swift in Sources */,
 				F3C347A12B77C91400AF9272 /* Tracker.swift in Sources */,

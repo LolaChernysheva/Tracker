@@ -10,7 +10,6 @@ import UIKit
 
 protocol CreateTrackerViewProtocol: AnyObject {
     func displayData(model: CreateTrackerScreenModel)
-    func showCreateActivityController(viewController: UIViewController)
 }
 
 final class CreateTrackerViewController: UIViewController {
@@ -88,21 +87,17 @@ final class CreateTrackerViewController: UIViewController {
     }
     
     @objc private func createHabit() {
-        presenter.createHabit()
+        presenter.createTracker(state: .createHabit)
     }
     
     @objc private func createEvent() {
-        presenter.createEvent()
+        presenter.createTracker(state: .createEvent)
     }
 }
 
 extension CreateTrackerViewController: CreateTrackerViewProtocol {
     func displayData(model: CreateTrackerScreenModel) {
         self.model = model
-    }
-    
-    func showCreateActivityController(viewController: UIViewController) {
-        self.navigationController?.pushViewController(viewController, animated: true)
     }
 }
 

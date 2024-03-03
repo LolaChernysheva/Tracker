@@ -14,14 +14,14 @@ protocol TrackersRouterProtocol: AnyObject {
 
 final class TrackersRouter: TrackersRouterProtocol {
     
-    weak var view: UIViewController?
+    weak var view: TrackersViewProtocol?
     
-    init(view: UIViewController) {
+    init(view: TrackersViewProtocol) {
         self.view = view
     }
     
     func showCreateTrackerController(selectedDate: Date, onSave: @escaping (Tracker) -> Void) {
-        guard let view else { return }
+        guard let view = view as? UIViewController else { return }
         let createTrackerController = Assembler.buildCreateTrackerModule(selectedDate: selectedDate, onSave: onSave)
         let nc = UINavigationController(rootViewController: createTrackerController)
         view.navigationController?.present(nc, animated: true)
