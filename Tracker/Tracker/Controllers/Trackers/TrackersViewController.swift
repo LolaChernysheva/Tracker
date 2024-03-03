@@ -64,6 +64,7 @@ final class TrackersViewController: UIViewController {
         super.viewDidLoad()
         presenter.setup()
         configureView()
+        addTapGuesture()
     }
     
     //MARK: - private methods
@@ -170,6 +171,7 @@ final class TrackersViewController: UIViewController {
     
     private func setupSearchBar() {
         searchController.searchResultsUpdater = self
+        searchController.searchBar.delegate = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Поиск"
         navigationItem.searchController = searchController
@@ -182,6 +184,11 @@ final class TrackersViewController: UIViewController {
         if presenter.shouldShowBackgroundView {
             configureBackgroundView()
         }
+    }
+    
+    private func addTapGuesture() {
+        let tapGuesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboardAndDeactivateSearch))
+        view.addGestureRecognizer(tapGuesture)
     }
     
     //MARK: - objc methods
@@ -199,6 +206,17 @@ final class TrackersViewController: UIViewController {
         currentDate = sender.date
         presenter.filterTrackers(for: currentDate)
         updateBackgroundViewVisiability()
+    }
+    
+    @objc private func hideKeyboard() {
+        searchController.searchBar.resignFirstResponder()
+    }
+    
+    @objc private func hideKeyboardAndDeactivateSearch() {
+        hideKeyboard()
+        if searchController.isActive {
+            searchController.isActive = false
+        }
     }
 }
 
@@ -317,6 +335,14 @@ extension TrackersViewController: UISearchResultsUpdating {
             presenter.showSearchResults(with: "")
         }
         configureView()
+    }
+}
+
+//MARK: - UISearchBarDelegate
+
+extension TrackersViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        hideKeyboard()
     }
 }
 
