@@ -32,7 +32,9 @@ final class CoreDataStack: CoreDataStackProtocol {
         return container
     }()
     
-    private init() {}
+    private init() {
+        registerValueTransformers()
+    }
     
     func saveContext() {
         let context = persistentContainer.viewContext
@@ -60,5 +62,10 @@ final class CoreDataStack: CoreDataStackProtocol {
     
     func delete() {
         
+    }
+    
+    private func registerValueTransformers() {
+        ValueTransformer.setValueTransformer(UIColorTransformer(), forName: NSValueTransformerName("UIColorTransformer"))
+        ValueTransformer.setValueTransformer(ScheduleTransformer(), forName: NSValueTransformerName("ScheduleTransformer"))
     }
 }
