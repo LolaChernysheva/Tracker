@@ -38,6 +38,12 @@ final class CreateActivityPresenter {
     private var router: CreateActivityRouterProtocol
     private var state: CreateActivityState?
     private weak var view: CreateActivityViewProtocol?
+    private var categories: [TrackerCategory] {
+        get {
+            let categoriesStore = TrackerCategoryStore()
+            return categoriesStore.fetchCategories()
+        }
+    }
     
     private var enteredActivityName: String = "" {
         didSet { updateSaveButtonState() }
@@ -135,7 +141,12 @@ final class CreateActivityPresenter {
         let categogyCell: TableData.Cell = .detailCell(.init(
             title: "Категория",
             subtitle: "", //MARK: - TODO
-        action: {}))
+            action: { [ weak self ] in
+                guard let self else { return }
+                print("=======", categories)
+                self.showCategories(state: categories.isEmpty ? .empty : .categoriesList)
+            
+        }))
         
         let scheduleCell: TableData.Cell = .detailCell(SubtitledDetailTableViewCellViewModel(
             title: "Расписание",
@@ -164,6 +175,10 @@ final class CreateActivityPresenter {
             guard let self else { return }
             self.enteredSchedule = schedule
         }
+    }
+    
+    private func showCategories(state: CategoryScreenState) {
+        router.showCategories(state: state, categories: categories)
     }
     
     private func createScheduleDetailInfo() -> String {

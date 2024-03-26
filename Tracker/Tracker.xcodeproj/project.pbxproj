@@ -28,6 +28,9 @@
 		F38A834A2BAFF64100E51856 /* UIColorTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38A83492BAFF64100E51856 /* UIColorTransformer.swift */; };
 		F38A834C2BAFF96B00E51856 /* ScheduleTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38A834B2BAFF96B00E51856 /* ScheduleTransformer.swift */; };
 		F38A834E2BAFFEA600E51856 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38A834D2BAFFEA600E51856 /* Schedule.swift */; };
+		F38A83542BB028D200E51856 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38A83532BB028D200E51856 /* CategoryViewController.swift */; };
+		F38A83562BB028DC00E51856 /* CategoryPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38A83552BB028DC00E51856 /* CategoryPresenter.swift */; };
+		F38A83582BB028EB00E51856 /* CategoryScreenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38A83572BB028EB00E51856 /* CategoryScreenModel.swift */; };
 		F3B7BC7B2B85026200A20EBB /* SchedulePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B7BC7A2B85026200A20EBB /* SchedulePresenter.swift */; };
 		F3B7BC7D2B85028500A20EBB /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B7BC7C2B85028500A20EBB /* ScheduleViewController.swift */; };
 		F3B7BC7F2B85028F00A20EBB /* ScheduleScreenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B7BC7E2B85028F00A20EBB /* ScheduleScreenModel.swift */; };
@@ -80,6 +83,9 @@
 		F38A83492BAFF64100E51856 /* UIColorTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorTransformer.swift; sourceTree = "<group>"; };
 		F38A834B2BAFF96B00E51856 /* ScheduleTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTransformer.swift; sourceTree = "<group>"; };
 		F38A834D2BAFFEA600E51856 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
+		F38A83532BB028D200E51856 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
+		F38A83552BB028DC00E51856 /* CategoryPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPresenter.swift; sourceTree = "<group>"; };
+		F38A83572BB028EB00E51856 /* CategoryScreenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryScreenModel.swift; sourceTree = "<group>"; };
 		F3B7BC7A2B85026200A20EBB /* SchedulePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulePresenter.swift; sourceTree = "<group>"; };
 		F3B7BC7C2B85028500A20EBB /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		F3B7BC7E2B85028F00A20EBB /* ScheduleScreenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleScreenModel.swift; sourceTree = "<group>"; };
@@ -171,6 +177,16 @@
 				F3E71CB32B94C71600D91AA5 /* CreateTrackerRouter.swift */,
 			);
 			path = CreateTracker;
+			sourceTree = "<group>";
+		};
+		F357E5092BB2A5D000433297 /* CategoriesList */ = {
+			isa = PBXGroup;
+			children = (
+				F38A83532BB028D200E51856 /* CategoryViewController.swift */,
+				F38A83552BB028DC00E51856 /* CategoryPresenter.swift */,
+				F38A83572BB028EB00E51856 /* CategoryScreenModel.swift */,
+			);
+			path = CategoriesList;
 			sourceTree = "<group>";
 		};
 		F3B7BC792B85024E00A20EBB /* Schedule */ = {
@@ -392,11 +408,13 @@
 				F3C347A52B77C93400AF9272 /* TrackerRecord.swift in Sources */,
 				F33BDB032B837F0E004AFF8D /* CreateActivityScreenModel.swift in Sources */,
 				F38A834E2BAFFEA600E51856 /* Schedule.swift in Sources */,
+				F38A83582BB028EB00E51856 /* CategoryScreenModel.swift in Sources */,
 				F34EDF1F2B7CF51E002563C9 /* CreateTrackerPresenter.swift in Sources */,
 				F34EDF1A2B7CF4CB002563C9 /* CreateTrackerViewController.swift in Sources */,
 				F3C347992B77A6F300AF9272 /* BackgroundView.swift in Sources */,
 				F3B7BC7B2B85026200A20EBB /* SchedulePresenter.swift in Sources */,
 				F3B7BC832B85DAF400A20EBB /* LabledCell.swift in Sources */,
+				F38A83542BB028D200E51856 /* CategoryViewController.swift in Sources */,
 				F3B7BC7F2B85028F00A20EBB /* ScheduleScreenModel.swift in Sources */,
 				F3C3476F2B766F1700AF9272 /* AppDelegate.swift in Sources */,
 				F33BDB0F2B8497EB004AFF8D /* EmojiTableViewCell.swift in Sources */,
@@ -426,6 +444,7 @@
 				F34D6D9C2B99E64A009424C1 /* TrackerRecordStore.swift in Sources */,
 				F33895FB2B7A5C9D008A8773 /* SupplementaryView.swift in Sources */,
 				F3C347912B7677D500AF9272 /* Assembler.swift in Sources */,
+				F38A83562BB028DC00E51856 /* CategoryPresenter.swift in Sources */,
 				F33BDB112B84CD5D004AFF8D /* ColorTableViewCell.swift in Sources */,
 				F33BDB0B2B84846B004AFF8D /* ColorCell.swift in Sources */,
 				F33BDB0D2B84848C004AFF8D /* EmojiCell.swift in Sources */,

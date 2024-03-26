@@ -48,22 +48,6 @@ final class CoreDataStack: CoreDataStackProtocol {
         }
     }
     
-    func createTracker(tracker: Tracker) {
-        
-    }
-    
-    func read() {
-        
-    }
-    
-    func update() {
-        
-    }
-    
-    func delete() {
-        
-    }
-    
     private func registerValueTransformers() {
         ValueTransformer.setValueTransformer(UIColorTransformer(), forName: NSValueTransformerName("UIColorTransformer"))
         ValueTransformer.setValueTransformer(ScheduleTransformer(), forName: NSValueTransformerName("ScheduleTransformer"))

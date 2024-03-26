@@ -113,7 +113,7 @@ extension TrackersPresenter: TrackersPresenterProtocol {
         guard let view else { return }
         router.showCreateTrackerController(selectedDate: view.currentDate) { [ weak self ] tracker in
             guard let self else { return }
-            categories.append(.init(title: "777", trackers: [tracker]))
+            categories.append(.init(id: UUID(), title: "777", trackers: [tracker]))
             render(reloadData: true)
         }
     }
@@ -121,7 +121,7 @@ extension TrackersPresenter: TrackersPresenterProtocol {
     func showSearchResults(with inputText: String) {
         self.filteredCategories = categories.map { category in
             let filtredTrackers = category.trackers.filter { $0.title.localizedCaseInsensitiveContains(inputText) }
-            return  TrackerCategory(title: category.title, trackers: filtredTrackers)
+            return  TrackerCategory(id: UUID(), title: category.title, trackers: filtredTrackers)
         }
         filteredCategories.removeAll { $0.trackers.isEmpty }
 
@@ -135,7 +135,7 @@ extension TrackersPresenter: TrackersPresenterProtocol {
         
         filteredCategories = categories.compactMap {
             let filteredTrackers = $0.trackers.filter { $0.schedule.contains(selectedWeekday) || $0.schedule.date == date}
-            return filteredTrackers.isEmpty ? nil : TrackerCategory(title: $0.title, trackers: filteredTrackers)
+            return filteredTrackers.isEmpty ? nil : TrackerCategory(id: $0.id, title: $0.title, trackers: filteredTrackers)
         }
         
         render(reloadData: true)

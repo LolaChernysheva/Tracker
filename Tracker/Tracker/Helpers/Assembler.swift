@@ -12,6 +12,7 @@ protocol AssemblerProtocol: AnyObject {
     static func mainScreenBuilder() -> UIViewController
     static func buildCreateTrackerModule(selectedDate: Date, onSave: @escaping (Tracker) -> Void) -> UIViewController
     static func buildCreateActivityModule(state: CreateActivityState, selectedDate: Date, onSave: @escaping (Tracker) -> Void) -> UIViewController 
+    static func buildCategoriesModule(state: CategoryScreenState, categories: [TrackerCategory]) -> UIViewController
 }
 
 final class Assembler: AssemblerProtocol {
@@ -70,5 +71,20 @@ final class Assembler: AssemblerProtocol {
         let presenter = StatisticPresenter(view: view)
         view.presenter = presenter
         return view
+    }
+    
+    static func buildCategoriesModule(state: CategoryScreenState, categories: [TrackerCategory]) -> UIViewController {
+        let view = CategoryViewController()
+        let presenter = CategoryPresenter(view: view, state: state, categories: categories)
+        view.presenter = presenter
+        return view
+    }
+    
+    static func buildCreateCategoryModule() -> UIViewController {
+        let view = CreateCategoryViewController()
+        let presenter = CreateCategoryPresenter(view: view)
+        view.presenter = presenter
+        return view
+        
     }
 }
