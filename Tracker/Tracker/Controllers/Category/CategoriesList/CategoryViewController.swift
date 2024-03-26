@@ -93,6 +93,7 @@ private extension CategoryViewController {
     func setupView() {
         setupButton()
         configureTableView()
+        navigationItem.hidesBackButton = true
     }
     
     func setup() {
@@ -112,9 +113,7 @@ private extension CategoryViewController {
             button.heightAnchor.constraint(equalToConstant: .buttonHeight)
         ])
         
-        button.addTarget(self, action: presenter.state == .empty
-                         ? #selector(addCategory)
-                         : #selector(saveCategory), for: .touchUpInside)
+        button.addTarget(self, action: #selector(addCategory), for: .touchUpInside)
         button.backgroundColor = .buttons
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = .cornerRadius
@@ -122,11 +121,8 @@ private extension CategoryViewController {
     }
     
     @objc private func addCategory() {
+        print("====ADD CATEGORY BTN PRESSED")
         presenter.addCategory()
-    }
-    
-    @objc private func saveCategory() {
-        
     }
     
     func configureTableView() {

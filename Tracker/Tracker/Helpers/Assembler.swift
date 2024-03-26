@@ -75,7 +75,8 @@ final class Assembler: AssemblerProtocol {
     
     static func buildCategoriesModule(state: CategoryScreenState, categories: [TrackerCategory]) -> UIViewController {
         let view = CategoryViewController()
-        let presenter = CategoryPresenter(view: view, state: state, categories: categories)
+        let router = CategoryRouter(view: view)
+        let presenter = CategoryPresenter(view: view, state: state, categories: categories, router: router)
         view.presenter = presenter
         return view
     }

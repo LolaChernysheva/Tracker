@@ -143,7 +143,6 @@ final class CreateActivityPresenter {
             subtitle: "", //MARK: - TODO
             action: { [ weak self ] in
                 guard let self else { return }
-                print("=======", categories)
                 self.showCategories(state: categories.isEmpty ? .empty : .categoriesList)
             
         }))

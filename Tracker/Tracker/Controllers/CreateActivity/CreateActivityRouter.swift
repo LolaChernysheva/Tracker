@@ -32,8 +32,4 @@ final class CreateActivityRouter: CreateActivityRouterProtocol {
         let vc = Assembler.buildCategoriesModule(state: state, categories: categories)
         view.navigationController?.pushViewController(vc, animated: true)
     }
-    
-    func showCreateCategory() {
-        
-    }
 }

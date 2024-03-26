@@ -22,8 +22,9 @@ protocol CategoryPresenterProtocol: AnyObject {
 
 final class CategoryPresenter {
     
-    weak var view: CategoryViewProtocol?
     var state: CategoryScreenState?
+    private weak var view: CategoryViewProtocol?
+    private var router: CategoryRouterProtocol
     private var categories: [TrackerCategory]
     private var categoryStore = TrackerCategoryStore()
 
@@ -33,10 +34,11 @@ final class CategoryPresenter {
         }
     }
     
-    init(view: CategoryViewProtocol, state: CategoryScreenState, categories: [TrackerCategory]) {
+    init(view: CategoryViewProtocol, state: CategoryScreenState, categories: [TrackerCategory], router: CategoryRouterProtocol) {
         self.view = view
         self.state = state
         self.categories = categories
+        self.router = router
     }
     
     private func buildScreenModel() -> CategoryScreenModel {
@@ -69,17 +71,18 @@ extension CategoryPresenter: CategoryPresenterProtocol {
     }
     
     func addCategory() {
-       // router?.showCreateCategoryController(categories: categories)
+        router.showCreateCategoryController(onSave: { [ weak self ] category in
+            guard let self else { return }
+            self.saveCategory(category: category)
+        })
     }
     
-//    func saveCategory() {
-//        let category: TrackerCategory = TrackerCategory(id: UUID(), title: enteredCategoryName)
-//        onSave(category)
-//        do {
-//            try categoryStore.createCategory(with: category)
-//        } catch {
-//            print("❌❌❌ Не удалось преобразовать TrackerCategory в TrackerCategoryCoreData")
-//        }
-//    }
+    func saveCategory(category: TrackerCategory) {
+        do {
+            try categoryStore.createCategory(with: category)
+        } catch {
+            print("❌❌❌ Не удалось преобразовать TrackerCategory в TrackerCategoryCoreData")
+        }
+    }
 }
 
