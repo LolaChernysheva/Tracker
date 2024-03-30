@@ -50,6 +50,9 @@ extension CategoryViewController: CategoryViewProtocol {
 
 extension CategoryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        DispatchQueue.global().sync {
+            presenter.chooseCategory(index: indexPath.row)
+        }
         navigationController?.popToRootViewController(animated: true)
     }
 }

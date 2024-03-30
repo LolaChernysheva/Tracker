@@ -32,7 +32,9 @@ final class CreateActivityPresenter {
         !enteredActivityName.isEmpty
         && !enteredEmogi.isEmpty
         && enteredColor != nil
+        && enteredCategory != nil
         && state == .createEvent || !enteredSchedule.weekdays.isEmpty
+        
     }
     
     private var router: CreateActivityRouterProtocol
@@ -58,7 +60,9 @@ final class CreateActivityPresenter {
         didSet { updateSaveButtonState() }
     }
     
-    private var enteredCategory: TrackerCategory? = nil
+    private var enteredCategory: TrackerCategory? = nil {
+        didSet { updateSaveButtonState() }
+    }
 
     //MARK: - init
     
@@ -142,7 +146,7 @@ final class CreateActivityPresenter {
     private func createActivitySettingsSection() -> TableData.Section {
         let categogyCell: TableData.Cell = .detailCell(.init(
             title: "Категория",
-            subtitle: "", //MARK: - TODO
+            subtitle: enteredCategory?.title ?? "",
             action: { [ weak self ] in
                 guard let self else { return }
                 self.showCategories(state: categories.isEmpty ? .empty : .categoriesList)
@@ -179,7 +183,10 @@ final class CreateActivityPresenter {
     }
     
     private func showCategories(state: CategoryScreenState) {
-        router.showCategories(state: state, categories: categories)
+        router.showCategories(state: state, categories: categories) { [ weak self ] category in
+            guard let self else { return }
+            self.enteredCategory = category
+        }
     }
     
     private func createScheduleDetailInfo() -> String {
@@ -222,7 +229,8 @@ extension CreateActivityPresenter: CreateActivityPresenterProtocol {
             title: enteredActivityName,
             color: enteredColor ?? .clear,
             emogi: enteredEmogi,
-            schedule: schedule
+            schedule: schedule,
+            category: enteredCategory
         )
         
        onSave(tracker)

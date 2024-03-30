@@ -10,7 +10,7 @@ import UIKit
 
 protocol CreateActivityRouterProtocol: AnyObject {
     func showSchedule(selectedDays: Set<Weekday>, onSave: @escaping (Schedule) -> Void)
-    func showCategories(state: CategoryScreenState, categories: [TrackerCategory])
+    func showCategories(state: CategoryScreenState, categories: [TrackerCategory], categoryIsChosen: @escaping (TrackerCategory) -> Void)
 }
 
 final class CreateActivityRouter: CreateActivityRouterProtocol {
@@ -27,9 +27,9 @@ final class CreateActivityRouter: CreateActivityRouterProtocol {
         view.navigationController?.pushViewController(vc, animated: true)
     }
     
-    func showCategories(state: CategoryScreenState, categories: [TrackerCategory]) {
+    func showCategories(state: CategoryScreenState, categories: [TrackerCategory], categoryIsChosen: @escaping (TrackerCategory) -> Void) {
         guard let view = view as? UIViewController else { return }
-        let vc = Assembler.buildCategoriesModule(state: state, categories: categories)
+        let vc = Assembler.buildCategoriesModule(state: state, categories: categories, categoryIsChosen: categoryIsChosen)
         view.navigationController?.pushViewController(vc, animated: true)
     }
 }

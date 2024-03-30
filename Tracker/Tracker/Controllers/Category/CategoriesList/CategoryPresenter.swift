@@ -16,8 +16,10 @@ enum CategoryScreenState {
 protocol CategoryPresenterProtocol: AnyObject {
     var shouldShowBackgroundView: Bool { get }
     var state: CategoryScreenState? { get }
+    var categoryIsChosen: (TrackerCategory) -> Void { get }
     func setup()
     func addCategory()
+    func chooseCategory(index: Int)
 }
 
 final class CategoryPresenter {
@@ -34,11 +36,14 @@ final class CategoryPresenter {
         }
     }
     
-    init(view: CategoryViewProtocol, state: CategoryScreenState, categories: [TrackerCategory], router: CategoryRouterProtocol) {
+    var categoryIsChosen: (TrackerCategory) -> Void
+    
+    init(view: CategoryViewProtocol, state: CategoryScreenState, categories: [TrackerCategory], router: CategoryRouterProtocol, categoryIsChosen: @escaping (TrackerCategory) -> Void) {
         self.view = view
         self.state = state
         self.categories = categories
         self.router = router
+        self.categoryIsChosen = categoryIsChosen
     }
     
     private func buildScreenModel() -> CategoryScreenModel {
@@ -66,6 +71,12 @@ final class CategoryPresenter {
 }
 
 extension CategoryPresenter: CategoryPresenterProtocol {
+    func chooseCategory(index: Int) {
+        let outputCategory = categories[index]
+        categoryIsChosen(outputCategory)
+    }
+    
+    
     func setup() {
         render()
     }

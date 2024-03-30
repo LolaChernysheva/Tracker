@@ -15,6 +15,7 @@ struct Tracker {
     let color: UIColor
     let emogi: String
     let schedule: Schedule
+    let category: TrackerCategory?
 }
 
 extension Tracker {
@@ -23,12 +24,14 @@ extension Tracker {
               let title = trackerEntity.title,
               let color = trackerEntity.color,
               let emoji = trackerEntity.emoji,
-              let schedule = trackerEntity.schedule
+              let schedule = trackerEntity.schedule,
+              let category = trackerEntity.category
         else { return nil }
         self.id = id
         self.title = title
         self.color = color
         self.emogi = emoji
         self.schedule = schedule
+        self.category = .init(from: category)
     }
 }
