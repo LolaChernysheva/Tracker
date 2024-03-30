@@ -26,7 +26,7 @@ final class CategoryPresenter {
     private weak var view: CategoryViewProtocol?
     private var router: CategoryRouterProtocol
     private var categories: [TrackerCategory]
-    private var categoryStore = TrackerCategoryStore()
+    //private var categoryStore = TrackerCategoryStore()
 
     var shouldShowBackgroundView: Bool {
         get {
@@ -56,7 +56,7 @@ final class CategoryPresenter {
     }
     
     private func buildCategoriesSection() -> CategoryScreenModel.TableData.Section {
-        .simpleSection( cells:categories.map { .labledCell(LabledCellViewModel(title: $0.title))})
+        .simpleSection( cells:categories.map { .labledCell(LabledCellViewModel(title: $0.title, style: .leftSideTitle))})
     }
 
     
@@ -71,17 +71,10 @@ extension CategoryPresenter: CategoryPresenterProtocol {
     }
     
     func addCategory() {
-        router.showCreateCategoryController(onSave: { [ weak self ] category in
+        router.showCreateCategoryController { [ weak self ] category in
             guard let self else { return }
-            self.saveCategory(category: category)
-        })
-    }
-    
-    func saveCategory(category: TrackerCategory) {
-        do {
-            try categoryStore.createCategory(with: category)
-        } catch {
-            print("❌❌❌ Не удалось преобразовать TrackerCategory в TrackerCategoryCoreData")
+            self.categories.append(category)
+            render()
         }
     }
 }

@@ -32,6 +32,7 @@
 		F38A834A2BAFF64100E51856 /* UIColorTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38A83492BAFF64100E51856 /* UIColorTransformer.swift */; };
 		F38A834C2BAFF96B00E51856 /* ScheduleTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38A834B2BAFF96B00E51856 /* ScheduleTransformer.swift */; };
 		F38A834E2BAFFEA600E51856 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38A834D2BAFFEA600E51856 /* Schedule.swift */; };
+		F38A83512BB0021A00E51856 /* TrackerCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38A83502BB0021A00E51856 /* TrackerCoreData.swift */; };
 		F38A83542BB028D200E51856 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38A83532BB028D200E51856 /* CategoryViewController.swift */; };
 		F38A83562BB028DC00E51856 /* CategoryPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38A83552BB028DC00E51856 /* CategoryPresenter.swift */; };
 		F38A83582BB028EB00E51856 /* CategoryScreenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38A83572BB028EB00E51856 /* CategoryScreenModel.swift */; };
@@ -91,6 +92,7 @@
 		F38A83492BAFF64100E51856 /* UIColorTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorTransformer.swift; sourceTree = "<group>"; };
 		F38A834B2BAFF96B00E51856 /* ScheduleTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTransformer.swift; sourceTree = "<group>"; };
 		F38A834D2BAFFEA600E51856 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
+		F38A83502BB0021A00E51856 /* TrackerCoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCoreData.swift; sourceTree = "<group>"; };
 		F38A83532BB028D200E51856 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		F38A83552BB028DC00E51856 /* CategoryPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPresenter.swift; sourceTree = "<group>"; };
 		F38A83572BB028EB00E51856 /* CategoryScreenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryScreenModel.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 		F34D6D952B99E5F1009424C1 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				F38A834F2BB0020700E51856 /* Entities */,
 				F34D6D962B99E61E009424C1 /* Models */,
 				F36D357C2B999BFB0079CA43 /* CoreDataStack.swift */,
 			);
@@ -206,6 +209,23 @@
 				F357E50A2BB2AF1500433297 /* CategoryRouter.swift */,
 			);
 			path = CategoriesList;
+			sourceTree = "<group>";
+		};
+		F38A834F2BB0020700E51856 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				F38A83502BB0021A00E51856 /* TrackerCoreData.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		F38A83522BB028B200E51856 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				F357E5092BB2A5D000433297 /* CategoriesList */,
+				F357E5022BB2A14F00433297 /* CreateCategory */,
+			);
+			path = Category;
 			sourceTree = "<group>";
 		};
 		F3B7BC792B85024E00A20EBB /* Schedule */ = {
@@ -258,6 +278,7 @@
 		F3C347842B76754200AF9272 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				F38A83522BB028B200E51856 /* Category */,
 				F3B7BC792B85024E00A20EBB /* Schedule */,
 				F33BDAFD2B837D2A004AFF8D /* CreateActivity */,
 				F34EDF1B2B7CF4D1002563C9 /* CreateTracker */,
@@ -439,6 +460,7 @@
 				F33BDB0F2B8497EB004AFF8D /* EmojiTableViewCell.swift in Sources */,
 				F3C347872B76758300AF9272 /* TrackersViewController.swift in Sources */,
 				F34D6D982B99E630009424C1 /* TrackerStore.swift in Sources */,
+				F38A83512BB0021A00E51856 /* TrackerCoreData.swift in Sources */,
 				F33BDAFF2B837D41004AFF8D /* CreateActivityPresenter.swift in Sources */,
 				F38A834C2BAFF96B00E51856 /* ScheduleTransformer.swift in Sources */,
 				F3C347832B7673C300AF9272 /* Assets.swift in Sources */,

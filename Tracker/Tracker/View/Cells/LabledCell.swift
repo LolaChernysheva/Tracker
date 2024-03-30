@@ -9,7 +9,12 @@
 import UIKit
 
 struct LabledCellViewModel {
+    enum Style {
+        case button
+        case leftSideTitle
+    }
     let title: String
+    let style: Style
 }
 final class LabledCell: UITableViewCell {
     
@@ -20,6 +25,7 @@ final class LabledCell: UITableViewCell {
     var viewModel: LabledCellViewModel? {
         didSet {
             titleLabel.text = viewModel?.title
+            titleLabel.textAlignment = viewModel?.style == .button ? .center : .left
         }
     }
     
@@ -34,19 +40,26 @@ final class LabledCell: UITableViewCell {
     
     private func setup() {
         contentView.addSubview(titleLabel)
-        
+        contentView.backgroundColor = viewModel?.style == .button ? .buttons : .cellBackground
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            viewModel?.style == .button
+            ? titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
+            : titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: .insets),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
         
-        titleLabel.backgroundColor = .buttons
-        titleLabel.layer.cornerRadius = 16
+        titleLabel.backgroundColor = .clear
+        titleLabel.layer.cornerRadius = .cornerRadius
         titleLabel.clipsToBounds = true
         titleLabel.textAlignment = .center
-        titleLabel.textColor = .background
+        titleLabel.textColor = viewModel?.style == .button ? .background : .navigationBarItem
     }
+}
+
+private extension CGFloat {
+    static let cornerRadius = 16.0
+    static let insets = 16.0
 }

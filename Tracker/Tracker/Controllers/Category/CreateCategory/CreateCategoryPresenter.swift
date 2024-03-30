@@ -9,6 +9,7 @@
 import Foundation
 
 protocol CreateCategoryPresenterProtocol: AnyObject {
+    var isSaveEnabled: Bool { get }
     func saveCategory()
     func setup()
 }
@@ -17,12 +18,21 @@ final class CreateCategoryPresenter: CreateCategoryPresenterProtocol {
     
     weak var view: CreateCategoryViewProtocol?
     
-    //var onSave: (TrackerCategory) -> Void
+    var onSave: (TrackerCategory) -> Void
     
-    private var enteredCategoryName: String = ""
+    private var categoryStore = TrackerCategoryStore()
     
-    init(view: CreateCategoryViewProtocol) {
+    private var enteredCategoryName: String = "" {
+        didSet { updateSaveButtonState() }
+    }
+    
+    var isSaveEnabled: Bool {
+        !enteredCategoryName.isEmpty
+    }
+    
+    init(view: CreateCategoryViewProtocol, onSave: @escaping (TrackerCategory) -> Void) {
         self.view = view
+        self.onSave = onSave
     }
     
     func setup() {
@@ -30,7 +40,16 @@ final class CreateCategoryPresenter: CreateCategoryPresenterProtocol {
     }
     
     func saveCategory() {
+        let category = TrackerCategory(id: UUID(), title: enteredCategoryName)
         
+        do {
+            try categoryStore.createCategory(with: category)
+        } catch {
+            view?.updateSaveButton(isEnabled: true)
+            print("❌❌❌ Не удалось преобразовать TrackerCategory в TrackerCategoryCoreData")
+        }
+        
+        onSave(category)
     }
     
     private func buildScreenModel() -> CreateCategoryScreenModel {
@@ -52,5 +71,9 @@ final class CreateCategoryPresenter: CreateCategoryPresenterProtocol {
     
     private func render() {
         view?.displayData(model: buildScreenModel(), reloadData: true)
+    }
+    
+    private func updateSaveButtonState() {
+        view?.updateSaveButton(isEnabled: isSaveEnabled)
     }
 }

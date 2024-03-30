@@ -8,47 +8,46 @@
 
 import Foundation
 import CoreData
-import UIKit 
 
-@objc(TrackerCoreData)
-public class TrackerCoreData: NSManagedObject {
-    
+enum TrackerError: Error {
+    case fetchError(NSError)
+    case dataConversionError
 }
 
-extension TrackerCoreData {
+final class TrackerStore {
+    private let context = CoreDataStack.shared.persistentContainer.viewContext
 
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<TrackerCoreData> {
-        return NSFetchRequest<TrackerCoreData>(entityName: "TrackerCoreData")
+    func createTracker(with tracker: Tracker) {
+        let trackerEntity = TrackerCoreData(context: context)
+        trackerEntity.id = tracker.id
+        //TODO: -
+        //trackerEntity.category = tracker.category
+        trackerEntity.color = tracker.color
+        trackerEntity.emoji = tracker.emogi
+        trackerEntity.schedule = tracker.schedule
+        trackerEntity.title = tracker.title
+        
+        do {
+            try context.save()
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
     }
-
-    @NSManaged public var color: UIColor?
-    @NSManaged public var emoji: String?
-    @NSManaged public var id: UUID?
-    @NSManaged public var schedule: Schedule?
-    @NSManaged public var title: String?
-    @NSManaged public var category: TrackerCategoryCoreData?
-    @NSManaged public var records: NSSet?
-
+    
+    func fetchTrackers() throws -> [Tracker] {
+        let fetchRequest: NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
+        
+        do {
+            let trackerEntities = try context.fetch(fetchRequest)
+            let trackers = try trackerEntities.compactMap { trackerEntity -> Tracker in
+                guard let tracker = Tracker(from: trackerEntity) else {
+                    throw TrackerError.dataConversionError
+                }
+                return tracker
+            }
+            return trackers
+        } catch let error as NSError {
+            throw TrackerError.fetchError(error)
+        }
+    }
 }
-
-// MARK: Generated accessors for records
-extension TrackerCoreData {
-
-    @objc(addRecordsObject:)
-    @NSManaged public func addToRecords(_ value: TrackerRecordCoreData)
-
-    @objc(removeRecordsObject:)
-    @NSManaged public func removeFromRecords(_ value: TrackerRecordCoreData)
-
-    @objc(addRecords:)
-    @NSManaged public func addToRecords(_ values: NSSet)
-
-    @objc(removeRecords:)
-    @NSManaged public func removeFromRecords(_ values: NSSet)
-
-}
-
-extension TrackerCoreData : Identifiable {
-
-}
-

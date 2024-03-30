@@ -55,7 +55,7 @@ final class SchedulePresenter {
                             }
                         }))
                 })),
-                .simple(cells: [.labledCell(.init(title: "Готово"))])
+                .simple(cells: [.labledCell(.init(title: "Готово", style: .button))])
             ])
         )
     }

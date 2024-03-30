@@ -57,6 +57,8 @@ final class CreateActivityPresenter {
     private var enteredSchedule: Schedule = .init(weekdays: []) {
         didSet { updateSaveButtonState() }
     }
+    
+    private var enteredCategory: TrackerCategory? = nil
 
     //MARK: - init
     

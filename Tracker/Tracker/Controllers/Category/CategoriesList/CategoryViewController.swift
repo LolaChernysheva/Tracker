@@ -50,7 +50,7 @@ extension CategoryViewController: CategoryViewProtocol {
 
 extension CategoryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        navigationController?.popToRootViewController(animated: true)
     }
 }
 
@@ -121,7 +121,6 @@ private extension CategoryViewController {
     }
     
     @objc private func addCategory() {
-        print("====ADD CATEGORY BTN PRESSED")
         presenter.addCategory()
     }
     

@@ -20,7 +20,7 @@ final class CategoryRouter: CategoryRouterProtocol {
     }
     
     func showCreateCategoryController(onSave: @escaping (TrackerCategory) -> Void) {
-        let createCategoryController = Assembler.buildCreateCategoryModule()
+        let createCategoryController = Assembler.buildCreateCategoryModule(onSave: onSave)
         guard let view = view as? UIViewController else { return }
         view.navigationController?.pushViewController(createCategoryController, animated: true)
     }

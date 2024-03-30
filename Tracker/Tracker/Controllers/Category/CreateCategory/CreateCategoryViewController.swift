@@ -10,6 +10,7 @@ import UIKit
 
 protocol CreateCategoryViewProtocol: AnyObject {
     func displayData(model: CreateCategoryScreenModel, reloadData: Bool)
+    func updateSaveButton(isEnabled: Bool)
 }
 
 final class CreateCategoryViewController: UIViewController {
@@ -35,6 +36,7 @@ final class CreateCategoryViewController: UIViewController {
     private func setup() {
         title = screenModel.title
         saveButton.setTitle(screenModel.doneButtonTitle, for: .normal)
+        updateSaveButton(isEnabled: presenter.isSaveEnabled)
     }
     
     private func setupView() {
@@ -89,7 +91,12 @@ final class CreateCategoryViewController: UIViewController {
     }
     
     @objc private func saveCategory() {
-        presenter.saveCategory()
+        updateSaveButton(isEnabled: false)
+        DispatchQueue.global().sync {
+            presenter.saveCategory()
+        }
+        updateSaveButton(isEnabled: true)
+        navigationController?.popViewController(animated: true)
     }
     
 }
@@ -97,6 +104,11 @@ final class CreateCategoryViewController: UIViewController {
 //MARK: CreateCategoryViewProtocol
 
 extension CreateCategoryViewController: CreateCategoryViewProtocol {
+    func updateSaveButton(isEnabled: Bool) {
+        saveButton.isEnabled = isEnabled
+        saveButton.alpha = isEnabled ? 1.0 : 0.5
+    }
+    
     func displayData(model: CreateCategoryScreenModel, reloadData: Bool) {
         screenModel = model
         if reloadData {

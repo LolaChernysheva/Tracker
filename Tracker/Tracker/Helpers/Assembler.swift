@@ -81,9 +81,9 @@ final class Assembler: AssemblerProtocol {
         return view
     }
     
-    static func buildCreateCategoryModule() -> UIViewController {
+    static func buildCreateCategoryModule(onSave: @escaping (TrackerCategory) -> Void) -> UIViewController {
         let view = CreateCategoryViewController()
-        let presenter = CreateCategoryPresenter(view: view)
+        let presenter = CreateCategoryPresenter(view: view, onSave: onSave)
         view.presenter = presenter
         return view
         
