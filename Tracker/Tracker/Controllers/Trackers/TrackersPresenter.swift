@@ -113,7 +113,7 @@ extension TrackersPresenter: TrackersPresenterProtocol {
         guard let view else { return }
         router.showCreateTrackerController(selectedDate: view.currentDate) { [ weak self ] tracker in
             guard let self else { return }
-            categories.append(.init(id: UUID(), title: "777", trackers: [tracker]))
+            categories.append(.init(id: UUID(), title: tracker.category?.title ?? "", trackers: [tracker]))
             render(reloadData: true)
         }
     }
