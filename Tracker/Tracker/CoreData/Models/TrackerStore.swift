@@ -34,7 +34,7 @@ final class TrackerStore {
         }
     }
     
-    func fetchTrackers() throws -> [Tracker] {
+    func fetchTrackers() -> [Tracker] {
         let fetchRequest: NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
         
         do {
@@ -47,7 +47,7 @@ final class TrackerStore {
             }
             return trackers
         } catch let error as NSError {
-            throw TrackerError.fetchError(error)
+            return []
         }
     }
 }

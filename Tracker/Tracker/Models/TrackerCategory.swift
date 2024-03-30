@@ -11,7 +11,6 @@ import Foundation
 struct TrackerCategory {
     let id: UUID
     let title: String
-    var trackers: [Tracker] = []
 }
 
 extension TrackerCategory {
@@ -21,5 +20,15 @@ extension TrackerCategory {
         else { return nil }
         self.title = title
         self.id = id
+    }
+}
+
+extension TrackerCategory: Hashable {
+    static func == (lhs: TrackerCategory, rhs: TrackerCategory) -> Bool {
+        return lhs.id == rhs.id
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
     }
 }
