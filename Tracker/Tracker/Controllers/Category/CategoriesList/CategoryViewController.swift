@@ -53,7 +53,7 @@ extension CategoryViewController: UITableViewDelegate {
         DispatchQueue.global().sync {
             presenter.chooseCategory(index: indexPath.row)
         }
-        navigationController?.popToRootViewController(animated: true)
+        navigationController?.popViewController(animated: true)
     }
 }
 
