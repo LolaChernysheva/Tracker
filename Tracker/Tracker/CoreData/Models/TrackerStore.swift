@@ -17,7 +17,7 @@ enum TrackerError: Error {
 final class TrackerStore {
     private let context = CoreDataStack.shared.persistentContainer.viewContext
 
-    func createTracker(with tracker: Tracker) {
+    func createTracker(with tracker: Tracker) throws {
         let trackerEntity = TrackerCoreData(context: context)
         trackerEntity.id = tracker.id
         //TODO: -
@@ -31,6 +31,7 @@ final class TrackerStore {
             try context.save()
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
+            throw error
         }
     }
     

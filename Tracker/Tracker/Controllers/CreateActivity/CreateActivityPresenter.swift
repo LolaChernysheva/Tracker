@@ -33,10 +33,11 @@ final class CreateActivityPresenter {
         && !enteredEmogi.isEmpty
         && enteredColor != nil
         && enteredCategory != nil
-        && state == .createEvent || !enteredSchedule.weekdays.isEmpty
+        && (state == .createEvent || !enteredSchedule.weekdays.isEmpty)
         
     }
     
+    private var trackersStore = TrackerStore()
     private var router: CreateActivityRouterProtocol
     private var state: CreateActivityState?
     private weak var view: CreateActivityViewProtocol?
@@ -232,6 +233,12 @@ extension CreateActivityPresenter: CreateActivityPresenterProtocol {
             schedule: schedule,
             category: enteredCategory
         )
+        
+        do {
+            try trackersStore.createTracker(with: tracker)
+        } catch {
+            print("❌❌❌ Не удалось преобразовать Tracker в TrackerCoreData")
+        }
         
        onSave(tracker)
     }

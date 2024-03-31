@@ -141,7 +141,9 @@ final class CreateActivityViewController: UIViewController {
     }
     
     @objc private func createButtonTapped() {
-        presenter.createActivity(for: presenter.selectedDate)
+        DispatchQueue.global().sync {
+            presenter.createActivity(for: presenter.selectedDate)
+        }
         navigationController?.dismiss(animated: true)
     }
 }

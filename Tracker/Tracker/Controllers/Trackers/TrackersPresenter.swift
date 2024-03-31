@@ -34,7 +34,7 @@ final class TrackersPresenter {
 //                trackersByCategory[category, default: []].append(tracker)
 //            }
 //        }
- //   }
+//    }
     
     var trackersByCategory = [TrackerCategory: [Tracker]]()
     
