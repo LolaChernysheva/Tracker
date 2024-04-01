@@ -39,7 +39,19 @@ final class TrackerCategoryStore {
             }
             return categories
         } catch let error as NSError {
-            print("Не удалось получить категории: \(error), \(error.userInfo)")
+            print("❌❌❌ Не удалось получить категории: \(error), \(error.userInfo)")
+            return []
+        }
+    }
+    
+    func fetchCategoriesCoreData() -> [TrackerCategoryCoreData] {
+        let fetchRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
+
+        do {
+            let categoryEntities = try context.fetch(fetchRequest)
+            return categoryEntities
+        } catch let error as NSError {
+            print("❌❌❌ Не удалось получить категории: \(error), \(error.userInfo)")
             return []
         }
     }

@@ -20,21 +20,18 @@ protocol TrackersPresenterProtocol: AnyObject {
 final class TrackersPresenter {
     
     var trackers: [Tracker] {
-        Array(trackersByCategory.values.flatMap { $0 })
+        get {
+            let trackerStore = TrackerStore()
+            return trackerStore.fetchTrackers()
+        }
+
+        set(newTrackers) {
+            for tracker in newTrackers {
+                guard let category = tracker.category else { continue }
+                trackersByCategory[category, default: []].append(tracker)
+            }
+        }
     }
-    //{
-//        get {
-//            let trackerStore = TrackerStore()
-//            return trackerStore.fetchTrackers()
-//        }
-//
-//        set(newTrackers) {
-//            for tracker in newTrackers {
-//                guard let category = tracker.category else { continue }
-//                trackersByCategory[category, default: []].append(tracker)
-//            }
-//        }
-//    }
     
     var trackersByCategory = [TrackerCategory: [Tracker]]()
     
@@ -54,10 +51,11 @@ final class TrackersPresenter {
     }
     
     private func buildScreenModel() -> TrackersScreenModel {
-        let categories = (view?.isFiltering == true || view?.isSearching == true) ? Array(filteredTrackersByCategory.keys) : Array(trackersByCategory.keys)
-        
+        let categoriesWithTrackers = (view?.isFiltering == true || view?.isSearching == true) ? filteredTrackersByCategory : trackersByCategory
+        let categories = Array(categoriesWithTrackers.keys)
         let sections: [TrackersScreenModel.CollectionData.Section] = categories.compactMap { category in
-            let cells = trackers
+            let cells = categoriesWithTrackers.values
+                .flatMap { $0 }
                 .filter { $0.category == category }
                 .compactMap { tracker -> TrackersScreenModel.CollectionData.Cell? in
                 guard let view else { return nil }
@@ -118,6 +116,13 @@ final class TrackersPresenter {
 
 extension TrackersPresenter: TrackersPresenterProtocol {
     func setup() {
+        
+        let trackers = TrackerStore().fetchTrackers()
+        trackers.forEach { tracker in
+            if let category = tracker.category {
+                self.trackersByCategory[category, default: []].append(tracker)
+            }
+        }
         render()
     }
     
@@ -132,10 +137,14 @@ extension TrackersPresenter: TrackersPresenterProtocol {
     
     func showSearchResults(with inputText: String) {
         self.filteredTrackersByCategory.removeAll()
-        self.filteredTrackersByCategory = trackersByCategory
-            .filter({ $0.value.contains { tracker in
-            tracker.title.contains(inputText)
-        } })
+        trackersByCategory.values
+            .flatMap { $0 }
+            .filter { $0.title.contains(inputText) }
+            .forEach {
+                if let category = $0.category {
+                    self.filteredTrackersByCategory[category, default: []].append($0)
+                }
+            }
         render(reloadData: true)
     }
     

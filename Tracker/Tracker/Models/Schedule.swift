@@ -12,7 +12,7 @@ import Foundation
 public class Schedule: NSObject, NSSecureCoding {
     public static var supportsSecureCoding: Bool = true
 
-    var weekdays: Set<Weekday>
+    var weekdays: Set<Weekday> = []
     var date: Date?
 
     init(weekdays: Set<Weekday>, date: Date? = nil) {
@@ -21,12 +21,18 @@ public class Schedule: NSObject, NSSecureCoding {
     }
 
     required public init?(coder: NSCoder) {
-        self.weekdays = coder.decodeObject(forKey: "weekdays") as? Set<Weekday> ?? []
+        if let weekdaysStrRaw = coder.decodeObject(forKey: "weekdays") as? String {
+            let weekdaysArr = weekdaysStrRaw.split(separator: ";")
+                .compactMap { Int($0) }
+                .compactMap { Weekday(rawValue: $0) }
+            self.weekdays = Set(weekdaysArr)
+        }
         self.date = coder.decodeObject(forKey: "date") as? Date
     }
 
     public func encode(with coder: NSCoder) {
-        coder.encode(weekdays, forKey: "weekdays")
+        let weekdaysArrRaw: String = weekdays.map { String($0.rawValue) }.joined(separator: ";")
+        coder.encode(weekdaysArrRaw, forKey: "weekdays")
         coder.encode(date, forKey: "date")
     }
     

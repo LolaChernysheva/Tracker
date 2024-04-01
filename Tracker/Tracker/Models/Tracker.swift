@@ -20,10 +20,11 @@ struct Tracker {
 
 extension Tracker {
     init?(from trackerEntity: TrackerCoreData) {
-        guard let id = trackerEntity.id,
-              let title = trackerEntity.title,
-              let color = trackerEntity.color,
-              let emoji = trackerEntity.emoji,
+        let id = trackerEntity.id
+        let title = trackerEntity.title
+        let emoji = trackerEntity.emoji
+        
+        guard let color = trackerEntity.color,
               let schedule = trackerEntity.schedule,
               let category = trackerEntity.category
         else { return nil }

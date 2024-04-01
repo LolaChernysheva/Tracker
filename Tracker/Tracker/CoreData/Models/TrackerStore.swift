@@ -20,8 +20,8 @@ final class TrackerStore {
     func createTracker(with tracker: Tracker) throws {
         let trackerEntity = TrackerCoreData(context: context)
         trackerEntity.id = tracker.id
-        //TODO: -
-        //trackerEntity.category = tracker.category
+        let category = TrackerCategoryStore().fetchCategoriesCoreData().first(where: {$0.id == tracker.category?.id})
+        trackerEntity.category = category
         trackerEntity.color = tracker.color
         trackerEntity.emoji = tracker.emogi
         trackerEntity.schedule = tracker.schedule
@@ -30,7 +30,7 @@ final class TrackerStore {
         do {
             try context.save()
         } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
+            print("❌❌❌ Could not save. \(error), \(error.userInfo)")
             throw error
         }
     }
@@ -48,6 +48,7 @@ final class TrackerStore {
             }
             return trackers
         } catch let error as NSError {
+            print("❌❌❌ Не удалось прочитать Tracker из БД", error.localizedDescription)
             return []
         }
     }
