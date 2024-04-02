@@ -40,9 +40,18 @@ final class TrackersPresenter {
         return ((view.isSearching || view.isFiltering) && filteredTrackersByCategory.isEmpty) || trackers.isEmpty
     }
     
+    private var completedTrackers: Set<TrackerRecord> {
+        get {
+            let trackerRecordsStore = TrackerRecordStore()
+            var trackersRecords = trackerRecordsStore.fetchTrackerRecords()
+            return Set(trackersRecords)
+        }
+        
+        set {}
+    }
+    
     private weak var view: TrackersViewProtocol?
     private let router: TrackersRouterProtocol
-    private var completedTrackers: Set<TrackerRecord> = []
     private var filteredTrackersByCategory = [TrackerCategory: [Tracker]]()
     
     init(view: TrackersViewProtocol, router: TrackersRouterProtocol) {
@@ -75,8 +84,10 @@ final class TrackersPresenter {
                             return
                         } else {
                             if completedTrackers.contains(trackerRecord) {
+                                deleteTrackerRecord(withId: trackerRecord.id)
                                 completedTrackers.remove(trackerRecord)
                             } else {
+                                addTrackerRecord(trackerRecord: trackerRecord)
                                 completedTrackers.insert(trackerRecord)
                             }
                         }
@@ -97,6 +108,24 @@ final class TrackersPresenter {
             filtersButtonTitle: "Фильтры",
             addBarButtonColor: Assets.Colors.navBarItem ?? .black
         )
+    }
+    
+    private func addTrackerRecord(trackerRecord: TrackerRecord) {
+        do {
+            try TrackerRecordStore().createTrackerRecord(with: trackerRecord)
+            print("✅ TrackerRecord успешно добавлен")
+            render(reloadData: true)
+        } catch {
+            print("❌ Не удалось создать TrackerRecord: \(error)")
+        }
+    }
+    
+    private func deleteTrackerRecord(withId id: UUID) {
+        do {
+            try TrackerRecordStore().deleteTrackerRecord(withId: id)
+        } catch {
+            print("Ошибка при удалении записи трекера: \(error)")
+        }
     }
     
     private func backgroundState() -> BackgroundView.BackgroundState {
