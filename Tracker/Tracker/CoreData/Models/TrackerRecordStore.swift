@@ -61,4 +61,16 @@ final class TrackerRecordStore {
             throw error
         }
     }
+    
+    func fetchedResultsController() -> NSFetchedResultsController<TrackerRecordCoreData> {
+        let fetchRequest: NSFetchRequest<TrackerRecordCoreData> = TrackerRecordCoreData.fetchRequest()
+        
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: true)]
+        
+        let controller = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                                    managedObjectContext: context,
+                                                    sectionNameKeyPath: nil,
+                                                    cacheName: nil)
+        return controller
+    }
 }

@@ -55,4 +55,16 @@ final class TrackerCategoryStore {
             return []
         }
     }
+    
+    func fetchedResultsController() -> NSFetchedResultsController<TrackerCategoryCoreData> {
+        let fetchRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
+
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        
+        let controller = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                                    managedObjectContext: context,
+                                                    sectionNameKeyPath: nil,
+                                                    cacheName: nil)
+        return controller
+    }
 }
