@@ -28,7 +28,6 @@ final class CategoryPresenter {
     private weak var view: CategoryViewProtocol?
     private var router: CategoryRouterProtocol
     private var categories: [TrackerCategory]
-    //private var categoryStore = TrackerCategoryStore()
 
     var shouldShowBackgroundView: Bool {
         get {
@@ -84,7 +83,9 @@ extension CategoryPresenter: CategoryPresenterProtocol {
     func addCategory() {
         router.showCreateCategoryController { [ weak self ] category in
             guard let self else { return }
-            self.categories.append(category)
+            DispatchQueue.global().sync {
+                self.categories.append(category)
+            }
             render()
         }
     }
