@@ -79,7 +79,9 @@ class TrackerCollectionViewCell: UICollectionViewCell {
     
     private func setupDaysContLabel() {
         guard let viewModel else { return }
-        daysCountLabel.text = "\(viewModel.daysCount ?? 0) дней"
+        let daysCount = viewModel.daysCount ?? 0
+        let daysWord = correctDaysForm(daysCount: daysCount)
+        daysCountLabel.text = "\(daysCount) \(daysWord)"
     }
     
     private func setupTitleLabel() {
@@ -125,5 +127,22 @@ class TrackerCollectionViewCell: UICollectionViewCell {
     }
     @IBAction func doneButtonAction(_ sender: Any) {
         doneAction()
+    }
+}
+
+private extension TrackerCollectionViewCell {
+    func correctDaysForm(daysCount: Int) -> String {
+        let lastDigit = daysCount % 10
+        let lastTwoDigits = daysCount % 100
+        
+        if lastTwoDigits >= 11 && lastTwoDigits <= 19 {
+            return "дней"
+        } else if lastDigit == 1 {
+            return "день"
+        } else if lastDigit >= 2 && lastDigit <= 4 {
+            return "дня"
+        } else {
+            return "дней"
+        }
     }
 }
