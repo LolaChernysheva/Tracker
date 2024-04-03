@@ -30,7 +30,10 @@ final class CreateCategoryPresenter: CreateCategoryPresenterProtocol {
         !enteredCategoryName.isEmpty
     }
     
-    init(view: CreateCategoryViewProtocol, onSave: @escaping (TrackerCategory) -> Void) {
+    init(
+        view: CreateCategoryViewProtocol,
+        onSave: @escaping (TrackerCategory) -> Void)
+    {
         self.view = view
         self.onSave = onSave
     }

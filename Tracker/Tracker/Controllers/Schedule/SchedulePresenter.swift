@@ -31,7 +31,11 @@ final class SchedulePresenter {
     private var days: [WeekDay] = [.monday, .thusday, .wednesday, .thursday, .friday, .saturday, .sunday]
     private var selectedDays: Set<Weekday> = []
     
-    init(view: ScheduleViewProtocol, selectedDays: Set<Weekday>, onSave: @escaping (Schedule) -> Void) {
+    init(
+        view: ScheduleViewProtocol,
+        selectedDays: Set<Weekday>,
+        onSave: @escaping (Schedule) -> Void
+    ) {
         self.view = view
         self.selectedDays = selectedDays
         self.onSave = onSave

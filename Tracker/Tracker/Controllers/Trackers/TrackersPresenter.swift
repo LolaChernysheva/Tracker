@@ -54,7 +54,10 @@ final class TrackersPresenter {
     private let router: TrackersRouterProtocol
     private var filteredTrackersByCategory = [TrackerCategory: [Tracker]]()
     
-    init(view: TrackersViewProtocol, router: TrackersRouterProtocol) {
+    init(
+        view: TrackersViewProtocol,
+        router: TrackersRouterProtocol
+    ) {
         self.view = view
         self.router = router
     }

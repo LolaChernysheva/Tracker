@@ -21,7 +21,12 @@ final class CreateTrackerPresenter {
     private weak var view: CreateTrackerViewProtocol?
     private var router: CreateTrackerRouterProtocol
     
-    init(view: CreateTrackerViewProtocol?, selectedDate: Date, router: CreateTrackerRouterProtocol, onSave: @escaping (Tracker) -> Void) {
+    init(
+        view: CreateTrackerViewProtocol?,
+        selectedDate: Date,
+        router: CreateTrackerRouterProtocol,
+        onSave: @escaping (Tracker) -> Void
+    ) {
         self.view = view
         self.onSave = onSave
         self.router = router

@@ -33,7 +33,10 @@ final class SwitchCell: UITableViewCell {
     
     private var valueChanged: SwitchClousure?
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+    override init(
+        style: UITableViewCell.CellStyle,
+        reuseIdentifier: String?
+    ) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupView()
     }

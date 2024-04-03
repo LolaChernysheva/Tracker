@@ -15,7 +15,10 @@ public class Schedule: NSObject, NSSecureCoding {
     var weekdays: Set<Weekday> = []
     var date: Date?
 
-    init(weekdays: Set<Weekday>, date: Date? = nil) {
+    init(
+        weekdays: Set<Weekday>,
+        date: Date? = nil
+    ) {
         self.weekdays = weekdays
         self.date = date
     }

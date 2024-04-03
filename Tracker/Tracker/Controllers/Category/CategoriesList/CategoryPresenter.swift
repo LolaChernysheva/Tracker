@@ -37,7 +37,13 @@ final class CategoryPresenter {
     
     var categoryIsChosen: (TrackerCategory) -> Void
     
-    init(view: CategoryViewProtocol, state: CategoryScreenState, categories: [TrackerCategory], router: CategoryRouterProtocol, categoryIsChosen: @escaping (TrackerCategory) -> Void) {
+    init(
+        view: CategoryViewProtocol,
+        state: CategoryScreenState,
+        categories: [TrackerCategory],
+        router: CategoryRouterProtocol,
+        categoryIsChosen: @escaping (TrackerCategory) -> Void
+    ) {
         self.view = view
         self.state = state
         self.categories = categories
