@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F30906D42BC0394B00601E06 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30906D32BC0394B00601E06 /* OnboardingViewController.swift */; };
+		F30906D72BC1328B00601E06 /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30906D62BC1328B00601E06 /* OnboardingPageViewController.swift */; };
 		F33895FB2B7A5C9D008A8773 /* SupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33895FA2B7A5C9D008A8773 /* SupplementaryView.swift */; };
 		F33BDAFF2B837D41004AFF8D /* CreateActivityPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33BDAFE2B837D41004AFF8D /* CreateActivityPresenter.swift */; };
 		F33BDB012B837DC7004AFF8D /* CreateActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33BDB002B837DC7004AFF8D /* CreateActivityViewController.swift */; };
@@ -67,6 +69,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F30906D32BC0394B00601E06 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		F30906D62BC1328B00601E06 /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
 		F33895FA2B7A5C9D008A8773 /* SupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupplementaryView.swift; sourceTree = "<group>"; };
 		F33BDAFE2B837D41004AFF8D /* CreateActivityPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateActivityPresenter.swift; sourceTree = "<group>"; };
 		F33BDB002B837DC7004AFF8D /* CreateActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateActivityViewController.swift; sourceTree = "<group>"; };
@@ -139,6 +143,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F30906D52BC1327B00601E06 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				F30906D32BC0394B00601E06 /* OnboardingViewController.swift */,
+				F30906D62BC1328B00601E06 /* OnboardingPageViewController.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
 		F33BDAFD2B837D2A004AFF8D /* CreateActivity */ = {
 			isa = PBXGroup;
 			children = (
@@ -278,6 +291,7 @@
 		F3C347842B76754200AF9272 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				F30906D52BC1327B00601E06 /* Onboarding */,
 				F38A83522BB028B200E51856 /* Category */,
 				F3B7BC792B85024E00A20EBB /* Schedule */,
 				F33BDAFD2B837D2A004AFF8D /* CreateActivity */,
@@ -490,12 +504,14 @@
 				F3C347912B7677D500AF9272 /* Assembler.swift in Sources */,
 				F38A83562BB028DC00E51856 /* CategoryPresenter.swift in Sources */,
 				F33BDB112B84CD5D004AFF8D /* ColorTableViewCell.swift in Sources */,
+				F30906D42BC0394B00601E06 /* OnboardingViewController.swift in Sources */,
 				F33BDB0B2B84846B004AFF8D /* ColorCell.swift in Sources */,
 				F33BDB0D2B84848C004AFF8D /* EmojiCell.swift in Sources */,
 				F34D6D9A2B99E641009424C1 /* TrackerCategoryStore.swift in Sources */,
 				F3B7BC812B8503A200A20EBB /* SwitchCell.swift in Sources */,
 				F3C347962B767A2300AF9272 /* StatisticPresenter.swift in Sources */,
 				F357E50B2BB2AF1500433297 /* CategoryRouter.swift in Sources */,
+				F30906D72BC1328B00601E06 /* OnboardingPageViewController.swift in Sources */,
 				F33BDB142B84D299004AFF8D /* HeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
