@@ -1,5 +1,5 @@
 //
-//  CategoryPresenter.swift
+//  CategoryViewModel.swift
 //  Tracker
 //
 //  Created by Lolita Chernysheva on 24.03.2024.
@@ -13,38 +13,50 @@ enum CategoryScreenState {
     case categoriesList
 }
 
-protocol CategoryPresenterProtocol: AnyObject {
+protocol CategoryTableDataProtocol {
+    var onDataChange: (CategoryScreenModel) -> Void { get set }
+    func numberOfSections() -> Int
+    func numberOfRows(section: Int) -> Int
+    func tableDataCell(indexPath: IndexPath) -> CategoryScreenModel.TableData.Cell
+}
+
+protocol CategoryViewModelProtocol: AnyObject, CategoryTableDataProtocol {
     var shouldShowBackgroundView: Bool { get }
     var state: CategoryScreenState? { get }
     var categoryIsChosen: (TrackerCategory) -> Void { get }
     func setup()
     func addCategory()
     func chooseCategory(index: Int)
+
 }
 
-final class CategoryPresenter {
+final class CategoryViewModel {
+    
+    typealias TableData = CategoryScreenModel.TableData
     
     var state: CategoryScreenState?
-    private weak var view: CategoryViewProtocol?
-    private var router: CategoryRouterProtocol
-    private var categories: [TrackerCategory]
-
+    var onDataChange: (CategoryScreenModel) -> Void = { _ in }
+    var categoryIsChosen: (TrackerCategory) -> Void
     var shouldShowBackgroundView: Bool {
         get {
             state == .empty
         }
     }
     
-    var categoryIsChosen: (TrackerCategory) -> Void
+    private var router: CategoryRouterProtocol
+    private var categories: [TrackerCategory]
+    private var model: CategoryScreenModel = .empty {
+        didSet {
+            onDataChange(model)
+        }
+    }
     
     init(
-        view: CategoryViewProtocol,
         state: CategoryScreenState,
         categories: [TrackerCategory],
         router: CategoryRouterProtocol,
         categoryIsChosen: @escaping (TrackerCategory) -> Void
     ) {
-        self.view = view
         self.state = state
         self.categories = categories
         self.router = router
@@ -59,23 +71,22 @@ final class CategoryPresenter {
         )
     }
     
-    private func buildTableData() -> CategoryScreenModel.TableData {
-        return CategoryScreenModel.TableData(sections: [
+    private func buildTableData() -> TableData {
+        return TableData(sections: [
             buildCategoriesSection()
         ])
     }
     
-    private func buildCategoriesSection() -> CategoryScreenModel.TableData.Section {
+    private func buildCategoriesSection() -> TableData.Section {
         .simpleSection( cells:categories.map { .labledCell(LabledCellViewModel(title: $0.title, style: .leftSideTitle))})
     }
 
-    
-    private func render() {
-        view?.displayData(model: buildScreenModel(), reloadData: true)
+    private func updateModel() {
+        self.model = buildScreenModel()
     }
 }
 
-extension CategoryPresenter: CategoryPresenterProtocol {
+extension CategoryViewModel: CategoryViewModelProtocol {
     func chooseCategory(index: Int) {
         let outputCategory = categories[index]
         categoryIsChosen(outputCategory)
@@ -83,7 +94,7 @@ extension CategoryPresenter: CategoryPresenterProtocol {
     
     
     func setup() {
-        render()
+        updateModel()
     }
     
     func addCategory() {
@@ -92,9 +103,28 @@ extension CategoryPresenter: CategoryPresenterProtocol {
             DispatchQueue.main.async {
                 self.categories.append(category)
                 self.state = self.categories.isEmpty ? .empty : .categoriesList
-                self.render()
+                self.updateModel()
             }
         }
     }
 }
 
+extension CategoryViewModel: CategoryTableDataProtocol {
+    func numberOfSections() -> Int {
+        return model.tableData.sections.count
+    }
+    
+    func numberOfRows(section: Int) -> Int {
+        switch model.tableData.sections[section] {
+        case let .simpleSection(cells):
+            return cells.count
+        }
+    }
+    
+    func tableDataCell(indexPath: IndexPath) -> TableData.Cell {
+        switch model.tableData.sections[indexPath.section] {
+        case let .simpleSection(cells):
+            return cells[indexPath.row]
+        }
+    }
+}

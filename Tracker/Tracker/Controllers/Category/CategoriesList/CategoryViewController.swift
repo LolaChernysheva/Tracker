@@ -8,21 +8,11 @@
 
 import UIKit
 
-protocol CategoryViewProtocol: AnyObject {
-    func displayData(model: CategoryScreenModel, reloadData: Bool)
-}
+protocol CategoryViewProtocol: AnyObject {}
 
 final class CategoryViewController: UIViewController {
     
-    typealias TableData = CategoryScreenModel.TableData
-    
-    var presenter: CategoryPresenterProtocol!
-    
-    private var model: CategoryScreenModel = .empty {
-        didSet {
-            setup()
-        }
-    }
+    var viewModel: CategoryViewModelProtocol!
     
     private lazy var tableView = UITableView(frame: .zero, style: .insetGrouped)
     private var button = UIButton()
@@ -30,19 +20,9 @@ final class CategoryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter.setup()
+        setup()
+        viewModel.setup()
         setupView()
-    }
-}
-
-//MARK: - CategoryViewProtocol
-
-extension CategoryViewController: CategoryViewProtocol {
-    func displayData(model: CategoryScreenModel, reloadData: Bool) {
-        self.model = model
-        if reloadData {
-            tableView.reloadData()
-        }
     }
 }
 
@@ -51,7 +31,7 @@ extension CategoryViewController: CategoryViewProtocol {
 extension CategoryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         DispatchQueue.global().sync {
-            presenter.chooseCategory(index: indexPath.row)
+            viewModel.chooseCategory(index: indexPath.row)
         }
         navigationController?.popViewController(animated: true)
     }
@@ -61,7 +41,7 @@ extension CategoryViewController: UITableViewDelegate {
 
 extension CategoryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellType = tableDataCell(indexPath: indexPath)
+        let cellType = viewModel.tableDataCell(indexPath: indexPath)
         var cell: UITableViewCell
         
         switch cellType {
@@ -75,14 +55,11 @@ extension CategoryViewController: UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return model.tableData.sections.count
+        return viewModel.numberOfSections()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch model.tableData.sections[section] {
-        case let .simpleSection(cells):
-            return cells.count
-        }
+        viewModel.numberOfRows(section: section)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -97,12 +74,16 @@ private extension CategoryViewController {
         setupButton()
         configureTableView()
         navigationItem.hidesBackButton = true
+        view.backgroundColor = .background
     }
     
     func setup() {
-        title = model.title
-        view.backgroundColor = .background
-        button.setTitle(model.buttonTitle, for: .normal)
+        viewModel.onDataChange = { [ weak self ] model in
+            guard let self else { return }
+            self.title = model.title
+            self.button.setTitle(model.buttonTitle, for: .normal)
+            self.tableView.reloadData()
+        }
         updateBackgroundViewVisiability()
     }
     
@@ -124,7 +105,7 @@ private extension CategoryViewController {
     }
     
     @objc private func addCategory() {
-        presenter.addCategory()
+        viewModel.addCategory()
     }
     
     func configureTableView() {
@@ -161,21 +142,16 @@ private extension CategoryViewController {
     }
     
     func updateBackgroundViewVisiability() {
-        backgroundView.isHidden = !presenter.shouldShowBackgroundView
-        tableView.isHidden = presenter.shouldShowBackgroundView
+        backgroundView.isHidden = !viewModel.shouldShowBackgroundView
+        tableView.isHidden = viewModel.shouldShowBackgroundView
 
-        if presenter.shouldShowBackgroundView {
+        if viewModel.shouldShowBackgroundView {
             configureBackgroundView()
         }
     }
-    
-    func tableDataCell(indexPath: IndexPath) -> TableData.Cell {
-        switch model.tableData.sections[indexPath.section] {
-        case let .simpleSection(cells):
-            return cells[indexPath.row]
-        }
-    }
 }
+
+extension CategoryViewController: CategoryViewProtocol {}
 
 
 private extension CGFloat {
