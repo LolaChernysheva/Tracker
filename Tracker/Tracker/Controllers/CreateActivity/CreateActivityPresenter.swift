@@ -85,9 +85,9 @@ final class CreateActivityPresenter {
         let title: String = {
             switch self.state {
             case .createHabit:
-                "Новая привычка"
+                NSLocalizedString("New habit", comment: "")
             case .createEvent:
-                "Новое нерегулярное событие"
+                "New irregular event"
             case nil:
                 ""
             }
@@ -103,8 +103,8 @@ final class CreateActivityPresenter {
         return CreateActivityScreenModel(
             title: title,
             tableData: .init(sections: sections),
-            cancelButtonTitle: "Отменить",
-            createButtonTitle: "Создать")
+            cancelButtonTitle: NSLocalizedString("Cancel", comment: ""),
+            createButtonTitle: NSLocalizedString("Create", comment: ""))
     }
     
     private func createEmojiSection() -> TableData.Section {
@@ -125,7 +125,7 @@ final class CreateActivityPresenter {
     
     private func createColorSection() -> TableData.Section {
         return .headered(
-            header: "Цвет",
+            header: NSLocalizedString("Color", comment: ""),
             cells: [.colorCell(.init(action: { [ weak self ] color in
                 guard let self else { return }
                 self.enteredColor = color
@@ -135,7 +135,7 @@ final class CreateActivityPresenter {
     private func createActivityNameSection() -> TableData.Section {
         return .simple(cells: [
             .textFieldCell(.init(
-                placeholderText: "Введите название трекера",
+                placeholderText: NSLocalizedString("Enter the tracker name", comment: ""),
                 inputText: enteredActivityName,
                 textDidChanged: { [ weak self ] inputText in
                     guard let self else { return }
@@ -146,7 +146,7 @@ final class CreateActivityPresenter {
     
     private func createActivitySettingsSection() -> TableData.Section {
         let categogyCell: TableData.Cell = .detailCell(.init(
-            title: "Категория",
+            title: NSLocalizedString("Category", comment: ""),
             subtitle: enteredCategory?.title ?? "",
             action: { [ weak self ] in
                 guard let self else { return }
@@ -155,7 +155,7 @@ final class CreateActivityPresenter {
         }))
         
         let scheduleCell: TableData.Cell = .detailCell(SubtitledDetailTableViewCellViewModel(
-            title: "Расписание",
+            title: NSLocalizedString("Schedule", comment: ""),
             subtitle: createScheduleDetailInfo(),
         action: { [ weak self ] in
             guard let self else { return }
@@ -196,11 +196,11 @@ final class CreateActivityPresenter {
         
         switch weekdays.count {
         case 7:
-            return "Каждый день"
+            return NSLocalizedString("Every day", comment: "")
         case 5 where !weekdays.contains(.saturday) && !weekdays.contains(.sunday):
-            return "Будние"
+            return NSLocalizedString("Weekdays", comment: "")
         case 2 where weekdays.contains(.saturday) && weekdays.contains(.sunday):
-            return "Выходные"
+            return NSLocalizedString("Weekend", comment: "")
         default:
             return sortedWeekdays.map { $0.shortName }.joined(separator: ", ")
         }

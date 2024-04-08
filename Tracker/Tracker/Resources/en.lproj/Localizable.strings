@@ -1,0 +1,30 @@
+/* 
+  Localizable.strings
+  Tracker
+
+  Created by Лолита Чернышева on 07.04.2024.
+  
+*/
+
+"That's the technology!" = "That's the technology!";
+"Category" = "Category";
+"Add category" = "Add category";
+"New category" = "New category";
+"Enter the category name" = "Enter the category name";
+"Done" = "Done";
+"Schedule" = "Schedule";
+"New habit" = "New habit";
+"New irregular event" = "New irregular event";
+"Cancel" = "Cancel";
+"Create" = "Create";
+"Color" = "Color";
+"Enter the tracker name" = "Enter the tracker name";
+"Every day" = "Every day";
+"Weekdays" = "Weekdays";
+"Weekend" = "Weekend";
+"Habit" = "Habit";
+"Irregular event" = "Irregular event";
+"Tracker creating" = "Tracker creating";
+"Trackers" = "Trackers";
+"Filters" = "Filters";
+

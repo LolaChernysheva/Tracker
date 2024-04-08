@@ -73,7 +73,7 @@ final class OnboardingViewController: UIPageViewController {
         startButton.layer.cornerRadius = .radius
         startButton.clipsToBounds = true
         startButton.backgroundColor = .buttons
-        startButton.setTitle(NSLocalizedString("Вот это технологии!", comment: ""), for: .normal)
+        startButton.setTitle(NSLocalizedString("That's the technology!", comment: ""), for: .normal)
         startButton.addTarget(self, action: #selector(goToTrackersController), for: .touchUpInside)
     }
     

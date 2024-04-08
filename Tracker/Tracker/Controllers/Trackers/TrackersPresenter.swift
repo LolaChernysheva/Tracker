@@ -105,10 +105,10 @@ final class TrackersPresenter {
         }
         
         return TrackersScreenModel (
-            title: "Трекеры",
+            title: NSLocalizedString("Trackers", comment: ""),
             emptyState: backgroundState(),
             collectionData: .init(sections: sections),
-            filtersButtonTitle: "Фильтры",
+            filtersButtonTitle: NSLocalizedString("Filters", comment: ""),
             addBarButtonColor: Assets.Colors.navBarItem ?? .black
         )
     }
