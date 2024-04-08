@@ -60,7 +60,8 @@ class TrackerCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         setup()
-        containerView.backgroundColor = .orange
+        setupContextMenu()
+        backgroundColor = .clear
     }
 
     private func setup() {
@@ -121,6 +122,11 @@ class TrackerCollectionViewCell: UICollectionViewCell {
         doneAction = viewModel.doneButtonHandler
     }
     
+    private func setupContextMenu() {
+        let interaction = UIContextMenuInteraction(delegate: self)
+        containerView.addInteraction(interaction)
+    }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         setup()
@@ -143,6 +149,36 @@ private extension TrackerCollectionViewCell {
             return "дня"
         } else {
             return "дней"
+        }
+    }
+}
+
+//MARK: - UIContextMenuInteractionDelegate
+
+extension TrackerCollectionViewCell: UIContextMenuInteractionDelegate {
+    func contextMenuInteraction(
+        _ interaction: UIContextMenuInteraction,
+        configurationForMenuAtLocation location: CGPoint
+    ) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions -> UIMenu? in
+            let pinAction = UIAction(
+                title: NSLocalizedString("Pin", comment: "")
+            ) { action in
+                
+            }
+            
+            let editAction = UIAction(
+                title: NSLocalizedString("Edit", comment: "")
+            ) { action in
+            }
+            
+            let deleteAction = UIAction(
+                title: NSLocalizedString("Delete", comment: ""),
+                attributes: .destructive
+            ) { action in
+                
+            }
+            return UIMenu(title: "", children: [pinAction, editAction, deleteAction])
         }
     }
 }
