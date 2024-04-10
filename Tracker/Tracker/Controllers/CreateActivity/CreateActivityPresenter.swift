@@ -231,7 +231,8 @@ extension CreateActivityPresenter: CreateActivityPresenterProtocol {
             color: enteredColor ?? .clear,
             emogi: enteredEmogi,
             schedule: schedule,
-            category: enteredCategory
+            category: enteredCategory, 
+            isPinned: false
         )
         
         do {

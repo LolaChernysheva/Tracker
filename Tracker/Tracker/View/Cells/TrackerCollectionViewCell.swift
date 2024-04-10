@@ -11,19 +11,21 @@ import UIKit
 struct TrackerCollectionViewCellViewModel {
     var emoji: String?
     var title: String?
-    var isPinned: Bool?
+    var isPinned: Bool
     var daysCount: Int?
     var color: UIColor?
     var doneButtonHandler: TrackerCollectionViewCell.ActionClousure
+    var pinHandler: (Bool) -> Void
     var isCompleted: Bool
     
     init(
         emoji: String?,
         title: String?,
-        isPinned: Bool?,
+        isPinned: Bool,
         daysCount: Int?,
         color: UIColor?,
         doneButtonHandler: @escaping TrackerCollectionViewCell.ActionClousure,
+        pinHandler: @escaping (Bool) -> Void,
         isCompleted: Bool
     ) {
         self.emoji = emoji
@@ -32,6 +34,7 @@ struct TrackerCollectionViewCellViewModel {
         self.daysCount = daysCount
         self.color = color
         self.doneButtonHandler = doneButtonHandler
+        self.pinHandler = pinHandler
         self.isCompleted = isCompleted
     }
 }
@@ -50,6 +53,7 @@ class TrackerCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var doneButton: UIButton!
     
     private var doneAction: ActionClousure = {}
+    private var togglePinAction: ((Bool) -> Void)?
     
     var viewModel: TrackerCollectionViewCellViewModel? {
         didSet {
@@ -94,10 +98,12 @@ class TrackerCollectionViewCell: UICollectionViewCell {
     
     private func setupPinImageView() {
         guard let viewModel else { return }
-        if viewModel.isPinned == false {
-            pinImageView.isHidden = true
-        }
-        pinImageView.isHidden = !(viewModel.isPinned ?? false)
+        pinImageView.isHidden = !(viewModel.isPinned)
+        pinImageView.image = viewModel.isPinned
+        ? UIImage(systemName: "pin.fill")?
+            .withTintColor(.white, renderingMode: .alwaysOriginal)
+        : nil
+        togglePinAction = viewModel.pinHandler
        
     }
     private func setupEmogiLabel() {
@@ -160,23 +166,28 @@ extension TrackerCollectionViewCell: UIContextMenuInteractionDelegate {
         _ interaction: UIContextMenuInteraction,
         configurationForMenuAtLocation location: CGPoint
     ) -> UIContextMenuConfiguration? {
-        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions -> UIMenu? in
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { [ weak self ] suggestedActions -> UIMenu? in
+            guard let self else { return .none }
             let pinAction = UIAction(
-                title: NSLocalizedString("Pin", comment: "")
-            ) { action in
-                
+                title: (self.viewModel?.isPinned ?? false)
+                ? NSLocalizedString("Unpin", comment: "")
+                : NSLocalizedString("Pin", comment: "")
+            ) { [ weak self ] _ in
+                guard let self else { return }
+                self.viewModel?.pinHandler(!(viewModel?.isPinned ?? false))
             }
             
             let editAction = UIAction(
                 title: NSLocalizedString("Edit", comment: "")
-            ) { action in
+            ) { _ in
             }
             
             let deleteAction = UIAction(
                 title: NSLocalizedString("Delete", comment: ""),
                 attributes: .destructive
-            ) { action in
-                
+            ) { _ in
+                guard let isPinned = self.viewModel?.isPinned else { return }
+                self.viewModel?.pinHandler(!isPinned)
             }
             return UIMenu(title: "", children: [pinAction, editAction, deleteAction])
         }
