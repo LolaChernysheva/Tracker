@@ -112,7 +112,20 @@ final class TrackersPresenter {
                                 }
                             }
                         },
-                        isCompleted: isCompleted)
+                        isCompleted: isCompleted,
+                        deleteTrackerHandler: { [ weak self ] in
+                            guard let self else { return }
+                            self.deleteTracker(withId: tracker.id)
+                            if let category = tracker.category, var trackersInCategory = self.trackersByCategory[category] {
+                                if let index = trackersInCategory.firstIndex(where: { $0.id == tracker.id }) {
+                                    trackersInCategory.remove(at: index)
+                                    self.trackersByCategory[category] = trackersInCategory
+                                    DispatchQueue.main.async {
+                                        self.render(reloadData: true)
+                                    }
+                                }
+                            }
+                        })
                     )
                 }
             return .headeredSection(header: category.title, cells: cells)
@@ -145,6 +158,14 @@ final class TrackersPresenter {
         }
     }
     
+    private func deleteTracker(withId id: UUID) {
+        do {
+            try TrackerStore().deleteTracker(withId: id)
+        } catch {
+            print("Ошибка при удалении трекера: \(error)")
+        }
+    }
+    
     private func backgroundState() -> BackgroundView.BackgroundState {
         guard let view = view else { return .empty }
         if trackers.isEmpty {
@@ -155,6 +176,7 @@ final class TrackersPresenter {
             return .empty
         }
     }
+    
     private func render(reloadData: Bool = true) {
         view?.displayData(model: buildScreenModel(), reloadData: reloadData)
     }

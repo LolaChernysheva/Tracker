@@ -17,6 +17,7 @@ struct TrackerCollectionViewCellViewModel {
     var doneButtonHandler: TrackerCollectionViewCell.ActionClousure
     var pinHandler: (Bool) -> Void
     var isCompleted: Bool
+    var deleteTrackerHandler: () -> Void
     
     init(
         emoji: String?,
@@ -26,7 +27,8 @@ struct TrackerCollectionViewCellViewModel {
         color: UIColor?,
         doneButtonHandler: @escaping TrackerCollectionViewCell.ActionClousure,
         pinHandler: @escaping (Bool) -> Void,
-        isCompleted: Bool
+        isCompleted: Bool,
+        deleteTrackerHandler: @escaping () -> Void
     ) {
         self.emoji = emoji
         self.title = title
@@ -36,6 +38,7 @@ struct TrackerCollectionViewCellViewModel {
         self.doneButtonHandler = doneButtonHandler
         self.pinHandler = pinHandler
         self.isCompleted = isCompleted
+        self.deleteTrackerHandler = deleteTrackerHandler
     }
 }
 
@@ -54,6 +57,8 @@ class TrackerCollectionViewCell: UICollectionViewCell {
     
     private var doneAction: ActionClousure = {}
     private var togglePinAction: ((Bool) -> Void)?
+    private var deleteTrackerHandler: (() -> Void)?
+    
     
     var viewModel: TrackerCollectionViewCellViewModel? {
         didSet {
@@ -75,6 +80,7 @@ class TrackerCollectionViewCell: UICollectionViewCell {
         setupContainerView()
         setupDoneButton()
         setupEmogiLabel()
+        deleteTrackerHandler = viewModel?.deleteTrackerHandler
     }
     
     private func setupContainerView() {
@@ -185,9 +191,8 @@ extension TrackerCollectionViewCell: UIContextMenuInteractionDelegate {
             let deleteAction = UIAction(
                 title: NSLocalizedString("Delete", comment: ""),
                 attributes: .destructive
-            ) { _ in
-                guard let isPinned = self.viewModel?.isPinned else { return }
-                self.viewModel?.pinHandler(!isPinned)
+            ) {  [ weak self ] _ in
+                self?.viewModel?.deleteTrackerHandler()
             }
             return UIMenu(title: "", children: [pinAction, editAction, deleteAction])
         }
