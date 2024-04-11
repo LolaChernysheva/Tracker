@@ -11,6 +11,7 @@ import UIKit
 protocol TrackersRouterProtocol: AnyObject {
     func showCreateTrackerController(selectedDate: Date, onSave: @escaping (Tracker) -> Void)
     func showEditTracker(tracker: Tracker, daysCount: Int, onSave: @escaping (Tracker) -> Void)
+    func showFiltersController()
 }
 
 final class TrackersRouter: TrackersRouterProtocol {
@@ -32,5 +33,11 @@ final class TrackersRouter: TrackersRouterProtocol {
         guard let view = view as? UIViewController else { return }
         let editTrackerController = Assembler.buildEditTrackerModule(tracker: tracker, daysCount: daysCount)
         view.navigationController?.pushViewController(editTrackerController, animated: true)
+    }
+    
+    func showFiltersController() {
+        guard let view = view as? UIViewController else { return }
+        let filtersController = Assembler.buildFiltersController()
+        view.navigationController?.pushViewController(filtersController, animated: true)
     }
 }

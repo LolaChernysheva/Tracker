@@ -15,6 +15,7 @@ protocol TrackersPresenterProtocol: AnyObject {
     func addTracker()
     func showSearchResults(with inputText: String)
     func filterTrackers(for date: Date)
+    func showFilters()
 }
 
 final class TrackersPresenter {
@@ -251,5 +252,9 @@ extension TrackersPresenter: TrackersPresenterProtocol {
         }
         
         render(reloadData: true)
+    }
+    
+    func showFilters() {
+        router.showFiltersController()
     }
 }

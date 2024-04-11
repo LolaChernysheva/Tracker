@@ -204,7 +204,7 @@ final class TrackersViewController: UIViewController {
     }
     
     @objc private func filtersButtonTapped() {
-        
+        presenter.showFilters()
     }
     
     @objc private func datePickerValueChanged(_ sender: UIDatePicker) {

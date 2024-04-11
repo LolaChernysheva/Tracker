@@ -43,6 +43,9 @@
 		F38A83542BB028D200E51856 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38A83532BB028D200E51856 /* CategoryViewController.swift */; };
 		F38A83562BB028DC00E51856 /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38A83552BB028DC00E51856 /* CategoryViewModel.swift */; };
 		F38A83582BB028EB00E51856 /* CategoryScreenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38A83572BB028EB00E51856 /* CategoryScreenModel.swift */; };
+		F3AF32202BC83EA900F7AE1B /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3AF321F2BC83EA900F7AE1B /* FiltersViewController.swift */; };
+		F3AF32222BC83EB700F7AE1B /* FiltersPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3AF32212BC83EB700F7AE1B /* FiltersPresenter.swift */; };
+		F3AF32242BC83EC200F7AE1B /* FiltersScreenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3AF32232BC83EC200F7AE1B /* FiltersScreenModel.swift */; };
 		F3B7BC7B2B85026200A20EBB /* SchedulePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B7BC7A2B85026200A20EBB /* SchedulePresenter.swift */; };
 		F3B7BC7D2B85028500A20EBB /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B7BC7C2B85028500A20EBB /* ScheduleViewController.swift */; };
 		F3B7BC7F2B85028F00A20EBB /* ScheduleScreenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B7BC7E2B85028F00A20EBB /* ScheduleScreenModel.swift */; };
@@ -112,6 +115,9 @@
 		F38A83532BB028D200E51856 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		F38A83552BB028DC00E51856 /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
 		F38A83572BB028EB00E51856 /* CategoryScreenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryScreenModel.swift; sourceTree = "<group>"; };
+		F3AF321F2BC83EA900F7AE1B /* FiltersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersViewController.swift; sourceTree = "<group>"; };
+		F3AF32212BC83EB700F7AE1B /* FiltersPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersPresenter.swift; sourceTree = "<group>"; };
+		F3AF32232BC83EC200F7AE1B /* FiltersScreenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersScreenModel.swift; sourceTree = "<group>"; };
 		F3B7BC7A2B85026200A20EBB /* SchedulePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulePresenter.swift; sourceTree = "<group>"; };
 		F3B7BC7C2B85028500A20EBB /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		F3B7BC7E2B85028F00A20EBB /* ScheduleScreenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleScreenModel.swift; sourceTree = "<group>"; };
@@ -264,6 +270,16 @@
 			path = Category;
 			sourceTree = "<group>";
 		};
+		F3AF321E2BC83E9600F7AE1B /* Filters */ = {
+			isa = PBXGroup;
+			children = (
+				F3AF321F2BC83EA900F7AE1B /* FiltersViewController.swift */,
+				F3AF32212BC83EB700F7AE1B /* FiltersPresenter.swift */,
+				F3AF32232BC83EC200F7AE1B /* FiltersScreenModel.swift */,
+			);
+			path = Filters;
+			sourceTree = "<group>";
+		};
 		F3B7BC792B85024E00A20EBB /* Schedule */ = {
 			isa = PBXGroup;
 			children = (
@@ -315,6 +331,7 @@
 		F3C347842B76754200AF9272 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				F3AF321E2BC83E9600F7AE1B /* Filters */,
 				F385D8F62BC7F6240084C74B /* EditTracker */,
 				F30906D52BC1327B00601E06 /* Onboarding */,
 				F38A83522BB028B200E51856 /* Category */,
@@ -490,6 +507,7 @@
 				F3C347A52B77C93400AF9272 /* TrackerRecord.swift in Sources */,
 				F33BDB032B837F0E004AFF8D /* CreateActivityScreenModel.swift in Sources */,
 				F38A834E2BAFFEA600E51856 /* Schedule.swift in Sources */,
+				F3AF32202BC83EA900F7AE1B /* FiltersViewController.swift in Sources */,
 				F38A83582BB028EB00E51856 /* CategoryScreenModel.swift in Sources */,
 				F34EDF1F2B7CF51E002563C9 /* CreateTrackerPresenter.swift in Sources */,
 				F34EDF1A2B7CF4CB002563C9 /* CreateTrackerViewController.swift in Sources */,
@@ -520,6 +538,7 @@
 				F38A834A2BAFF64100E51856 /* UIColorTransformer.swift in Sources */,
 				F33BDB052B8384B5004AFF8D /* TextFieldCell.swift in Sources */,
 				F3E71CB92B986DB000D91AA5 /* TrackersDBModel.xcdatamodeld in Sources */,
+				F3AF32222BC83EB700F7AE1B /* FiltersPresenter.swift in Sources */,
 				F3E71CB42B94C71600D91AA5 /* CreateTrackerRouter.swift in Sources */,
 				F3C347712B766F1700AF9272 /* SceneDelegate.swift in Sources */,
 				F3C347A32B77C92700AF9272 /* TrackerCategory.swift in Sources */,
@@ -534,6 +553,7 @@
 				F3C347912B7677D500AF9272 /* Assembler.swift in Sources */,
 				F38A83562BB028DC00E51856 /* CategoryViewModel.swift in Sources */,
 				F33BDB112B84CD5D004AFF8D /* ColorTableViewCell.swift in Sources */,
+				F3AF32242BC83EC200F7AE1B /* FiltersScreenModel.swift in Sources */,
 				F30906D42BC0394B00601E06 /* OnboardingViewController.swift in Sources */,
 				F33BDB0B2B84846B004AFF8D /* ColorCell.swift in Sources */,
 				F385D8FA2BC7F64B0084C74B /* EditTrackerPresenter.swift in Sources */,
