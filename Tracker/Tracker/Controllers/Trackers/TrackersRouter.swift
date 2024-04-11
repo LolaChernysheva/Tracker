@@ -38,6 +38,7 @@ final class TrackersRouter: TrackersRouterProtocol {
     func showFiltersController() {
         guard let view = view as? UIViewController else { return }
         let filtersController = Assembler.buildFiltersController()
-        view.navigationController?.pushViewController(filtersController, animated: true)
+        let nc = UINavigationController(rootViewController: filtersController)
+        view.navigationController?.present(nc, animated: true)
     }
 }
