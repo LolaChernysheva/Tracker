@@ -47,6 +47,14 @@ final class Assembler: AssemblerProtocol {
         return createTrackerViewController
     }
     
+    static func buildEditTrackerModule(tracker: Tracker, daysCount: Int) -> UIViewController {
+        let editTrackerViewController = EditTrackerViewController()
+        let router = EditTrackerRouter(view: editTrackerViewController)
+        let editTrackerPresenter = EditTrackerPresenter(view: editTrackerViewController, tracker: tracker, daysCount: daysCount, router: router)
+        editTrackerViewController.presenter = editTrackerPresenter
+        return editTrackerViewController
+    }
+    
     static func buildScheduleModule(selectedDays: Set<Weekday>, onSave: @escaping (Schedule) -> Void) -> UIViewController {
         let vc = ScheduleViewController()
         let presenter = SchedulePresenter(view: vc, selectedDays: selectedDays, onSave: onSave)

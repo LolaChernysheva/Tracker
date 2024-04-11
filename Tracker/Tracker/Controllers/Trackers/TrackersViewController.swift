@@ -58,6 +58,10 @@ final class TrackersViewController: UIViewController {
     }()
     
     //MARK: - life cycle methods
+    
+    override func viewWillAppear(_ animated: Bool) {
+        tabBarController?.tabBar.isHidden = false
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

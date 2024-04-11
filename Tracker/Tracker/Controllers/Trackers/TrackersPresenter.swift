@@ -125,6 +125,9 @@ final class TrackersPresenter {
                                     }
                                 }
                             }
+                        }, editTrackerHandler: { [ weak self ] in
+                            guard let self else { return }
+                            self.editTracker(tracker: tracker, daysCount: daysCount)
                         })
                     )
                 }
@@ -138,6 +141,21 @@ final class TrackersPresenter {
             filtersButtonTitle: NSLocalizedString("Filters", comment: ""),
             addBarButtonColor: Assets.Colors.navBarItem ?? .black
         )
+    }
+    
+    private func editTracker(tracker: Tracker, daysCount: Int) {
+        router.showEditTracker(tracker: tracker, daysCount: daysCount, onSave: { [ weak self ] tracker in
+            guard let self else { return }
+            if let category = tracker.category, var trackersInCategory = self.trackersByCategory[category] {
+                if let index = trackersInCategory.firstIndex(where: { $0.id == tracker.id }) {
+                    trackersInCategory[index] = tracker
+                    self.trackersByCategory[category] = trackersInCategory
+                    DispatchQueue.main.async {
+                        self.render(reloadData: true)
+                    }
+                }
+            }
+        })
     }
     
     private func addTrackerRecord(trackerRecord: TrackerRecord) {

@@ -18,6 +18,7 @@ struct TrackerCollectionViewCellViewModel {
     var pinHandler: (Bool) -> Void
     var isCompleted: Bool
     var deleteTrackerHandler: () -> Void
+    var editTrackerHandler: () -> Void
     
     init(
         emoji: String?,
@@ -28,7 +29,8 @@ struct TrackerCollectionViewCellViewModel {
         doneButtonHandler: @escaping TrackerCollectionViewCell.ActionClousure,
         pinHandler: @escaping (Bool) -> Void,
         isCompleted: Bool,
-        deleteTrackerHandler: @escaping () -> Void
+        deleteTrackerHandler: @escaping () -> Void,
+        editTrackerHandler: @escaping () -> Void
     ) {
         self.emoji = emoji
         self.title = title
@@ -39,6 +41,7 @@ struct TrackerCollectionViewCellViewModel {
         self.pinHandler = pinHandler
         self.isCompleted = isCompleted
         self.deleteTrackerHandler = deleteTrackerHandler
+        self.editTrackerHandler = editTrackerHandler
     }
 }
 
@@ -58,7 +61,7 @@ class TrackerCollectionViewCell: UICollectionViewCell {
     private var doneAction: ActionClousure = {}
     private var togglePinAction: ((Bool) -> Void)?
     private var deleteTrackerHandler: (() -> Void)?
-    
+    private var editTrackerHandler: (() -> Void)?
     
     var viewModel: TrackerCollectionViewCellViewModel? {
         didSet {
@@ -81,6 +84,7 @@ class TrackerCollectionViewCell: UICollectionViewCell {
         setupDoneButton()
         setupEmogiLabel()
         deleteTrackerHandler = viewModel?.deleteTrackerHandler
+        editTrackerHandler = viewModel?.editTrackerHandler
     }
     
     private func setupContainerView() {
@@ -185,7 +189,9 @@ extension TrackerCollectionViewCell: UIContextMenuInteractionDelegate {
             
             let editAction = UIAction(
                 title: NSLocalizedString("Edit", comment: "")
-            ) { _ in
+            ) { [ weak self ] _ in
+                guard let self else { return }
+                self.viewModel?.editTrackerHandler()
             }
             
             let deleteAction = UIAction(

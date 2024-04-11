@@ -32,6 +32,10 @@
 		F357E5082BB2A18700433297 /* CreateCategoryScreenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F357E5072BB2A18700433297 /* CreateCategoryScreenModel.swift */; };
 		F357E50B2BB2AF1500433297 /* CategoryRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F357E50A2BB2AF1500433297 /* CategoryRouter.swift */; };
 		F36D357D2B999BFB0079CA43 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36D357C2B999BFB0079CA43 /* CoreDataStack.swift */; };
+		F385D8F82BC7F63F0084C74B /* EditTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F385D8F72BC7F63F0084C74B /* EditTrackerViewController.swift */; };
+		F385D8FA2BC7F64B0084C74B /* EditTrackerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F385D8F92BC7F64B0084C74B /* EditTrackerPresenter.swift */; };
+		F385D8FC2BC7F6570084C74B /* EditTrackerScreenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F385D8FB2BC7F6570084C74B /* EditTrackerScreenModel.swift */; };
+		F385D8FE2BC8049F0084C74B /* EditTrackerRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F385D8FD2BC8049F0084C74B /* EditTrackerRouter.swift */; };
 		F38A834A2BAFF64100E51856 /* UIColorTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38A83492BAFF64100E51856 /* UIColorTransformer.swift */; };
 		F38A834C2BAFF96B00E51856 /* ScheduleTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38A834B2BAFF96B00E51856 /* ScheduleTransformer.swift */; };
 		F38A834E2BAFFEA600E51856 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38A834D2BAFFEA600E51856 /* Schedule.swift */; };
@@ -97,6 +101,10 @@
 		F357E5072BB2A18700433297 /* CreateCategoryScreenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCategoryScreenModel.swift; sourceTree = "<group>"; };
 		F357E50A2BB2AF1500433297 /* CategoryRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryRouter.swift; sourceTree = "<group>"; };
 		F36D357C2B999BFB0079CA43 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		F385D8F72BC7F63F0084C74B /* EditTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTrackerViewController.swift; sourceTree = "<group>"; };
+		F385D8F92BC7F64B0084C74B /* EditTrackerPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTrackerPresenter.swift; sourceTree = "<group>"; };
+		F385D8FB2BC7F6570084C74B /* EditTrackerScreenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTrackerScreenModel.swift; sourceTree = "<group>"; };
+		F385D8FD2BC8049F0084C74B /* EditTrackerRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTrackerRouter.swift; sourceTree = "<group>"; };
 		F38A83492BAFF64100E51856 /* UIColorTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorTransformer.swift; sourceTree = "<group>"; };
 		F38A834B2BAFF96B00E51856 /* ScheduleTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTransformer.swift; sourceTree = "<group>"; };
 		F38A834D2BAFFEA600E51856 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
@@ -228,6 +236,17 @@
 			path = CategoriesList;
 			sourceTree = "<group>";
 		};
+		F385D8F62BC7F6240084C74B /* EditTracker */ = {
+			isa = PBXGroup;
+			children = (
+				F385D8F72BC7F63F0084C74B /* EditTrackerViewController.swift */,
+				F385D8F92BC7F64B0084C74B /* EditTrackerPresenter.swift */,
+				F385D8FB2BC7F6570084C74B /* EditTrackerScreenModel.swift */,
+				F385D8FD2BC8049F0084C74B /* EditTrackerRouter.swift */,
+			);
+			path = EditTracker;
+			sourceTree = "<group>";
+		};
 		F38A834F2BB0020700E51856 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
@@ -296,6 +315,7 @@
 		F3C347842B76754200AF9272 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				F385D8F62BC7F6240084C74B /* EditTracker */,
 				F30906D52BC1327B00601E06 /* Onboarding */,
 				F38A83522BB028B200E51856 /* Category */,
 				F3B7BC792B85024E00A20EBB /* Schedule */,
@@ -487,6 +507,7 @@
 				F38A834C2BAFF96B00E51856 /* ScheduleTransformer.swift in Sources */,
 				F3C347832B7673C300AF9272 /* Assets.swift in Sources */,
 				F3E71CB22B94C14600D91AA5 /* TrackersRouter.swift in Sources */,
+				F385D8FC2BC7F6570084C74B /* EditTrackerScreenModel.swift in Sources */,
 				F357E5062BB2A17900433297 /* CreateCategoryPresenter.swift in Sources */,
 				F34EDF1D2B7CF503002563C9 /* CreateTrackerScreenModel.swift in Sources */,
 				F33BDB012B837DC7004AFF8D /* CreateActivityViewController.swift in Sources */,
@@ -503,6 +524,7 @@
 				F3C347712B766F1700AF9272 /* SceneDelegate.swift in Sources */,
 				F3C347A32B77C92700AF9272 /* TrackerCategory.swift in Sources */,
 				F3C347A12B77C91400AF9272 /* Tracker.swift in Sources */,
+				F385D8FE2BC8049F0084C74B /* EditTrackerRouter.swift in Sources */,
 				F3C347942B7679E200AF9272 /* StatisticViewController.swift in Sources */,
 				F36D357D2B999BFB0079CA43 /* CoreDataStack.swift in Sources */,
 				F3C347892B76759200AF9272 /* TrackersPresenter.swift in Sources */,
@@ -514,7 +536,9 @@
 				F33BDB112B84CD5D004AFF8D /* ColorTableViewCell.swift in Sources */,
 				F30906D42BC0394B00601E06 /* OnboardingViewController.swift in Sources */,
 				F33BDB0B2B84846B004AFF8D /* ColorCell.swift in Sources */,
+				F385D8FA2BC7F64B0084C74B /* EditTrackerPresenter.swift in Sources */,
 				F33BDB0D2B84848C004AFF8D /* EmojiCell.swift in Sources */,
+				F385D8F82BC7F63F0084C74B /* EditTrackerViewController.swift in Sources */,
 				F34D6D9A2B99E641009424C1 /* TrackerCategoryStore.swift in Sources */,
 				F3B7BC812B8503A200A20EBB /* SwitchCell.swift in Sources */,
 				F3C347962B767A2300AF9272 /* StatisticPresenter.swift in Sources */,
