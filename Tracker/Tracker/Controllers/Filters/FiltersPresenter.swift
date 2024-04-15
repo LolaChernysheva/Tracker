@@ -17,17 +17,17 @@ enum Filter {
 
 protocol FiltersPresenterProtocol: AnyObject {
     func setup()
-    func chooseFilter(filter: Filter)
 }
 
 final class FiltersPresenter {
     
     weak var view: FiltersViewProtocol?
     
-    private var filter: Filter?
+    var onSelectFilter: (Filter) -> Void = {_ in }
     
-    init(view: FiltersViewProtocol) {
+    init(view: FiltersViewProtocol, onSelectFilter: @escaping (Filter) -> Void ) {
         self.view = view
+        self.onSelectFilter = onSelectFilter
     }
     
     private func buildScreenModel() -> FiltersScreenModel {
@@ -35,10 +35,22 @@ final class FiltersPresenter {
             title: NSLocalizedString("Filters", comment: ""),
             tableData: .init(sections: [
                 .simple(cells: [
-                    .labled(.init(title: NSLocalizedString("All trackers", comment: ""), style: .leftSideTitle)),
-                    .labled(.init(title: NSLocalizedString("Trackers for today", comment: ""), style: .leftSideTitle)),
-                    .labled(.init(title: NSLocalizedString("Completed", comment: ""), style: .leftSideTitle)),
-                    .labled(.init(title: NSLocalizedString("Uncompleted", comment: ""), style: .leftSideTitle))
+                    .filterCell(FilterCellViewModel(title:  NSLocalizedString("All trackers", comment: ""), filter: .allTrackers, isSelected: false, selectFilter: { [ weak self ] filter in
+                        guard let self = self else { return }
+                        self.onSelectFilter(filter)
+                    })),
+                    .filterCell(FilterCellViewModel(title:  NSLocalizedString("Trackers for today", comment: ""), filter: .trackersForToday, isSelected: false, selectFilter: { [ weak self ] filter in
+                        guard let self = self else { return }
+                        self.onSelectFilter(filter)
+                    })),
+                    .filterCell(FilterCellViewModel(title:  NSLocalizedString("Completed", comment: ""), filter: .completedTrackers, isSelected: false, selectFilter: { [ weak self ] filter in
+                        guard let self = self else { return }
+                        self.onSelectFilter(filter)
+                    })),
+                    .filterCell(FilterCellViewModel(title: NSLocalizedString("Uncompleted", comment: ""), filter: .uncompletedTrackers, isSelected: false, selectFilter: { [ weak self ] filter in
+                        guard let self = self else { return }
+                        self.onSelectFilter(filter)
+                    }))
                 ])
             ])
         )
@@ -50,9 +62,6 @@ final class FiltersPresenter {
 }
 
 extension FiltersPresenter: FiltersPresenterProtocol {
-    func chooseFilter(filter: Filter) {
-        
-    }
     
     func setup() {
          render()

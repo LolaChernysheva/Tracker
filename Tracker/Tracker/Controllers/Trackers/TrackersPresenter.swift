@@ -16,6 +16,7 @@ protocol TrackersPresenterProtocol: AnyObject {
     func showSearchResults(with inputText: String)
     func filterTrackers(for date: Date)
     func showFilters()
+    func sendCloseEvent()
 }
 
 final class TrackersPresenter {
@@ -40,7 +41,7 @@ final class TrackersPresenter {
         guard let view = view else { return false }
         return ((view.isSearching || view.isFiltering) && filteredTrackersByCategory.isEmpty) || trackers.isEmpty
     }
-    
+    private let analiticService = AnaliticService()
     private var completedTrackers: Set<TrackerRecord> {
         get {
             let trackerRecordsStore = TrackerRecordStore()
@@ -61,6 +62,7 @@ final class TrackersPresenter {
     ) {
         self.view = view
         self.router = router
+        sendAnaliticEvent(name: .open, params: ["screen" : "Trackers"])
     }
     
     private func buildScreenModel() -> TrackersScreenModel {
@@ -83,6 +85,7 @@ final class TrackersPresenter {
                         color: tracker.color,
                         doneButtonHandler: { [ weak self ] in
                             guard let self else { return }
+                            self.sendAnaliticEvent(name: .click, params: ["screen": "Trackers", "item": "track"])
                             if view.currentDate > Date() {
                                 view.showCompleteTrackerErrorAlert()
                                 return
@@ -116,6 +119,7 @@ final class TrackersPresenter {
                         isCompleted: isCompleted,
                         deleteTrackerHandler: { [ weak self ] in
                             guard let self else { return }
+                            self.sendAnaliticEvent(name: .click, params: ["screen": "Trackers", "item": "delete"])
                             self.deleteTracker(withId: tracker.id)
                             if let category = tracker.category, var trackersInCategory = self.trackersByCategory[category] {
                                 if let index = trackersInCategory.firstIndex(where: { $0.id == tracker.id }) {
@@ -127,6 +131,7 @@ final class TrackersPresenter {
                                 }
                             }
                         }, editTrackerHandler: { [ weak self ] in
+                            self?.sendAnaliticEvent(name: .click, params: ["screen": "Trackers", "item": "edit"])
                             guard let self else { return }
                             self.editTracker(tracker: tracker, daysCount: daysCount)
                         })
@@ -160,6 +165,7 @@ final class TrackersPresenter {
     }
     
     private func addTrackerRecord(trackerRecord: TrackerRecord) {
+        sendAnaliticEvent(name: .click, params: ["screen": "Trackers", "item": "add_track"])
         do {
             try TrackerRecordStore().createTrackerRecord(with: trackerRecord)
             print("✅ TrackerRecord успешно добавлен")
@@ -198,6 +204,9 @@ final class TrackersPresenter {
     
     private func render(reloadData: Bool = true) {
         view?.displayData(model: buildScreenModel(), reloadData: reloadData)
+    }
+    private func sendAnaliticEvent(name: AnaliticsEvent, params: [AnyHashable : Any]) {
+        analiticService.report(event: name, params: params)
     }
 }
 
@@ -255,6 +264,22 @@ extension TrackersPresenter: TrackersPresenterProtocol {
     }
     
     func showFilters() {
-        router.showFiltersController()
+        sendAnaliticEvent(name: .click, params: ["screen": "Trackers", "item": "filter"])
+        router.showFiltersController { [ weak self ] filter in
+            guard let self else { return }
+            switch filter {
+            case .allTrackers:
+                self.showAllTrackers()
+            case .completedTrackers:
+                self.showCompletedTrackers()
+            case .uncompletedTrackers:
+                self.showUncompletedTrackers()
+            case .trackersForToday:
+                self.showTrackersForToday()
+            }
+        }
+    }
+    func sendCloseEvent() {
+        sendAnaliticEvent(name: .close, params: ["screen": "Trackers"])
     }
 }

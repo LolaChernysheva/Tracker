@@ -70,6 +70,10 @@ final class TrackersViewController: UIViewController {
         addTapGuesture()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        presenter.sendCloseEvent()
+    }
+    
     //MARK: - private methods
     
     private func setup() {

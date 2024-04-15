@@ -47,7 +47,7 @@ final class FiltersViewController: UIViewController {
         tableView.backgroundColor = .clear
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(LabledCell.self, forCellReuseIdentifier: LabledCell.reuseIdentifier)
+        tableView.register(FilterCell.self, forCellReuseIdentifier: FilterCell.reuseIdentifier)
         setupTableViewConstraints()
     }
     
@@ -86,11 +86,11 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource {
         let cell: UITableViewCell
         
         switch cellType {
-        case let .labled(model):
-            guard let labledCell = tableView.dequeueReusableCell(withIdentifier: LabledCell.reuseIdentifier, for: indexPath) as? LabledCell else {
+        case let .filterCell(model):
+            guard let filterCell = tableView.dequeueReusableCell(withIdentifier: FilterCell.reuseIdentifier, for: indexPath) as? FilterCell else {
                 return UITableViewCell() }
-            labledCell.viewModel = model
-            cell = labledCell
+            filterCell.viewModel = model
+            cell = filterCell
         }
         return cell
     }
@@ -111,9 +111,14 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        DispatchQueue.global().sync {
-           // presenter.chooseFilter()
+        let cellModel = tableDataCell(indexPath: indexPath)
+        switch cellModel {
+        case .filterCell(var model):
+            model.isSelected.toggle()
+            DispatchQueue.global().sync {
+                model.selectFilter(model.filter)
+            }
         }
-        navigationController?.popViewController(animated: true)
+        dismiss(animated: true)
     }
 }

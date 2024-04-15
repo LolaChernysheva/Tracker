@@ -13,7 +13,7 @@ protocol AssemblerProtocol: AnyObject {
     static func buildCreateTrackerModule(selectedDate: Date, onSave: @escaping (Tracker) -> Void) -> UIViewController
     static func buildCreateActivityModule(state: CreateActivityState, selectedDate: Date, onSave: @escaping (Tracker) -> Void) -> UIViewController 
     static func buildCategoriesModule(state: CategoryScreenState, categories: [TrackerCategory], categoryIsChosen: @escaping (TrackerCategory) -> Void) -> UIViewController
-    static func buildFiltersController() -> UIViewController
+    static func buildFiltersController(onSelectFilter: @escaping (Filter) -> Void) -> UIViewController
 }
 
 final class Assembler: AssemblerProtocol {
@@ -105,9 +105,9 @@ final class Assembler: AssemblerProtocol {
         
     }
     
-    static func buildFiltersController() -> UIViewController {
+    static func buildFiltersController(onSelectFilter: @escaping (Filter) -> Void) -> UIViewController {
         let filtersViewController = FiltersViewController()
-        let presenter = FiltersPresenter(view: filtersViewController)
+        let presenter = FiltersPresenter(view: filtersViewController, onSelectFilter: onSelectFilter)
         filtersViewController.presenter = presenter
         return filtersViewController
     }

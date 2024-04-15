@@ -15,7 +15,7 @@ struct FiltersScreenModel {
         }
         
         enum Cell {
-            case labled(LabledCellViewModel)
+            case filterCell(FilterCellViewModel)
         }
         
         let sections: [Section]
