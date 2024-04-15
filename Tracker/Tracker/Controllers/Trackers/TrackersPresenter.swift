@@ -52,6 +52,14 @@ final class TrackersPresenter {
         set {}
     }
     
+    private var pinnedTrackers: [Tracker] {
+        get {
+            let trackerStore = TrackerStore()
+            let trackers = trackerStore.fetchTrackers()
+            return trackers.filter { $0.isPinned }
+        }
+    }
+    
     private weak var view: TrackersViewProtocol?
     private let router: TrackersRouterProtocol
     private var filteredTrackersByCategory = [TrackerCategory: [Tracker]]()
@@ -67,79 +75,22 @@ final class TrackersPresenter {
     
     private func buildScreenModel() -> TrackersScreenModel {
         let categoriesWithTrackers = (view?.isFiltering == true || view?.isSearching == true) ? filteredTrackersByCategory : trackersByCategory
-        let categories = Array(categoriesWithTrackers.keys)
-        let sections: [TrackersScreenModel.CollectionData.Section] = categories.compactMap { category in
-            let cells = categoriesWithTrackers.values
-                .flatMap { $0 }
-                .filter { $0.category == category }
-                .compactMap { tracker -> TrackersScreenModel.CollectionData.Cell? in
-                    guard let view else { return nil }
-                    let trackerRecord = TrackerRecord(id: tracker.id, date: view.currentDate)
-                    let isCompleted = self.completedTrackers.contains(trackerRecord)
-                    let daysCount = completedTrackers.filter({$0.id == tracker.id}).count
-                    return .trackerCell(TrackerCollectionViewCellViewModel(
-                        emoji: tracker.emogi,
-                        title: tracker.title,
-                        isPinned: tracker.isPinned,
-                        daysCount: daysCount,
-                        color: tracker.color,
-                        doneButtonHandler: { [ weak self ] in
-                            guard let self else { return }
-                            self.sendAnaliticEvent(name: .click, params: ["screen": "Trackers", "item": "track"])
-                            if view.currentDate > Date() {
-                                view.showCompleteTrackerErrorAlert()
-                                return
-                            } else {
-                                if completedTrackers.contains(trackerRecord) {
-                                    deleteTrackerRecord(withId: trackerRecord.id)
-                                    completedTrackers.remove(trackerRecord)
-                                } else {
-                                    addTrackerRecord(trackerRecord: trackerRecord)
-                                    completedTrackers.insert(trackerRecord)
-                                }
-                            }
-                            DispatchQueue.main.async {
-                                self.render(reloadData: true)
-                            }
-                        },
-                        pinHandler: { isPinned in
-                            var tracker = Tracker(id: tracker.id, title: tracker.title, color: tracker.color, emogi: tracker.emogi, schedule: tracker.schedule, category: tracker.category, isPinned: isPinned)
-                            let trackerStore = TrackerStore()
-                            try? trackerStore.updateTracker(with: tracker)
-                            if let category = tracker.category, var trackersInCategory = self.trackersByCategory[category] {
-                                if let index = trackersInCategory.firstIndex(where: { $0.id == tracker.id }) {
-                                    trackersInCategory[index] = tracker
-                                    self.trackersByCategory[category] = trackersInCategory
-                                    DispatchQueue.main.async {
-                                        self.render(reloadData: true)
-                                    }
-                                }
-                            }
-                        },
-                        isCompleted: isCompleted,
-                        deleteTrackerHandler: { [ weak self ] in
-                            guard let self else { return }
-                            self.sendAnaliticEvent(name: .click, params: ["screen": "Trackers", "item": "delete"])
-                            self.deleteTracker(withId: tracker.id)
-                            if let category = tracker.category, var trackersInCategory = self.trackersByCategory[category] {
-                                if let index = trackersInCategory.firstIndex(where: { $0.id == tracker.id }) {
-                                    trackersInCategory.remove(at: index)
-                                    self.trackersByCategory[category] = trackersInCategory
-                                    DispatchQueue.main.async {
-                                        self.render(reloadData: true)
-                                    }
-                                }
-                            }
-                        }, editTrackerHandler: { [ weak self ] in
-                            self?.sendAnaliticEvent(name: .click, params: ["screen": "Trackers", "item": "edit"])
-                            guard let self else { return }
-                            self.editTracker(tracker: tracker, daysCount: daysCount)
-                        })
-                    )
-                }
-            return .headeredSection(header: category.title, cells: cells)
+        var sections: [TrackersScreenModel.CollectionData.Section] = []
+        
+        if !pinnedTrackers.isEmpty {
+            let pinnedCells = pinnedTrackers.compactMap { tracker -> TrackersScreenModel.CollectionData.Cell? in
+                createCellModel(for: tracker)
+            }
+            sections.append(.headeredSection(header: "Закрепленные", cells: pinnedCells))
         }
         
+        for category in categoriesWithTrackers.keys.sorted(by: { $0.title < $1.title }) {
+            let cells = categoriesWithTrackers[category]?.compactMap { tracker -> TrackersScreenModel.CollectionData.Cell? in
+                createCellModel(for: tracker)
+            } ?? []
+            sections.append(.headeredSection(header: category.title, cells: cells))
+        }
+
         return TrackersScreenModel (
             title: NSLocalizedString("Trackers", comment: ""),
             emptyState: backgroundState(),
@@ -147,6 +98,89 @@ final class TrackersPresenter {
             filtersButtonTitle: NSLocalizedString("Filters", comment: ""),
             addBarButtonColor: Assets.Colors.navBarItem ?? .black
         )
+    }
+    
+    private func createCellModel(for tracker: Tracker) -> TrackersScreenModel.CollectionData.Cell? {
+        guard let view = view else { return nil }
+        let trackerRecord = TrackerRecord(id: tracker.id, date: view.currentDate)
+        let isCompleted = self.completedTrackers.contains(trackerRecord)
+        let daysCount = completedTrackers.filter({$0.id == tracker.id}).count
+        return .trackerCell(TrackerCollectionViewCellViewModel(
+            emoji: tracker.emogi,
+            title: tracker.title,
+            isPinned: tracker.isPinned,
+            daysCount: daysCount,
+            color: tracker.color,
+            doneButtonHandler: doneButtonHandler(for: tracker, with: trackerRecord),
+            pinHandler: pinHandler(tracker: tracker),
+            isCompleted: isCompleted,
+            deleteTrackerHandler: deleteTrackerHandler(tracker: tracker),
+            editTrackerHandler: editTrackerHandler(tracker: tracker, daysCount: daysCount)
+        ))
+    }
+    
+    private func doneButtonHandler(for tracker: Tracker, with trackerRecord: TrackerRecord) -> () -> Void {
+        return { [ weak self ] in
+            guard let self, let view = view else { return }
+            self.sendAnaliticEvent(name: .click, params: ["screen": "Trackers", "item": "track"])
+            if view.currentDate > Date() {
+                view.showCompleteTrackerErrorAlert()
+                return
+            } else {
+                if completedTrackers.contains(trackerRecord) {
+                    deleteTrackerRecord(withId: trackerRecord.id)
+                    completedTrackers.remove(trackerRecord)
+                } else {
+                    addTrackerRecord(trackerRecord: trackerRecord)
+                    completedTrackers.insert(trackerRecord)
+                }
+            }
+            DispatchQueue.main.async {
+                self.render(reloadData: true)
+            }
+        }
+    }
+    
+    private func pinHandler(tracker: Tracker) -> (Bool) -> Void {
+        return { isPinned in
+            var tracker = Tracker(id: tracker.id, title: tracker.title, color: tracker.color, emogi: tracker.emogi, schedule: tracker.schedule, category: tracker.category, isPinned: isPinned)
+            let trackerStore = TrackerStore()
+            try? trackerStore.updateTracker(with: tracker)
+            if let category = tracker.category, var trackersInCategory = self.trackersByCategory[category] {
+                if let index = trackersInCategory.firstIndex(where: { $0.id == tracker.id }) {
+                    trackersInCategory[index] = tracker
+                    self.trackersByCategory[category] = trackersInCategory
+                    DispatchQueue.main.async {
+                        self.render(reloadData: true)
+                    }
+                }
+            }
+        }
+    }
+    
+    private func deleteTrackerHandler(tracker: Tracker) -> () -> Void {
+       return { [ weak self ] in
+            guard let self else { return }
+            self.sendAnaliticEvent(name: .click, params: ["screen": "Trackers", "item": "delete"])
+            self.deleteTracker(withId: tracker.id)
+            if let category = tracker.category, var trackersInCategory = self.trackersByCategory[category] {
+                if let index = trackersInCategory.firstIndex(where: { $0.id == tracker.id }) {
+                    trackersInCategory.remove(at: index)
+                    self.trackersByCategory[category] = trackersInCategory
+                    DispatchQueue.main.async {
+                        self.render(reloadData: true)
+                    }
+                }
+            }
+        }
+    }
+    
+    private func editTrackerHandler(tracker: Tracker, daysCount: Int) -> () -> Void {
+        return { [ weak self ] in
+            self?.sendAnaliticEvent(name: .click, params: ["screen": "Trackers", "item": "edit"])
+            guard let self else { return }
+            self.editTracker(tracker: tracker, daysCount: daysCount)
+        }
     }
     
     private func editTracker(tracker: Tracker, daysCount: Int) {
