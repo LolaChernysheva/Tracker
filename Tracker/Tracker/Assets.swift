@@ -35,6 +35,7 @@ enum Assets {
         static let navBarItem = UIColor(named: "NavigationBarItem")
         static let buttons = UIColor(named: "Buttons")
         static let subtitle = UIColor(named: "subtitleText")
+        static let buttonTitle = UIColor(named: "ButtonTitle")
     }
     
     enum Images {

@@ -58,7 +58,7 @@ final class CreateCategoryViewController: UIViewController {
         
         saveButton.addTarget(self, action: #selector(saveCategory), for: .touchUpInside)
         saveButton.backgroundColor = .buttons
-        saveButton.setTitleColor(.white, for: .normal)
+        saveButton.setTitleColor(presenter.isSaveEnabled ? .buttonTitle : .white, for: .normal)
         saveButton.layer.cornerRadius = .cornerRadius
         saveButton.clipsToBounds = true
     }
@@ -107,6 +107,7 @@ extension CreateCategoryViewController: CreateCategoryViewProtocol {
     func updateSaveButton(isEnabled: Bool) {
         saveButton.isEnabled = isEnabled
         saveButton.alpha = isEnabled ? 1.0 : 0.5
+        saveButton.setTitleColor(isEnabled ? .buttonTitle : .white, for: .normal)
     }
     
     func displayData(model: CreateCategoryScreenModel, reloadData: Bool) {
