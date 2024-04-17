@@ -23,20 +23,22 @@ final class Assembler: AssemblerProtocol {
         
         let trackersViewController = trackersModuleBuilder()
         trackersViewController.tabBarItem = UITabBarItem(
-            title: NSLocalizedString("Трекеры", comment: ""),
+            title: NSLocalizedString("Trackers", comment: ""),
             image: UIImage(systemName: "circle.circle"),
             selectedImage: UIImage(systemName: "circle.circle.fill")
         )
         let trackersNavigationController = UINavigationController(rootViewController: trackersViewController)
         let statisticController = statisticModuleBuilder()
+        let statisticNavigationController = UINavigationController(rootViewController: statisticController)
+        
         
         statisticController.tabBarItem = UITabBarItem(
-            title: NSLocalizedString("Статистика", comment: ""),
+            title: NSLocalizedString("Statistic", comment: ""),
             image: UIImage(systemName: "hare"),
             selectedImage: UIImage(systemName: "hare.fill"))
         
         tabbarController.tabBar.tintColor = Assets.Colors.launchBlue
-        tabbarController.viewControllers = [trackersNavigationController, statisticController]
+        tabbarController.viewControllers = [trackersNavigationController, statisticNavigationController]
         return tabbarController
     }
     

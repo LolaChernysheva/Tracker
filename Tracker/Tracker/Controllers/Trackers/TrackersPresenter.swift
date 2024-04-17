@@ -81,7 +81,7 @@ final class TrackersPresenter {
             let pinnedCells = pinnedTrackers.compactMap { tracker -> TrackersScreenModel.CollectionData.Cell? in
                 createCellModel(for: tracker)
             }
-            sections.append(.headeredSection(header: "Закрепленные", cells: pinnedCells))
+            sections.append(.headeredSection(header: NSLocalizedString("Pinned", comment: ""), cells: pinnedCells))
         }
         
         for category in categoriesWithTrackers.keys.sorted(by: { $0.title < $1.title }) {

@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		68F7BCB29599DD744372A09E /* Pods_Tracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FF32DCB914326701998E04F /* Pods_Tracker.framework */; };
 		F30056E92BCD54480062860F /* AnaliticService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30056E82BCD54480062860F /* AnaliticService.swift */; };
+		F30056EB2BCD731B0062860F /* StatisticScreenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30056EA2BCD731B0062860F /* StatisticScreenModel.swift */; };
+		F30056ED2BCD75650062860F /* StatisticElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30056EC2BCD75650062860F /* StatisticElementView.swift */; };
+		F30056EF2BCD7A3E0062860F /* UIColor + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30056EE2BCD7A3E0062860F /* UIColor + Extensions.swift */; };
 		F30906D42BC0394B00601E06 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30906D32BC0394B00601E06 /* OnboardingViewController.swift */; };
 		F30906D72BC1328B00601E06 /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30906D62BC1328B00601E06 /* OnboardingPageViewController.swift */; };
 		F30906DB2BC2D7C200601E06 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F30906DD2BC2D7C200601E06 /* Localizable.strings */; };
@@ -84,6 +87,9 @@
 		8895D74110F47A0BD293B067 /* Pods-Tracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tracker.debug.xcconfig"; path = "Target Support Files/Pods-Tracker/Pods-Tracker.debug.xcconfig"; sourceTree = "<group>"; };
 		9FF32DCB914326701998E04F /* Pods_Tracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F30056E82BCD54480062860F /* AnaliticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnaliticService.swift; sourceTree = "<group>"; };
+		F30056EA2BCD731B0062860F /* StatisticScreenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticScreenModel.swift; sourceTree = "<group>"; };
+		F30056EC2BCD75650062860F /* StatisticElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticElementView.swift; sourceTree = "<group>"; };
+		F30056EE2BCD7A3E0062860F /* UIColor + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Extensions.swift"; sourceTree = "<group>"; };
 		F30906D32BC0394B00601E06 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		F30906D62BC1328B00601E06 /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
 		F30906DA2BC2D75800601E06 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -397,6 +403,7 @@
 				F3C347902B7677D500AF9272 /* Assembler.swift */,
 				F38A83492BAFF64100E51856 /* UIColorTransformer.swift */,
 				F38A834B2BAFF96B00E51856 /* ScheduleTransformer.swift */,
+				F30056EE2BCD7A3E0062860F /* UIColor + Extensions.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -406,6 +413,7 @@
 			children = (
 				F3C347932B7679E200AF9272 /* StatisticViewController.swift */,
 				F3C347952B767A2300AF9272 /* StatisticPresenter.swift */,
+				F30056EA2BCD731B0062860F /* StatisticScreenModel.swift */,
 			);
 			path = Statistic;
 			sourceTree = "<group>";
@@ -416,6 +424,7 @@
 				F33BDB122B84D28C004AFF8D /* Header */,
 				F3C347AA2B7901FF00AF9272 /* Cells */,
 				F3C347982B77A6F300AF9272 /* BackgroundView.swift */,
+				F30056EC2BCD75650062860F /* StatisticElementView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -581,12 +590,14 @@
 				F3C347A52B77C93400AF9272 /* TrackerRecord.swift in Sources */,
 				F33BDB032B837F0E004AFF8D /* CreateActivityScreenModel.swift in Sources */,
 				F38A834E2BAFFEA600E51856 /* Schedule.swift in Sources */,
+				F30056EF2BCD7A3E0062860F /* UIColor + Extensions.swift in Sources */,
 				F3AF32202BC83EA900F7AE1B /* FiltersViewController.swift in Sources */,
 				F38A83582BB028EB00E51856 /* CategoryScreenModel.swift in Sources */,
 				F34EDF1F2B7CF51E002563C9 /* CreateTrackerPresenter.swift in Sources */,
 				F34EDF1A2B7CF4CB002563C9 /* CreateTrackerViewController.swift in Sources */,
 				F3C347992B77A6F300AF9272 /* BackgroundView.swift in Sources */,
 				F3B7BC7B2B85026200A20EBB /* SchedulePresenter.swift in Sources */,
+				F30056ED2BCD75650062860F /* StatisticElementView.swift in Sources */,
 				F3B7BC832B85DAF400A20EBB /* LabledCell.swift in Sources */,
 				F38A83542BB028D200E51856 /* CategoryViewController.swift in Sources */,
 				F30056E92BCD54480062860F /* AnaliticService.swift in Sources */,
@@ -640,6 +651,7 @@
 				F3C347962B767A2300AF9272 /* StatisticPresenter.swift in Sources */,
 				F357E50B2BB2AF1500433297 /* CategoryRouter.swift in Sources */,
 				F30906D72BC1328B00601E06 /* OnboardingPageViewController.swift in Sources */,
+				F30056EB2BCD731B0062860F /* StatisticScreenModel.swift in Sources */,
 				F33BDB142B84D299004AFF8D /* HeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

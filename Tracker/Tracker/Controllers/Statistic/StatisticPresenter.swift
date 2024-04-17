@@ -9,7 +9,7 @@
 import Foundation
 
 protocol StatisticPresenterProtocol: AnyObject {
-    
+    func setup()
 }
 
 final class StatisticPresenter {
@@ -19,8 +19,28 @@ final class StatisticPresenter {
     init(view: StatisticViewProtocol) {
         self.view = view
     }
+    
+    private func buildScreenModel() -> StatisticScreenModel {
+        return StatisticScreenModel(
+            title: NSLocalizedString("Statistic", comment: ""),
+            statisticData: StatisticScreenModel.StatisticData(
+                items: [
+                    .bestPeriod(.init(title: NSLocalizedString("Best period", comment: ""), count: 0)),
+                    .bestDays(.init(title: NSLocalizedString("Perfect days", comment: ""), count: 0)),
+                    .completed(.init(title: NSLocalizedString("Completed trackers", comment: ""), count: 0)),
+                    .avarage(.init(title: NSLocalizedString("Avarage value", comment: ""), count: 0))
+                ]
+            )
+        )
+    }
+    
+    private func render() {
+        view?.displayData(model: buildScreenModel())
+    }
 }
 
 extension StatisticPresenter: StatisticPresenterProtocol {
-    
+    func setup() {
+        render()
+    }
 }
