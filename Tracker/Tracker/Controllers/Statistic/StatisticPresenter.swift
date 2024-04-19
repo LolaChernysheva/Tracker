@@ -16,6 +16,13 @@ final class StatisticPresenter {
     
     private weak var view: StatisticViewProtocol?
     
+    private var completedTrackers: [TrackerRecord] {
+        get {
+            let trackersRecordsStore = TrackerRecordStore()
+            return trackersRecordsStore.fetchTrackerRecords()
+        }
+    }
+    
     init(view: StatisticViewProtocol) {
         self.view = view
     }
@@ -27,7 +34,7 @@ final class StatisticPresenter {
                 items: [
                     .bestPeriod(.init(title: NSLocalizedString("Best period", comment: ""), count: 0)),
                     .bestDays(.init(title: NSLocalizedString("Perfect days", comment: ""), count: 0)),
-                    .completed(.init(title: NSLocalizedString("Completed trackers", comment: ""), count: 0)),
+                    .completed(.init(title: NSLocalizedString("Completed trackers", comment: ""), count: completedTrackers.count)),
                     .avarage(.init(title: NSLocalizedString("Avarage value", comment: ""), count: 0))
                 ]
             )

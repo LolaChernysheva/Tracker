@@ -35,6 +35,10 @@ final class StatisticViewController: UIViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        presenter.setup()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter.setup()
