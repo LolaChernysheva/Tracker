@@ -276,6 +276,43 @@ final class TrackersPresenter {
             }
         render(reloadData: true)
     }
+    
+    private func showCompletedTrackers() {
+        guard let view = view else { return }
+        view.isFiltering = true
+        filteredTrackersByCategory.removeAll()
+        
+        trackersByCategory.forEach { category, trackers in
+            let completedTrackers = trackers.filter { tracker in
+                let trackerRecord = TrackerRecord(id: tracker.id, date: view.currentDate)
+                return self.completedTrackers.contains(trackerRecord)
+            }
+            if !completedTrackers.isEmpty {
+                filteredTrackersByCategory[category] = completedTrackers
+            }
+        }
+        
+        render(reloadData: true)
+    }
+    
+    private func showUncompletedTrackers() {
+        guard let view = view else { return }
+        view.isFiltering = true
+        filteredTrackersByCategory.removeAll()
+        
+        trackersByCategory.forEach { category, trackers in
+            let uncompletedTrackers = trackers.filter { tracker in
+                let trackerRecord = TrackerRecord(id: tracker.id, date: view.currentDate)
+                return !self.completedTrackers.contains(trackerRecord)
+            }
+            if !completedTrackers.isEmpty {
+                filteredTrackersByCategory[category] = uncompletedTrackers
+            }
+        }
+        
+        render(reloadData: true)
+    }
+    
     private func sendAnaliticEvent(name: AnaliticsEvent, params: [AnyHashable : Any]) {
         analiticService.report(event: name, params: params)
     }
