@@ -45,7 +45,7 @@ final class TrackersPresenter {
     private var completedTrackers: Set<TrackerRecord> {
         get {
             let trackerRecordsStore = TrackerRecordStore()
-            var trackersRecords = trackerRecordsStore.fetchTrackerRecords()
+            let trackersRecords = trackerRecordsStore.fetchTrackerRecords()
             return Set(trackersRecords)
         }
         
@@ -239,6 +239,43 @@ final class TrackersPresenter {
     private func render(reloadData: Bool = true) {
         view?.displayData(model: buildScreenModel(), reloadData: reloadData)
     }
+    
+    private func showAllTrackers() {
+        view?.isFiltering = true
+        guard let view = view else { return }
+        
+        filteredTrackersByCategory.removeAll()
+        
+        trackersByCategory.forEach { category, trackers in
+            let weekday = Calendar.current.component(.weekday, from: view.currentDate)
+            guard let selectedWeekday = Weekday(rawValue: weekday) else { return }
+            let trackers = trackers.filter { $0.schedule.contains(selectedWeekday)}
+            if !completedTrackers.isEmpty {
+                filteredTrackersByCategory[category] = trackers
+            }
+        }
+        
+        render(reloadData: true)
+    }
+    
+    private func showTrackersForToday() {
+        guard let view = view else { return }
+        view.setCurrentDate(date: Date())
+        
+        let weekday = Calendar.current.component(.weekday, from: view.currentDate)
+        guard let selectedWeekday = Weekday(rawValue: weekday) else { return }
+        
+        self.filteredTrackersByCategory.removeAll()
+        trackersByCategory.values
+            .flatMap { $0 }
+            .filter { $0.schedule.contains(selectedWeekday) }
+            .forEach {
+                if let category = $0.category {
+                    self.filteredTrackersByCategory[category, default: []].append($0)
+                }
+            }
+        render(reloadData: true)
+    }
     private func sendAnaliticEvent(name: AnaliticsEvent, params: [AnyHashable : Any]) {
         analiticService.report(event: name, params: params)
     }
@@ -246,8 +283,7 @@ final class TrackersPresenter {
 
 extension TrackersPresenter: TrackersPresenterProtocol {
     func setup() {
-        
-        let trackers = TrackerStore().fetchTrackers()
+        trackersByCategory.removeAll()
         trackers.forEach { tracker in
             if let category = tracker.category {
                 self.trackersByCategory[category, default: []].append(tracker)

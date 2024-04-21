@@ -9,11 +9,12 @@
 import UIKit
 
 protocol TrackersViewProtocol: AnyObject {
-    var isFiltering: Bool { get }
+    var isFiltering: Bool { get set }
     var isSearching: Bool { get }
     var currentDate: Date { get }
     func displayData(model: TrackersScreenModel, reloadData: Bool)
     func showCompleteTrackerErrorAlert()
+    func setCurrentDate(date: Date)
 }
 
 final class TrackersViewController: UIViewController {
@@ -29,6 +30,7 @@ final class TrackersViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .clear
         return collectionView
     }()
     
@@ -53,13 +55,17 @@ final class TrackersViewController: UIViewController {
     
     var currentDate: Date = {
         let calendar = Calendar.current
-        let date = calendar.startOfDay(for: Date())
-        return date
-    }()
+        return calendar.startOfDay(for: Date())
+    }() {
+        didSet {
+            datePicker.date = currentDate
+        }
+    }
     
     //MARK: - life cycle methods
     
     override func viewWillAppear(_ animated: Bool) {
+        presenter.setup()
         tabBarController?.tabBar.isHidden = false
     }
 
@@ -212,10 +218,7 @@ final class TrackersViewController: UIViewController {
     }
     
     @objc private func datePickerValueChanged(_ sender: UIDatePicker) {
-        isFiltering = true
         currentDate = sender.date
-        presenter.filterTrackers(for: currentDate)
-        updateBackgroundViewVisiability()
     }
     
     @objc private func hideKeyboard() {
@@ -246,6 +249,10 @@ extension TrackersViewController: TrackersViewProtocol {
         let okAction = UIAlertAction(title: "OK", style: .default)
         alertController.addAction(okAction)
         present(alertController, animated: true)
+    }
+    
+    func setCurrentDate(date: Date) {
+        currentDate = date
     }
 }
 
