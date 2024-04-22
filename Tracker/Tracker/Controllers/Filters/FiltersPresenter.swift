@@ -13,6 +13,7 @@ enum Filter {
     case completedTrackers
     case uncompletedTrackers
     case trackersForToday
+    case none
 }
 
 protocol FiltersPresenterProtocol: AnyObject {

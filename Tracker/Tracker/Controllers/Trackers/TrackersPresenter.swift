@@ -63,6 +63,7 @@ final class TrackersPresenter {
     private weak var view: TrackersViewProtocol?
     private let router: TrackersRouterProtocol
     private var filteredTrackersByCategory = [TrackerCategory: [Tracker]]()
+    private var inputFilter: Filter = .none
     
     init(
         view: TrackersViewProtocol,
@@ -352,21 +353,32 @@ extension TrackersPresenter: TrackersPresenterProtocol {
     }
     
     func filterTrackers(for date: Date) {
-        let weekday = Calendar.current.component(.weekday, from: date)
-        
-        guard let selectedWeekday = Weekday(rawValue: weekday) else { return }
-        
-        filteredTrackersByCategory.removeAll()
-    
-        trackersByCategory.forEach { category, trackers in
-            let filteredTrackers = trackers.filter {
-                $0.schedule.contains(selectedWeekday) || $0.schedule.date == date
+        switch inputFilter {
+            
+        case .completedTrackers:
+            for (category, trackers) in trackersByCategory {
+                let filtered = trackers.filter { tracker in
+                    let record = TrackerRecord(id: tracker.id, date: date)
+                    return completedTrackers.contains(record)
+                }
+                if !filtered.isEmpty {
+                    filteredTrackersByCategory[category] = filtered
+                }
             }
-            if !filteredTrackers.isEmpty {
-                filteredTrackersByCategory[category] = filteredTrackers
+        case .uncompletedTrackers:
+            // Фильтрация незавершенных трекеров
+            for (category, trackers) in trackersByCategory {
+                let filtered = trackers.filter { tracker in
+                    let record = TrackerRecord(id: tracker.id, date: date)
+                    return !completedTrackers.contains(record)
+                }
+                if !filtered.isEmpty {
+                    filteredTrackersByCategory[category] = filtered
+                }
             }
+        default:
+            break
         }
-        
         render(reloadData: true)
     }
     
@@ -377,12 +389,18 @@ extension TrackersPresenter: TrackersPresenterProtocol {
             switch filter {
             case .allTrackers:
                 self.showAllTrackers()
+                self.inputFilter = .allTrackers
             case .completedTrackers:
                 self.showCompletedTrackers()
+                self.inputFilter = .completedTrackers
             case .uncompletedTrackers:
                 self.showUncompletedTrackers()
+                self.inputFilter = .uncompletedTrackers
             case .trackersForToday:
                 self.showTrackersForToday()
+                self.inputFilter = .trackersForToday
+            case .none:
+                self.inputFilter = .none
             }
         }
     }

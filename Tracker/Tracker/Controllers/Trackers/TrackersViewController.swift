@@ -59,6 +59,7 @@ final class TrackersViewController: UIViewController {
     }() {
         didSet {
             datePicker.date = currentDate
+            presenter.filterTrackers(for: currentDate)
         }
     }
     
