@@ -87,9 +87,13 @@ final class TrackersPresenter {
         
         for category in categoriesWithTrackers.keys.sorted(by: { $0.title < $1.title }) {
             let cells = categoriesWithTrackers[category]?.compactMap { tracker -> TrackersScreenModel.CollectionData.Cell? in
-                createCellModel(for: tracker)
+                guard !tracker.isPinned else { return nil }
+                return createCellModel(for: tracker)
             } ?? []
-            sections.append(.headeredSection(header: category.title, cells: cells))
+            
+            if !cells.isEmpty {
+                sections.append(.headeredSection(header: category.title, cells: cells))
+            }
         }
 
         return TrackersScreenModel (
