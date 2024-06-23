@@ -245,79 +245,6 @@ final class TrackersPresenter {
         view?.displayData(model: buildScreenModel(), reloadData: reloadData)
     }
     
-    private func showAllTrackers() {
-        view?.isFiltering = true
-        guard let view = view else { return }
-        
-        filteredTrackersByCategory.removeAll()
-        
-        trackersByCategory.forEach { category, trackers in
-            let weekday = Calendar.current.component(.weekday, from: view.currentDate)
-            guard let selectedWeekday = Weekday(rawValue: weekday) else { return }
-            let trackers = trackers.filter { $0.schedule.contains(selectedWeekday)}
-            if !completedTrackers.isEmpty {
-                filteredTrackersByCategory[category] = trackers
-            }
-        }
-        
-        render(reloadData: true)
-    }
-    
-    private func showTrackersForToday() {
-        guard let view = view else { return }
-        view.setCurrentDate(date: Date())
-        
-        let weekday = Calendar.current.component(.weekday, from: view.currentDate)
-        guard let selectedWeekday = Weekday(rawValue: weekday) else { return }
-        
-        self.filteredTrackersByCategory.removeAll()
-        trackersByCategory.values
-            .flatMap { $0 }
-            .filter { $0.schedule.contains(selectedWeekday) }
-            .forEach {
-                if let category = $0.category {
-                    self.filteredTrackersByCategory[category, default: []].append($0)
-                }
-            }
-        render(reloadData: true)
-    }
-    
-    private func showCompletedTrackers() {
-        guard let view = view else { return }
-        view.isFiltering = true
-        filteredTrackersByCategory.removeAll()
-        
-        trackersByCategory.forEach { category, trackers in
-            let completedTrackers = trackers.filter { tracker in
-                let trackerRecord = TrackerRecord(id: tracker.id, date: view.currentDate)
-                return self.completedTrackers.contains(trackerRecord)
-            }
-            if !completedTrackers.isEmpty {
-                filteredTrackersByCategory[category] = completedTrackers
-            }
-        }
-        
-        render(reloadData: true)
-    }
-    
-    private func showUncompletedTrackers() {
-        guard let view = view else { return }
-        view.isFiltering = true
-        filteredTrackersByCategory.removeAll()
-        
-        trackersByCategory.forEach { category, trackers in
-            let uncompletedTrackers = trackers.filter { tracker in
-                let trackerRecord = TrackerRecord(id: tracker.id, date: view.currentDate)
-                return !self.completedTrackers.contains(trackerRecord)
-            }
-            if !completedTrackers.isEmpty {
-                filteredTrackersByCategory[category] = uncompletedTrackers
-            }
-        }
-        
-        render(reloadData: true)
-    }
-    
     private func sendAnaliticEvent(name: AnaliticsEvent, params: [AnyHashable : Any]) {
         analiticService.report(event: name, params: params)
     }
@@ -410,5 +337,82 @@ extension TrackersPresenter: TrackersPresenterProtocol {
     }
     func sendCloseEvent() {
         sendAnaliticEvent(name: .close, params: ["screen": "Trackers"])
+    }
+}
+
+//MARK: - filters
+
+private extension TrackersPresenter {
+    func showAllTrackers() {
+        view?.isFiltering = true
+        guard let view = view else { return }
+        
+        filteredTrackersByCategory.removeAll()
+        
+        trackersByCategory.forEach { category, trackers in
+            let weekday = Calendar.current.component(.weekday, from: view.currentDate)
+            guard let selectedWeekday = Weekday(rawValue: weekday) else { return }
+            let trackers = trackers.filter { $0.schedule.contains(selectedWeekday)}
+            if !completedTrackers.isEmpty {
+                filteredTrackersByCategory[category] = trackers
+            }
+        }
+        
+        render(reloadData: true)
+    }
+    
+    func showTrackersForToday() {
+        guard let view = view else { return }
+        view.setCurrentDate(date: Date())
+        
+        let weekday = Calendar.current.component(.weekday, from: view.currentDate)
+        guard let selectedWeekday = Weekday(rawValue: weekday) else { return }
+        
+        self.filteredTrackersByCategory.removeAll()
+        trackersByCategory.values
+            .flatMap { $0 }
+            .filter { $0.schedule.contains(selectedWeekday) }
+            .forEach {
+                if let category = $0.category {
+                    self.filteredTrackersByCategory[category, default: []].append($0)
+                }
+            }
+        render(reloadData: true)
+    }
+    
+    func showCompletedTrackers() {
+        guard let view = view else { return }
+        view.isFiltering = true
+        filteredTrackersByCategory.removeAll()
+        
+        trackersByCategory.forEach { category, trackers in
+            let completedTrackers = trackers.filter { tracker in
+                let trackerRecord = TrackerRecord(id: tracker.id, date: view.currentDate)
+                return self.completedTrackers.contains(trackerRecord)
+            }
+            if !completedTrackers.isEmpty {
+                filteredTrackersByCategory[category] = completedTrackers
+            }
+        }
+        
+        render(reloadData: true)
+    }
+    
+    func showUncompletedTrackers() {
+        guard let view = view else { return }
+        view.isFiltering = true
+        filteredTrackersByCategory.removeAll()
+        
+        trackersByCategory.forEach { category, trackers in
+            let uncompletedTrackers = trackers.filter { tracker in
+                let trackerRecord = TrackerRecord(id: tracker.id, date: view.currentDate)
+                return !self.completedTrackers.contains(trackerRecord)
+            }
+            if !completedTrackers.isEmpty {
+                filteredTrackersByCategory[category] = uncompletedTrackers
+            }
+        }
+        
+        render(reloadData: true)
     }
 }
