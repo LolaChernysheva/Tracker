@@ -83,6 +83,7 @@ private extension CategoryViewController {
             self.title = model.title
             self.button.setTitle(model.buttonTitle, for: .normal)
             self.tableView.reloadData()
+            self.updateBackgroundViewVisiability()
         }
         updateBackgroundViewVisiability()
     }
