@@ -9,7 +9,6 @@
 import UIKit
 
 protocol TrackersViewProtocol: AnyObject {
-    var isFiltering: Bool { get set }
     var isSearching: Bool { get }
     var currentDate: Date { get }
     func displayData(model: TrackersScreenModel, reloadData: Bool)
@@ -33,8 +32,6 @@ final class TrackersViewController: UIViewController {
         collectionView.backgroundColor = .clear
         return collectionView
     }()
-    
-    var isFiltering: Bool = false
     
     var isSearching: Bool {
         searchController.isActive && !searchBarIsEmpty
@@ -215,7 +212,7 @@ final class TrackersViewController: UIViewController {
     }
     
     @objc private func filtersButtonTapped() {
-        presenter.showFilters()
+        presenter.didTapFilterButton()
     }
     
     @objc private func datePickerValueChanged(_ sender: UIDatePicker) {

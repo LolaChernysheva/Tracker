@@ -15,7 +15,7 @@ protocol TrackersPresenterProtocol: AnyObject {
     func addTracker()
     func showSearchResults(with inputText: String)
     func filterTrackers(for date: Date)
-    func showFilters()
+    func didTapFilterButton()
     func sendCloseEvent()
 }
 
@@ -39,7 +39,7 @@ final class TrackersPresenter {
     
     var shouldShowBackgroundView: Bool {
         guard let view = view else { return false }
-        return ((view.isSearching || view.isFiltering) && filteredTrackersByCategory.isEmpty) || trackers.isEmpty
+        return ((view.isSearching || isFiltering) && filteredTrackersByCategory.isEmpty) || trackers.isEmpty
     }
     private let analiticService = AnaliticService()
     private var completedTrackers: Set<TrackerRecord> {
@@ -64,6 +64,7 @@ final class TrackersPresenter {
     private let router: TrackersRouterProtocol
     private var filteredTrackersByCategory = [TrackerCategory: [Tracker]]()
     private var inputFilter: Filter = .none
+    private var isFiltering: Bool { inputFilter != .none }
     
     init(
         view: TrackersViewProtocol,
@@ -75,7 +76,7 @@ final class TrackersPresenter {
     }
     
     private func buildScreenModel() -> TrackersScreenModel {
-        let categoriesWithTrackers = (view?.isFiltering == true || view?.isSearching == true) ? filteredTrackersByCategory : trackersByCategory
+        let categoriesWithTrackers = (isFiltering || view?.isSearching == true) ? filteredTrackersByCategory : trackersByCategory
         var sections: [TrackersScreenModel.CollectionData.Section] = []
         
         if !pinnedTrackers.isEmpty {
@@ -87,7 +88,7 @@ final class TrackersPresenter {
         
         for category in categoriesWithTrackers.keys.sorted(by: { $0.title < $1.title }) {
             let cells = categoriesWithTrackers[category]?.compactMap { tracker -> TrackersScreenModel.CollectionData.Cell? in
-                guard !tracker.isPinned else { return nil }
+                guard !pinnedTrackers.contains(where: { $0.id == tracker.id }) else { return nil }
                 return createCellModel(for: tracker)
             } ?? []
             
@@ -148,7 +149,15 @@ final class TrackersPresenter {
     
     private func pinHandler(tracker: Tracker) -> (Bool) -> Void {
         return { isPinned in
-            var tracker = Tracker(id: tracker.id, title: tracker.title, color: tracker.color, emogi: tracker.emogi, schedule: tracker.schedule, category: tracker.category, isPinned: isPinned)
+            let tracker = Tracker(
+                id: tracker.id,
+                title: tracker.title,
+                color: tracker.color,
+                emogi: tracker.emogi,
+                schedule: tracker.schedule,
+                category: tracker.category,
+                isPinned: isPinned
+            )
             let trackerStore = TrackerStore()
             try? trackerStore.updateTracker(with: tracker)
             if let category = tracker.category, var trackersInCategory = self.trackersByCategory[category] {
@@ -156,7 +165,7 @@ final class TrackersPresenter {
                     trackersInCategory[index] = tracker
                     self.trackersByCategory[category] = trackersInCategory
                     DispatchQueue.main.async {
-                        self.render(reloadData: true)
+                        self.applyCurrentFilter()
                     }
                 }
             }
@@ -234,7 +243,7 @@ final class TrackersPresenter {
         guard let view = view else { return .empty }
         if trackers.isEmpty {
             return .trackersDoNotExist
-        } else if ((view.isSearching || view.isFiltering) && filteredTrackersByCategory.isEmpty){
+        } else if ((view.isSearching || isFiltering) && filteredTrackersByCategory.isEmpty){
             return .emptySearchResult
         } else {
             return .empty
@@ -313,30 +322,36 @@ extension TrackersPresenter: TrackersPresenterProtocol {
         render(reloadData: true)
     }
     
-    func showFilters() {
+    func didTapFilterButton() {
         sendAnaliticEvent(name: .click, params: ["screen": "Trackers", "item": "filter"])
         router.showFiltersController { [ weak self ] filter in
             guard let self else { return }
-            switch filter {
-            case .allTrackers:
-                self.showAllTrackers()
-                self.inputFilter = .allTrackers
-            case .completedTrackers:
-                self.showCompletedTrackers()
-                self.inputFilter = .completedTrackers
-            case .uncompletedTrackers:
-                self.showUncompletedTrackers()
-                self.inputFilter = .uncompletedTrackers
-            case .trackersForToday:
-                self.showTrackersForToday()
-                self.inputFilter = .trackersForToday
-            case .none:
-                self.inputFilter = .none
+            self.inputFilter = filter
+            if filter == .trackersForToday {
+                self.view?.setCurrentDate(date: Date())
             }
+            self.applyCurrentFilter()
         }
     }
+    
     func sendCloseEvent() {
         sendAnaliticEvent(name: .close, params: ["screen": "Trackers"])
+    }
+    
+    func applyCurrentFilter() {
+        switch inputFilter {
+        case .allTrackers:
+            self.showAllTrackers()
+        case .completedTrackers:
+            self.showCompletedTrackers()
+        case .uncompletedTrackers:
+            self.showUncompletedTrackers()
+        case .trackersForToday:
+            self.showTrackersForToday()
+        case .none:
+            filteredTrackersByCategory.removeAll()
+            render(reloadData: true)
+        }
     }
 }
 
@@ -344,7 +359,6 @@ extension TrackersPresenter: TrackersPresenterProtocol {
 
 private extension TrackersPresenter {
     func showAllTrackers() {
-        view?.isFiltering = true
         guard let view = view else { return }
         
         filteredTrackersByCategory.removeAll()
@@ -352,10 +366,8 @@ private extension TrackersPresenter {
         trackersByCategory.forEach { category, trackers in
             let weekday = Calendar.current.component(.weekday, from: view.currentDate)
             guard let selectedWeekday = Weekday(rawValue: weekday) else { return }
-            let trackers = trackers.filter { $0.schedule.contains(selectedWeekday)}
-            if !completedTrackers.isEmpty {
-                filteredTrackersByCategory[category] = trackers
-            }
+            let trackers = trackers.filter { $0.schedule.contains(selectedWeekday) }
+            filteredTrackersByCategory[category] = trackers
         }
         
         render(reloadData: true)
@@ -382,7 +394,6 @@ private extension TrackersPresenter {
     
     func showCompletedTrackers() {
         guard let view = view else { return }
-        view.isFiltering = true
         filteredTrackersByCategory.removeAll()
         
         trackersByCategory.forEach { category, trackers in
@@ -400,7 +411,6 @@ private extension TrackersPresenter {
     
     func showUncompletedTrackers() {
         guard let view = view else { return }
-        view.isFiltering = true
         filteredTrackersByCategory.removeAll()
         
         trackersByCategory.forEach { category, trackers in
