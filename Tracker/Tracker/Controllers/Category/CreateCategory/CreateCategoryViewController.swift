@@ -31,6 +31,7 @@ final class CreateCategoryViewController: UIViewController {
         super.viewDidLoad()
         presenter.setup()
         setupView()
+        setupKeyboardDismissal()
     }
     
     private func setup() {
@@ -99,6 +100,14 @@ final class CreateCategoryViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
+    private func setupKeyboardDismissal() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }
 
 //MARK: CreateCategoryViewProtocol
@@ -135,6 +144,7 @@ extension CreateCategoryViewController: UITableViewDataSource {
         case let .textFieldCell(model):
             guard let textFieldCell = tableView.dequeueReusableCell(withIdentifier: TextFieldCell.reuseIdentifier, for: indexPath) as? TextFieldCell else { return UITableViewCell() }
             textFieldCell.viewModel = model
+            textFieldCell.textField.delegate = self
             cell = textFieldCell
         }
         
@@ -154,6 +164,15 @@ extension CreateCategoryViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return .cellHeight
+    }
+}
+
+//MARK: UITextFieldDelegate
+
+extension CreateCategoryViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
 
