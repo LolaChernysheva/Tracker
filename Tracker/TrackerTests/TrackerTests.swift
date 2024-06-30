@@ -14,7 +14,7 @@ final class TrackerTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        isRecording = false
+        isRecording = false // Do not furget set to true when first test launch, and then set false. Snapshot tests work.
     }
 
     func testViewControllerLightMode() {
