@@ -41,7 +41,7 @@ final class FilterCell: UITableViewCell {
     
     private func setup() {
         contentView.addSubview(titleLabel)
-        contentView.backgroundColor = .cellBackground
+        backgroundColor = .cellBackground
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor),

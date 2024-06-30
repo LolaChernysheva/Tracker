@@ -156,7 +156,7 @@ final class TrackersViewController: UIViewController {
     }
     
     private func setupFiltersButtonConstraints() {
-        collectionView.addSubview(filtersButton)
+        view.addSubview(filtersButton)
         
         filtersButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

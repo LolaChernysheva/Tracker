@@ -75,6 +75,14 @@ final class FiltersPresenter {
                         selectFilter: { [weak self] filter in
                             self?.selectFilter(filter)
                         }
+                    )),
+                    .filterCell(FilterCellViewModel(
+                        title: NSLocalizedString("Clear", comment: ""),
+                        filter: .none,
+                        isSelected: false,
+                        selectFilter: { [weak self] filter in
+                            self?.selectFilter(filter)
+                        }
                     ))
                 ])
             ])

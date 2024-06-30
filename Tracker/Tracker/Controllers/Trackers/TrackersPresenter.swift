@@ -293,33 +293,7 @@ extension TrackersPresenter: TrackersPresenterProtocol {
     }
     
     func filterTrackers(for date: Date) {
-        switch inputFilter {
-            
-        case .completedTrackers:
-            for (category, trackers) in trackersByCategory {
-                let filtered = trackers.filter { tracker in
-                    let record = TrackerRecord(id: tracker.id, date: date)
-                    return completedTrackers.contains(record)
-                }
-                if !filtered.isEmpty {
-                    filteredTrackersByCategory[category] = filtered
-                }
-            }
-        case .uncompletedTrackers:
-            // Фильтрация незавершенных трекеров
-            for (category, trackers) in trackersByCategory {
-                let filtered = trackers.filter { tracker in
-                    let record = TrackerRecord(id: tracker.id, date: date)
-                    return !completedTrackers.contains(record)
-                }
-                if !filtered.isEmpty {
-                    filteredTrackersByCategory[category] = filtered
-                }
-            }
-        default:
-            break
-        }
-        render(reloadData: true)
+        applyCurrentFilter()
     }
     
     func didTapFilterButton() {
@@ -375,7 +349,6 @@ private extension TrackersPresenter {
     
     func showTrackersForToday() {
         guard let view = view else { return }
-        view.setCurrentDate(date: Date())
         
         let weekday = Calendar.current.component(.weekday, from: view.currentDate)
         guard let selectedWeekday = Weekday(rawValue: weekday) else { return }
