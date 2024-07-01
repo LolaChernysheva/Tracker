@@ -43,7 +43,7 @@ final class SchedulePresenter {
     
     private func buildScreenModel() -> ScheduleScreenModel {
         ScheduleScreenModel(
-            title: "Расписание",
+            title: NSLocalizedString("Schedule", comment: ""),
             tableData: .init(sections: [
                 .simple(cells: days.map({
                     let day = $0.toModelWeekday
@@ -59,7 +59,7 @@ final class SchedulePresenter {
                             }
                         }))
                 })),
-                .simple(cells: [.labledCell(.init(title: "Готово", style: .button))])
+                .simple(cells: [.labledCell(.init(title: NSLocalizedString("Done", comment: ""), style: .button))])
             ])
         )
     }

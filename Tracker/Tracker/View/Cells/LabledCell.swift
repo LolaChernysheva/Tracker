@@ -58,7 +58,7 @@ final class LabledCell: UITableViewCell {
         titleLabel.layer.cornerRadius = .cornerRadius
         titleLabel.clipsToBounds = true
         titleLabel.textAlignment = .center
-        titleLabel.textColor = viewModel?.style == .button ? .background : .navigationBarItem
+        titleLabel.textColor = viewModel?.style == .button ? .buttonTitle : .navigationBarItem
     }
 }
 

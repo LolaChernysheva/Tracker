@@ -11,20 +11,26 @@ import UIKit
 struct TrackerCollectionViewCellViewModel {
     var emoji: String?
     var title: String?
-    var isPinned: Bool?
+    var isPinned: Bool
     var daysCount: Int?
     var color: UIColor?
     var doneButtonHandler: TrackerCollectionViewCell.ActionClousure
+    var pinHandler: (Bool) -> Void
     var isCompleted: Bool
+    var deleteTrackerHandler: () -> Void
+    var editTrackerHandler: () -> Void
     
     init(
         emoji: String?,
         title: String?,
-        isPinned: Bool?,
+        isPinned: Bool,
         daysCount: Int?,
         color: UIColor?,
         doneButtonHandler: @escaping TrackerCollectionViewCell.ActionClousure,
-        isCompleted: Bool
+        pinHandler: @escaping (Bool) -> Void,
+        isCompleted: Bool,
+        deleteTrackerHandler: @escaping () -> Void,
+        editTrackerHandler: @escaping () -> Void
     ) {
         self.emoji = emoji
         self.title = title
@@ -32,7 +38,10 @@ struct TrackerCollectionViewCellViewModel {
         self.daysCount = daysCount
         self.color = color
         self.doneButtonHandler = doneButtonHandler
+        self.pinHandler = pinHandler
         self.isCompleted = isCompleted
+        self.deleteTrackerHandler = deleteTrackerHandler
+        self.editTrackerHandler = editTrackerHandler
     }
 }
 
@@ -50,6 +59,9 @@ class TrackerCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var doneButton: UIButton!
     
     private var doneAction: ActionClousure = {}
+    private var togglePinAction: ((Bool) -> Void)?
+    private var deleteTrackerHandler: (() -> Void)?
+    private var editTrackerHandler: (() -> Void)?
     
     var viewModel: TrackerCollectionViewCellViewModel? {
         didSet {
@@ -60,7 +72,8 @@ class TrackerCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         setup()
-        containerView.backgroundColor = .orange
+        setupContextMenu()
+        backgroundColor = .clear
     }
 
     private func setup() {
@@ -70,6 +83,8 @@ class TrackerCollectionViewCell: UICollectionViewCell {
         setupContainerView()
         setupDoneButton()
         setupEmogiLabel()
+        deleteTrackerHandler = viewModel?.deleteTrackerHandler
+        editTrackerHandler = viewModel?.editTrackerHandler
     }
     
     private func setupContainerView() {
@@ -93,10 +108,12 @@ class TrackerCollectionViewCell: UICollectionViewCell {
     
     private func setupPinImageView() {
         guard let viewModel else { return }
-        if viewModel.isPinned == false {
-            pinImageView.isHidden = true
-        }
-        pinImageView.isHidden = !(viewModel.isPinned ?? false)
+        pinImageView.isHidden = !(viewModel.isPinned)
+        pinImageView.image = viewModel.isPinned
+        ? UIImage(systemName: "pin.fill")?
+            .withTintColor(.white, renderingMode: .alwaysOriginal)
+        : nil
+        togglePinAction = viewModel.pinHandler
        
     }
     private func setupEmogiLabel() {
@@ -121,6 +138,11 @@ class TrackerCollectionViewCell: UICollectionViewCell {
         doneAction = viewModel.doneButtonHandler
     }
     
+    private func setupContextMenu() {
+        let interaction = UIContextMenuInteraction(delegate: self)
+        containerView.addInteraction(interaction)
+    }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         setup()
@@ -143,6 +165,42 @@ private extension TrackerCollectionViewCell {
             return "дня"
         } else {
             return "дней"
+        }
+    }
+}
+
+//MARK: - UIContextMenuInteractionDelegate
+
+extension TrackerCollectionViewCell: UIContextMenuInteractionDelegate {
+    func contextMenuInteraction(
+        _ interaction: UIContextMenuInteraction,
+        configurationForMenuAtLocation location: CGPoint
+    ) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { [ weak self ] suggestedActions -> UIMenu? in
+            guard let self else { return .none }
+            let pinAction = UIAction(
+                title: (self.viewModel?.isPinned ?? false)
+                ? NSLocalizedString("Unpin", comment: "")
+                : NSLocalizedString("Pin", comment: "")
+            ) { [ weak self ] _ in
+                guard let self else { return }
+                self.viewModel?.pinHandler(!(viewModel?.isPinned ?? false))
+            }
+            
+            let editAction = UIAction(
+                title: NSLocalizedString("Edit", comment: "")
+            ) { [ weak self ] _ in
+                guard let self else { return }
+                self.viewModel?.editTrackerHandler()
+            }
+            
+            let deleteAction = UIAction(
+                title: NSLocalizedString("Delete", comment: ""),
+                attributes: .destructive
+            ) {  [ weak self ] _ in
+                self?.viewModel?.deleteTrackerHandler()
+            }
+            return UIMenu(title: "", children: [pinAction, editAction, deleteAction])
         }
     }
 }

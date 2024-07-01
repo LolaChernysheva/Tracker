@@ -116,7 +116,8 @@ final class CreateActivityViewController: UIViewController {
         NSLayoutConstraint.activate([
             createButton.heightAnchor.constraint(equalToConstant: .buttonHeight)
         ])
-        createButton.backgroundColor = .buttons //MARK: - TODO set color and restrict UI
+        createButton.backgroundColor = .buttons
+        createButton.setTitleColor(presenter.isSaveEnabled ? .black : .white, for: .normal)
         createButton.layer.cornerRadius = .cornerRadius
         createButton.clipsToBounds = true
         createButton.addTarget(self, action: #selector(createButtonTapped), for: .touchUpInside)
@@ -163,6 +164,7 @@ extension CreateActivityViewController: CreateActivityViewProtocol {
     func updateSaveButton(isEnabled: Bool) {
         createButton.isEnabled = isEnabled
         createButton.alpha = isEnabled ? 1.0 : 0.5
+        createButton.setTitleColor(isEnabled ? .background : .white, for: .normal)
     }
 }
 

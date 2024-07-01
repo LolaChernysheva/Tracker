@@ -13,6 +13,7 @@ protocol AssemblerProtocol: AnyObject {
     static func buildCreateTrackerModule(selectedDate: Date, onSave: @escaping (Tracker) -> Void) -> UIViewController
     static func buildCreateActivityModule(state: CreateActivityState, selectedDate: Date, onSave: @escaping (Tracker) -> Void) -> UIViewController 
     static func buildCategoriesModule(state: CategoryScreenState, categories: [TrackerCategory], categoryIsChosen: @escaping (TrackerCategory) -> Void) -> UIViewController
+    static func buildFiltersController(onSelectFilter: @escaping (Filter) -> Void) -> UIViewController
 }
 
 final class Assembler: AssemblerProtocol {
@@ -21,14 +22,23 @@ final class Assembler: AssemblerProtocol {
         let tabbarController = UITabBarController()
         
         let trackersViewController = trackersModuleBuilder()
-        trackersViewController.tabBarItem = UITabBarItem(title: "Трекеры", image: UIImage(systemName: "circle.circle"), selectedImage: UIImage(systemName: "circle.circle.fill"))
+        trackersViewController.tabBarItem = UITabBarItem(
+            title: NSLocalizedString("Trackers", comment: ""),
+            image: UIImage(systemName: "circle.circle"),
+            selectedImage: UIImage(systemName: "circle.circle.fill")
+        )
         let trackersNavigationController = UINavigationController(rootViewController: trackersViewController)
         let statisticController = statisticModuleBuilder()
+        let statisticNavigationController = UINavigationController(rootViewController: statisticController)
         
-        statisticController.tabBarItem = UITabBarItem(title: "Статистика", image: UIImage(systemName: "hare"), selectedImage: UIImage(systemName: "hare.fill"))
+        
+        statisticController.tabBarItem = UITabBarItem(
+            title: NSLocalizedString("Statistic", comment: ""),
+            image: UIImage(systemName: "hare"),
+            selectedImage: UIImage(systemName: "hare.fill"))
         
         tabbarController.tabBar.tintColor = Assets.Colors.launchBlue
-        tabbarController.viewControllers = [trackersNavigationController, statisticController]
+        tabbarController.viewControllers = [trackersNavigationController, statisticNavigationController]
         return tabbarController
     }
     
@@ -38,6 +48,14 @@ final class Assembler: AssemblerProtocol {
         let createTrackerPresenter = CreateTrackerPresenter(view: createTrackerViewController, selectedDate: selectedDate, router: router, onSave: onSave)
         createTrackerViewController.presenter = createTrackerPresenter
         return createTrackerViewController
+    }
+    
+    static func buildEditTrackerModule(tracker: Tracker, daysCount: Int) -> UIViewController {
+        let editTrackerViewController = EditTrackerViewController()
+        let router = EditTrackerRouter(view: editTrackerViewController)
+        let editTrackerPresenter = EditTrackerPresenter(view: editTrackerViewController, tracker: tracker, daysCount: daysCount, router: router)
+        editTrackerViewController.presenter = editTrackerPresenter
+        return editTrackerViewController
     }
     
     static func buildScheduleModule(selectedDays: Set<Weekday>, onSave: @escaping (Schedule) -> Void) -> UIViewController {
@@ -87,5 +105,12 @@ final class Assembler: AssemblerProtocol {
         view.presenter = presenter
         return view
         
+    }
+    
+    static func buildFiltersController(onSelectFilter: @escaping (Filter) -> Void) -> UIViewController {
+        let filtersViewController = FiltersViewController()
+        let presenter = FiltersPresenter(view: filtersViewController, onSelectFilter: onSelectFilter)
+        filtersViewController.presenter = presenter
+        return filtersViewController
     }
 }

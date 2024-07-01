@@ -83,6 +83,7 @@ private extension CategoryViewController {
             self.title = model.title
             self.button.setTitle(model.buttonTitle, for: .normal)
             self.tableView.reloadData()
+            self.updateBackgroundViewVisiability()
         }
         updateBackgroundViewVisiability()
     }
@@ -99,7 +100,7 @@ private extension CategoryViewController {
         
         button.addTarget(self, action: #selector(addCategory), for: .touchUpInside)
         button.backgroundColor = .buttons
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.buttonTitle, for: .normal)
         button.layer.cornerRadius = .cornerRadius
         button.clipsToBounds = true
     }

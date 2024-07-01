@@ -16,6 +16,7 @@ struct Tracker {
     let emogi: String
     let schedule: Schedule
     let category: TrackerCategory?
+    var isPinned: Bool
 }
 
 extension Tracker {
@@ -23,6 +24,7 @@ extension Tracker {
         let id = trackerEntity.id
         let title = trackerEntity.title
         let emoji = trackerEntity.emoji
+        let isPinned = trackerEntity.isPinned
         
         guard let color = trackerEntity.color,
               let schedule = trackerEntity.schedule,
@@ -34,5 +36,8 @@ extension Tracker {
         self.emogi = emoji
         self.schedule = schedule
         self.category = .init(from: category)
+        self.isPinned = isPinned
     }
 }
+
+extension Tracker: Hashable {}

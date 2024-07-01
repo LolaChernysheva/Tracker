@@ -1,0 +1,44 @@
+/* 
+  Localizable.strings
+  Tracker
+
+  Created by Лолита Чернышева on 07.04.2024.
+  
+*/
+
+"That's the technology!" = "Вот это технологии!";
+"Category" = "Категория";
+"Add category" = "Добавить категорию";
+"New category" = "Новая категория";
+"Enter the category name" = "Введите название категории";
+"Done" = "Готово";
+"Schedule" = "Расписание";
+"New habit" = "Новая привычка";
+"New irregular event" = "Новое нерегулярное событие";
+"Cancel" = "Отменить";
+"Create" = "Создать";
+"Color" = "Цвет";
+"Enter the tracker name" = "Введите название трекера";
+"Every day" = "Каждый день";
+"Weekdays" = "Будние";
+"Weekend" = "Выходные";
+"Habit" = "Привычка";
+"Irregular event" = "Нерегулярное событие";
+"Tracker creating" = "Создание трекера";
+"Trackers" = "Трекеры";
+"Filters" = "Фильтры";
+"Pin" = "Закрепить";
+"Edit" = "Редактировать";
+"Delete" = "Удалить";
+"Unpin" = "Открепить";
+"Habit editing" = "Редактирование привычки";
+"All trackers" = "Все трекеры";
+"Trackers for today" = "Трекеры на сегодня";
+"Completed" = "Завершенные";
+"Uncompleted" = "Не завершенные";
+"Pinned" = "Закрепленные";
+"Statistic" = "Статистика";
+"Best period" = "Лучший период";
+"Perfect days" = "Идеальные дни";
+"Completed trackers" = "Трекеров завершено";
+"Avarage value" = "Среднее значение";

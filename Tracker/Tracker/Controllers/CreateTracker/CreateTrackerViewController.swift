@@ -62,6 +62,7 @@ final class CreateTrackerViewController: UIViewController {
     private func setupCreateHabitButton() {
         stackView.addArrangedSubview(createHabitButton)
         createHabitButton.backgroundColor = .buttons
+        createHabitButton.setTitleColor(.buttonTitle, for: .normal)
         
         createHabitButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -76,6 +77,7 @@ final class CreateTrackerViewController: UIViewController {
     private func setupCreateEventButton() {
         stackView.addArrangedSubview(createEventButton)
         createEventButton.backgroundColor = .buttons
+        createEventButton.setTitleColor(.buttonTitle, for: .normal)
         
         createEventButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
